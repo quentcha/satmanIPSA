@@ -8,13 +8,15 @@ screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
 width, height = pygame.display.get_surface().get_size()
 pygame.display.set_caption('SATMAN')
 
-earth = pygame.image.load("earth.png")
-earth=pygame.transform.scale(earth, (600, 600))
+batiment = pygame.image.load("batiment.png")
+batiment=pygame.transform.scale(batiment, (1066, 400))
 
-asteroid = pygame.image.load("asteroid.png")
-asteroid=pygame.transform.scale(asteroid, (50, 50))
-posx, posy=-10,random.randint(0, width)
-movx, movy=random.choice([-1,1]), 1
+ciel=[]
+for i in range(1,6):
+    c=pygame.image.load("ciel"+str(i)+".png")
+    c=pygame.transform.scale(c, (1066, 600))
+    ciel.append(c)
+im=0
 
 def px(x,y=None):
     if y==None:
@@ -25,21 +27,16 @@ def px(x,y=None):
 #initialiser la boucle
 running=True
 while running:
-    posx, posy = posx+movx, posy+movy
     screen.fill((105,20,14))
-    screen.blit(asteroid, px(posx,posy))
-    screen.blit(earth, px(200,400))
+    screen.blit(ciel[int(im)], px(0,0))
+    im+=0.1
+    if int(im)>=5:
+        im=0
+    screen.blit(batiment, px(0, 250))
     font = pygame.font.Font('Space Angel.ttf', int(px(60)))
     text = font.render('Satellite Manager', True, (0,0,0))
     screen.blit(text, (px(80,150),(0,0)))
     pygame.display.flip() # refresh l'écran
-
-    if posy > height+10:
-        posx,posy =random.randint(0, width), -10
-        movx, movy = random.choice([-1,1]),1
-    if posx < 0 or posx > width:
-        posx,posy =random.randint(0, width), -10
-        movx, movy = random.choice([-1,1]),1
 
     for event in pygame.event.get():# voir tout input
         if event.type == pygame.QUIT: # si la croix quitter est cliqué
