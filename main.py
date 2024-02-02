@@ -18,9 +18,11 @@ for i in range(1,6):
     ciel.append(c)
 im=0
 
-def px(x,y=None):
+def px(x=None,y=None):
     if y==None:
         return (x*width)/1066
+    elif x==None:
+        return (y*height)/600
     else:
         return ((x*width)/1066,(y*height)/600)
 
