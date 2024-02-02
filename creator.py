@@ -2,11 +2,11 @@ import pygame
 
 def px(x=None,y=None):
     if y==None:
-        return (x*width)/1066
+        return (x*size.width)/1066
     elif x==None:
-        return (y*height)/600
+        return (y*size.height)/600
     else:
-        return ((x*width)/1066,(y*height)/600)
+        return ((x*size.width)/1066,(y*size.height)/600)
 def convert_images(parts):
     for category in parts:
         for l in range(len(parts[category])):
@@ -25,6 +25,10 @@ def resize_buttons():
     return buttons
 def resize_ok():
     return [pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button2.png'),px(150,150))]
+def resize_annotation():
+    return {'energy':[px(330,210),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation1.png'),px(80,80)),px(11)],
+                'sensor':[px(340,440),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation2.png'),px(80,80)),px(10)],
+                'antenna':[px(330,60),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation1.png'),px(80,80)),px(11)]}
 
 def satellite_creator():
 
@@ -36,9 +40,7 @@ def satellite_creator():
     sat={'body':0,'energy':0,'sensor':0,'antenna':0}
     ok_button=resize_ok()
     font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
-    annotation={'energy':[px(330,210),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation1.png'),px(80,80)),11],
-                'sensor':[px(340,440),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation2.png'),px(80,80)),10],
-                'antenna':[px(330,60),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation1.png'),px(80,80)),11]}
+    annotation=resize_annotation()
     while game:
         screen.fill((173, 216, 230))
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
@@ -51,7 +53,7 @@ def satellite_creator():
             screen.blit(ok_button[0],px(900,420))
 
         for element in sat:
-            screen.blit(parts[element][sat[element]], px(-170,-200))
+            screen.blit(parts[element][sat[element]], px(-185,-200))
 
         for element in annotation:
             if p[element][sat[element]]!='':
@@ -60,6 +62,7 @@ def satellite_creator():
 
         for pos in buttons:
             screen.blit(buttons[pos][0][0], (pos[0][0],pos[0][1]))
+
         colliding=pygame.Rect.collidedict(mouse, buttons)
         if colliding:
             screen.blit(buttons[colliding[0]][0][1], colliding[0][0])
@@ -70,20 +73,23 @@ def satellite_creator():
                     sat[buttons[colliding[0]][1][0]]=0
                 else: sat[buttons[colliding[0]][1][0]]+=buttons[colliding[0]][1][1]
                 pygame.time.wait(50)
+
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game=False
             elif event.type == pygame.VIDEORESIZE:
-                width, height = pygame.display.get_surface().get_size()
+                size.width, size.height = pygame.display.get_surface().get_size()
                 parts=resize_images(parts)
                 buttons=resize_buttons()
                 ok_button=resize_ok()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(60)))
+                annotation=resize_annotation()
+                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
     return {"source d'energie":p['energy'][sat['energy']],"senseur":p['sensor'][sat['sensor']],"antenne":p['antenna'][sat['antenna']]}
 
 pygame.init()
 screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
-width, height = pygame.display.get_surface().get_size()
+class size:
+    width, height = pygame.display.get_surface().get_size()
 pygame.display.set_caption('SATMAN')
-#print(satellite_creator())
+print(satellite_creator())
