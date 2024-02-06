@@ -27,7 +27,7 @@ def resize_ok():
     return [pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button2.png'),px(150,150))]
 def resize_annotation():
     return {'energy':[px(330,210),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation1.png'),px(80,80)),px(11)],
-                'sensor':[px(340,440),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation2.png'),px(80,80)),px(10)],
+                'sensor':[px(330,440),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation2.png'),px(80,80)),px(10)],
                 'antenna':[px(330,60),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation1.png'),px(80,80)),px(11)]}
 
 def satellite_creator():
@@ -72,7 +72,7 @@ def satellite_creator():
                 elif sat[buttons[colliding[0]][1][0]]+buttons[colliding[0]][1][1]>len(parts[buttons[colliding[0]][1][0]])-1:
                     sat[buttons[colliding[0]][1][0]]=0
                 else: sat[buttons[colliding[0]][1][0]]+=buttons[colliding[0]][1][1]
-                pygame.time.wait(50)
+                pygame.time.wait(200)
 
         pygame.display.update()
         for event in pygame.event.get():
