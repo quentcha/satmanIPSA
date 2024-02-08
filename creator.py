@@ -30,7 +30,7 @@ def resize_annotation():
                 'sensor':[px(330,440),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation2.png'),px(80,80)),px(10)],
                 'antenna':[px(330,60),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation1.png'),px(80,80)),px(11)]}
 
-def satellite_creator():
+def satellite_creator(txt):
 
     p = {'energy':['','panneaux solaires','réacteur nucléaire'],'sensor':['','senseur optique','senseur infrarouge','propulseur'], 'antenna':['','petite antenne', 'antenne moyenne', 'grande antenne']}
     parts = {'body':['body.png'], 'energy':['empty.png','solar panels.png','atomic generator.png'],'sensor':['empty.png','optic sensor.png','infrared sensor.png','small thruster.png'], 'antenna':['empty.png','small antenna.png', 'medium antenna.png', 'big antenna.png']}
@@ -41,6 +41,7 @@ def satellite_creator():
     ok_button=resize_ok()
     font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
     annotation=resize_annotation()
+    talk(txt)
     while game:
         screen.fill((173, 216, 230))
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
@@ -86,10 +87,11 @@ def satellite_creator():
                 annotation=resize_annotation()
                 font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
     return {"source d'energie":p['energy'][sat['energy']],"senseur":p['sensor'][sat['sensor']],"antenne":p['antenna'][sat['antenna']]}
-
+'''
 pygame.init()
 screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
 class size:
     width, height = pygame.display.get_surface().get_size()
 pygame.display.set_caption('SATMAN')
 print(satellite_creator())
+'''
