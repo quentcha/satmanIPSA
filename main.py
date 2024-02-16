@@ -190,7 +190,7 @@ def satellite_creator():
         colliding=pygame.Rect.collidedict(mouse, buttons)
         if colliding:
             screen.blit(buttons[colliding[0]][0][1], colliding[0][0])
-            if pygame.mouse.get_pressed()[0]==True:
+            if pygame.mouse.get_pressed()[0] == True:
                 if sat[buttons[colliding[0]][1][0]]+buttons[colliding[0]][1][1]<0:
                     sat[buttons[colliding[0]][1][0]]=len(parts[buttons[colliding[0]][1][0]])-1
                 elif sat[buttons[colliding[0]][1][0]]+buttons[colliding[0]][1][1]>len(parts[buttons[colliding[0]][1][0]])-1:
@@ -245,6 +245,7 @@ textes_explicatifs=[["Choisi l'orbite du satellite","L'orbite basse permet au sa
 
 mission=random_mission()
 screen.fill((173, 216, 230))
+screen.blit(pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/title.png'),px(800,800)),(130,50))
 talk(["Bonjour ! J'ai besoin de ton aide pour cette mission très importante","L'agence SATMAN aimerai envoyer un "+mission,"et nous avons besoin de ton expertise pour cela","clique n'importe où pour commencer"])
 txt=textes_explicatifs[0]
 while choose_orbit()!=check_missions[mission][0]:

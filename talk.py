@@ -42,7 +42,7 @@ def talk(txt):
                     run=False
                     return
     return
-'''
+
 pygame.init()
 screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
 class size:
@@ -50,4 +50,3 @@ class size:
 pygame.display.set_caption('SATMAN')
 txt=["Choisis l'orbite de ton satellite"," Une orbite haute sera plutôt utilisé pour des satellites géostationnaires","Une orbite moyenne sera généralement utilisé pour des satellites de navigation","Une orbite basse est souvant utilisé pour des satellites de communication"]
 talk(txt)
-'''

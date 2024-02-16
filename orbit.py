@@ -87,11 +87,11 @@ def choose_orbit():
                 font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
 
     return list(orbite.keys())[orbit_choice]
-'''
+
 pygame.init()
 screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
 class size:
     width, height = pygame.display.get_surface().get_size()
 pygame.display.set_caption('SATMAN')
 print(choose_orbit())
-'''
+

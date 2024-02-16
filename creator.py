@@ -41,7 +41,6 @@ def satellite_creator(txt):
     ok_button=resize_ok()
     font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
     annotation=resize_annotation()
-    talk(txt)
     while game:
         screen.fill((173, 216, 230))
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
@@ -87,11 +86,10 @@ def satellite_creator(txt):
                 annotation=resize_annotation()
                 font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
     return {"source d'energie":p['energy'][sat['energy']],"senseur":p['sensor'][sat['sensor']],"antenne":p['antenna'][sat['antenna']]}
-'''
+
 pygame.init()
 screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
 class size:
     width, height = pygame.display.get_surface().get_size()
 pygame.display.set_caption('SATMAN')
-print(satellite_creator())
-'''
+print(satellite_creator("fghjuiuygtfrdsfgh"))
