@@ -1,3 +1,4 @@
+#ajouter tick vert pour satellite creator et une aide qui explique les différents choix et la mission
 import pygame
 import math
 import random
@@ -12,6 +13,7 @@ def resize_talking_frames():
     return [pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/talk/talk0.png'),px(1060,1060)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/talk/talk1.png'),px(1060,1060))]
 
 def talk(txt):
+    speed=50
     run=True
     talking_frames=resize_talking_frames()
     font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))
@@ -25,7 +27,7 @@ def talk(txt):
                 screen.blit(font.render(written[line], True, (0,0,0)), (px(140,450+(line*30)),(0,0)))
                 pygame.display.update()
             if pygame.mouse.get_pressed()[0]==True and len(written)+len(written[-1])!=len(txt)+len(txt[-1]):pygame.time.wait(10)
-            else:pygame.time.wait(100)
+            else:pygame.time.wait(speed)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -154,7 +156,7 @@ def resize_annotation():
 
 def satellite_creator():
 
-    p = {'energy':['','panneaux solaires','réacteur nucléaire'],'sensor':['','senseur optique','senseur infrarouge','propulseur'], 'antenna':['','petite antenne', 'antenne moyenne', 'grande antenne']}
+    p = {'energy':['','panneaux solaires','générateur nucléaire'],'sensor':['','senseur optique','senseur infrarouge','propulseur'], 'antenna':['','petite antenne', 'antenne moyenne', 'grande antenne']}
     parts = {'body':['body.png'], 'energy':['empty.png','solar panels.png','atomic generator.png'],'sensor':['empty.png','optic sensor.png','infrared sensor.png','small thruster.png'], 'antenna':['empty.png','small antenna.png', 'medium antenna.png', 'big antenna.png']}
     parts=convert_images(parts)
     buttons=resize_buttons()
@@ -229,31 +231,31 @@ pygame.display.set_caption('SATMAN')
 
 #missions={nom de la mission:           [orbite nécessaire       , [source d'énergie    , senseur        , antenne         ]]
 check_missions={'satellite de communication': ['orbite géostationnaire', ['panneaux solaires','','grande antenne']],
-          "satellite d'observation": ['orbite basse',['réacteur nucléaire','senseur optique', 'antenne moyenne']],
+          "satellite d'observation": ['orbite basse',['générateur nucléaire','senseur optique', 'antenne moyenne']],
             "satellite de positionnement":['orbite moyenne',['réacteur nucléaire','','petite antenne']]}
 #textes_erreurs={nom de la mission :          [[texte explicatif orbite],[texte explicatif composition satelllite]]
-textes_erreurs={'satellite de communication': [["Mauvaise réponse, réessaye !","Un satellite de communication doit constamment être au dessus du même point","pour faciliter le calibrage des antennes relais,","c'est-à-dire a un orbite géostationnaire."],
-                                               ["Mauvaise réponse, réessaye !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante, en orbite haute une source d'énergie", "présente en abondance est le rayonnement solaire."]],
-        "satellite d'observation":[["Mauvaise réponse, réessaye !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
-                                    ["Mauvaise réponse, réessaye !","Un satellite d'observation nécessite un senseur optique afin de photographier,", "d'une antenne moyenne pour les transmettre en bonne qualité", "et d'une source d'énergie constante même lorsqu'il se trouve à l'ombre de la Terre."]],
+textes_erreurs={'satellite de communication': [["Bien joué !","Un satellite de communication doit constamment être au dessus du même point","pour faciliter le calibrage des antennes relais,","c'est-à-dire a un orbite géostationnaire."],
+                                               ["Bien joué !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante, en orbite haute une source d'énergie", "présente en abondance est le rayonnement solaire."]],
+        "satellite d'observation":[["Bien joué !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
+                                    ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier,", "d'une antenne moyenne pour les transmettre en bonne qualité", "et d'une source d'énergie constante même lorsqu'il se trouve à l'ombre de la Terre."]],
 
-        "satellite de positionnement":[["Mauvaise réponse, réessaye !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire"],
-                                       ["Mauvaise réponse, réessaye !","Un satellite de positionnement nécessite une horloge atomique","afin d'être le plus précis possible pour l'heure d'envoi du signal","et une petite antenne car les informations doivent-être envoyés rapidement"]]}
+        "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire"],
+                                       ["Bien joué !","Un satellite de positionnement nécessite une horloge atomique","afin d'être le plus précis possible pour l'heure d'envoi du signal","et une petite antenne car les informations doivent-être envoyés rapidement"]]}
 #textes_explicatifs=[[texte explicatif orbite],[texte explicatif customisation satellite]]
 textes_explicatifs=[["Choisi l'orbite du satellite","L'orbite basse permet au satellite d'être au plus près de la Terre"," L'orbite moyen est idéal pour avoir une période orbitale moyenne.","En orbite géostationnaire les satellites restent au même point par rapport au sol"],
                     ["Construis ton satellite.", "Le satellite doit pouvoir répondre aux besoins de sa mission."]]
-
+#ne pas expliquer mauvais choix mais expliquer bon choix
 mission=random_mission()
 screen.fill((173, 216, 230))
-screen.blit(pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/title.png'),px(800,800)),(130,50))
+screen.blit(pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/menu/title.png'),px(800,800)),(130,50))
 talk(["Bonjour ! J'ai besoin de ton aide pour cette mission très importante","L'agence SATMAN aimerai envoyer un "+mission,"et nous avons besoin de ton expertise pour cela","clique n'importe où pour commencer"])
 txt=textes_explicatifs[0]
 while choose_orbit()!=check_missions[mission][0]:
-    txt=textes_erreurs[mission][0]
-talk(["Bien joué !"])
+    txt=["Mauvaise réponse, réessaye !"]
+talk(textes_erreurs[mission][0])
 txt=textes_explicatifs[1]
 while satellite_creator()!=check_missions[mission][1]:
-    txt=textes_erreurs[mission][1]
-talk(["Bien joué !"])
+    txt=["Mauvaise réponse, réessaye !"]
+talk(textes_erreurs[mission][1])
 
 
