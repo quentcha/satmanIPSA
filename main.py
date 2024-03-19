@@ -9,6 +9,18 @@ def px(x=None,y=None):
         return (y*size.height)/600
     else:
         return ((x*size.width)/1066,(y*size.height)/600)
+def load_anim():
+    anim=[]
+    length=12
+    for i in range(length):
+        anim.append(pygame.transform.scale(pygame.image.load(f'transition/pixil-frame-{i}.png'),px(1066,1066)))
+    return anim
+def transition(read):
+    anim=load_anim()
+    for im in range(read,len(anim)*read,read):
+        screen.blit(anim[im], (0,0))
+        pygame.display.update()
+        pygame.time.wait(100)
 def resize_return_help_buttons():
     return [pygame.transform.scale(pygame.image.load('aide/retour 1.png'),px(200,200)),
             pygame.transform.scale(pygame.image.load('aide/retour 2.png'),px(200,200))]
@@ -111,8 +123,6 @@ def menu():
     play_button=(px(x=300),px(y=250),px(x=465),px(y=100))
     title_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(y=70),px(x=70))))
     credit_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=20),px(y=20))))
-    pygame.mixer.music.load("sound/awesomeness.wav")
-    pygame.mixer.music.play(-1)
     show_play=False
     title, scientifique0,scientifique1,background=menu_images()
     #x_scientists=[[0,random.randint(0,int(px(x=700))),1,3],[900,random.randint(0,int(px(x=900))),1,5]]
@@ -146,7 +156,6 @@ def menu():
             if pygame.Rect.colliderect(mouse,play_button):
                 show_play=True
                 if pygame.mouse.get_pressed()[0]==True:
-                    pygame.time.wait(200)
                     run=False
             else: show_play=False
             if event.type == pygame.VIDEORESIZE:
@@ -298,7 +307,6 @@ def satellite_creator():
             screen.blit(ok_button[1],px(900,420))
             if pygame.mouse.get_pressed()[0]==True:
                 run=False
-                pygame.time.wait(200)
         elif pygame.Rect.colliderect(mouse,(px(911,-50),px(150,100))):
             screen.blit(help_button[1],px(911,-50))
             if pygame.mouse.get_pressed()[0]:
@@ -364,7 +372,7 @@ pygame.display.set_caption('SATMAN')
 #missions={nom de la mission:           [orbite nécessaire       , [source d'énergie    , senseur        , antenne         ]]
 check_missions={'satellite de communication': ['orbite géostationnaire', ['panneaux solaires','','grande antenne']],
           "satellite d'observation": ['orbite basse',['générateur nucléaire','senseur optique', 'antenne moyenne']],
-            "satellite de positionnement":['orbite moyenne',['réacteur nucléaire','','petite antenne']]}
+            "satellite de positionnement":['orbite moyenne',['générateur nucléaire','','petite antenne']]}
 
 mission=random_mission()
 
@@ -379,22 +387,26 @@ textes_erreurs={'satellite de communication': [["Bien joué !","Un satellite de 
 #textes_explicatifs=[[texte explicatif orbite],[texte explicatif customisation satellite]]
 textes_explicatifs=[[f"Choisi l'orbite du {mission}","L'orbite basse permet au satellite d'être au plus près de la Terre"," L'orbite moyen est idéal pour avoir une période orbitale moyenne.","En orbite géostationnaire les satellites restent au même point par rapport au sol"],
                     ["Construis ton satellite.", "Le satellite doit pouvoir répondre aux besoins de sa mission."]]
-help_text=['Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.\n Maecenas vitae eros quis tellus vehicula convallis quis non dui. Proin interdum non lorem faucibus tincidunt.\n Ut id augue ut massa scelerisque viverra ut vel eros. Sed iaculis purus vitae libero efficitur, at congue nisl blandit.\n Sed fringilla erat nec sollicitudin maximus. Praesent accumsan lacus a elit scelerisque scelerisque.\n In congue porttitor enim. Mauris nisi dui, aliquam ac lorem nec, lobortis aliquet massa.\n Proin luctus orci non rutrum accumsan. Nulla non ex nunc. Cras ac varius velit.\n Aliquam mattis nisi nec libero tincidunt, vel interdum velit accumsan.\n Aliquam bibendum ultricies arcu, vitae hendrerit tortor varius sed.\n \n Suspendisse neque ex, efficitur et condimentum vitae, convallis id neque.',
-           '']
+help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \n Les satellites sont souvent déployés \n en orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \n et une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\n comme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
+           'Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \n et qu\'ils puisse transmettre une quantité de données suffisante.\n \n Il est nécessaire d\'avoir des capteurs adaptés à la mission, certains satellites ne nécessitent aucun capteur.\n\n Tout les satellites ont tous bsoin d\'une source d\'alimentation,\nen orbit basse, les satellites sont parfois à l\'ombre de la Terre, \n ils ne peuvent donc être alimenté par des panneaux solaires.\n\n Parfois les satellites doivent-être très précis, c\'est pourquoi on utilise alors une horloge atomique,\n le \'capteur\' et la source d\'énergie sont alors les mêmes.']
 
 menu()
+if state.game:transition(1)
 #ne pas expliquer mauvais choix mais expliquer bon choix
+'''
 if state.game:
     screen.fill((173, 216, 230))
     talk(["Bonjour ! J'ai besoin de ton aide pour cette mission très importante","L'agence SATMAN aimerai envoyer un "+mission,"et nous avons besoin de ton expertise pour cela","clique n'importe où pour commencer"])
-
+'''
 txt=textes_explicatifs[0]
 while choose_orbit()!=check_missions[mission][0] and state.game:
     txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
 talk(textes_erreurs[mission][0])
+if state.game:transition(1)
+
 txt=textes_explicatifs[1]
 while satellite_creator()!=check_missions[mission][1] and state.game:
     txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
 talk(textes_erreurs[mission][1])
-
+if state.game:transition(1)
 
