@@ -3,35 +3,47 @@ import pygame
 import math
 import random
 
-#
+# fonction adaptant les positions en fonction de la taille de l'écran
+# (prend en argument la position x et y initial sur une taille d'écran de 1066x600)
 def px(x=None,y=None):
-    if y==None:
-        return (x*size.width)/1066
-    elif x==None:
-        return (y*size.height)/600
+    if y==None:#si aucune valeur y n'est donné, calculer seulement x
+        return (x*size.width)/1066# produit en croix appelant la class size
+    elif x==None:#si aucune valeur x n'est donné, calculer seulement y
+        return (y*size.height)/600# produit en croix appelant la class size
     else:
-        return ((x*size.width)/1066,(y*size.height)/600)
+        return ((x*size.width)/1066,(y*size.height)/600)#sinon renvoyé la nouvelle valeur de x et y
+
+
+#fonction pour chargé les sons dans le programme (appelé une seule fois)
 def load_sound():
     cl=pygame.mixer.Sound("sound/Menu Selection Click.wav")
     tr=pygame.mixer.Sound("sound/transition.wav")
     ty=''
     return cl, tr, ty
+
+
+# charge et adapte la taille des images pour l'animation
 def load_anim():
     anim=[]
-    length=12
+    length=12 #nombre d'images dans l'animation
     for i in range(length):
         anim.append(pygame.transform.scale(pygame.image.load(f'transition/pixil-frame-{i}.png'),px(1066,1066)))
     return anim
+#fonction jouant l'animation (prend en argument la direction de lecture -1 ou 1)
 def transition(read):
-    anim=load_anim()
-    pygame.mixer.Sound.play(transition_sound)
+    anim=load_anim()# charge les animations
+    pygame.mixer.Sound.play(transition_sound)#joue le son de transition
     for im in range(read,len(anim)*read,read):
-        screen.blit(anim[im], (0,0))
-        pygame.display.update()
-        pygame.time.wait(100)
+        screen.blit(anim[im], (0,0))# affiche l'image nr.im aux coordonnées 0,0
+        pygame.display.update()# raffraichis l'écran
+        pygame.time.wait(100)# attendre 100ms
+
+
+#charge et adapte la taille des images du boutons retour
 def resize_return_help_buttons():
     return [pygame.transform.scale(pygame.image.load('aide/retour 1.png'),px(200,200)),
             pygame.transform.scale(pygame.image.load('aide/retour 2.png'),px(200,200))]
+#affiche le texte de la fenêtre aide (le met en forme)
 def blit(txt):
     help_font = pygame.font.Font('Grand9K Pixel.ttf', int(px(15)))
     Mission_font = pygame.font.Font('Grand9K Pixel.ttf', int(px(30)))
@@ -39,66 +51,75 @@ def blit(txt):
     screen.blit(Mission_font.render("Objectif : "+mission, True, (0,0,0)), (px(35,35),(0,0)))
     for phrase in range(len(txt.split("\n"))):
         screen.blit(help_font.render(txt.split("\n")[phrase], True, (0,0,0)), (px(35,100+phrase*30),(0,0)))
-
+#fonction gérant la fenêtre aide
 def help(num):
-    back_button=resize_return_help_buttons()
-    blit(help_text[num])
+    back_button=resize_return_help_buttons()#charge les images du bouton retour
+    blit(help_text[num])#afficher le texte
     run=True
     while run and state.game:
-        mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
+        mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))#résupère la position du curseur sous forme de rect
         screen.blit(back_button[0],px(35,475))
-        if pygame.Rect.colliderect(mouse,(px(35,475),px(200,100))):
+        if pygame.Rect.colliderect(mouse,(px(35,475),px(200,100))):# vérifie si curseur survol bouton retour
             screen.blit(back_button[1],px(35,475))
-            if pygame.mouse.get_pressed()[0]==True:
-                pygame.mixer.Sound.play(click)
-                run=False
+            if pygame.mouse.get_pressed()[0]==True:#si un clique est enregistré
+                pygame.mixer.Sound.play(click)# jouer le son "click"
+                run=False# arrêter la fonction
         pygame.display.update()
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run=False
-                state.game=False
-            elif event.type == pygame.VIDEORESIZE:
-                size.width, size.height = pygame.display.get_surface().get_size()
-                back_button=resize_return_help_buttons()
-                blit(help_text[num])
+            if event.type == pygame.QUIT:# si le joueur ferme le programme
+                run=False# arrêter la fonction
+                state.game=False#arrêter le jeu
+            elif event.type == pygame.VIDEORESIZE:# si le joueur change la taille de la fenêtre
+                size.width, size.height = pygame.display.get_surface().get_size()# mettre à jour la class size avec la nouvelle taille de l'écran
+                back_button=resize_return_help_buttons()# charger le bouton retour avec la nouvelle taille
+                blit(help_text[num])# afficher le texte avec la nouvelle taille
+
+
+#charge et adapte la taille des images du dialogue
 def resize_talking_frames():
     return [pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/talk/talk0.png'),px(1060,1060)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/talk/talk1.png'),px(1060,1060))]
-
+# fonction affichant et gérant les dialogues
 def talk(txt):
-    if state.game:
-        speed=30
-        talking_frames=resize_talking_frames()
-        font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))
-        written=[]
+    if state.game:#si le jeu n'a pas été arrêté
+        speed=30#vitesse d'affichage des lettres
+        talking_frames=resize_talking_frames()#charger images
+        font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))#police d'écriture
+        written=[]#texte déjà écrit (sera afficher directement)
         for paragraph in range(len(txt)):
             written.append("")
-            for letter in range(len(txt[paragraph])):
-                written[paragraph]=written[paragraph]+txt[paragraph][letter]
-                screen.blit(talking_frames[(letter%6)//3], (px(0,390),(0,0)))
-                for line in range(len(written)):
+            for letter in range(len(txt[paragraph])):#afficher chaque letter
+                written[paragraph]=written[paragraph]+txt[paragraph][letter]#ajouter cette lettre au texte d"jà écrit
+                screen.blit(talking_frames[(letter%6)//3], (px(0,390),(0,0)))#avancer d'une image dans l'animation du scientifique qui parle
+                for line in range(len(written)):#affiche les lignes déjà écrites
                     screen.blit(font.render(written[line], True, (0,0,0)), (px(140,450+(line*30)),(0,0)))
                     pygame.display.update()
+                #si un clique est enregistré et que l'on est pas à la fin du texte alors accéléré la vitesse d'affichage
                 if pygame.mouse.get_pressed()[0]==True and len(written)+len(written[-1])!=len(txt)+len(txt[-1]):pygame.time.wait(10)
-                else:pygame.time.wait(speed)
+                else:pygame.time.wait(speed)#sinon afficher à la vitesse choisi en début de fonction
 
                 for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        state.game=False
+                    if event.type == pygame.QUIT:# si le joueur ferme le programme
+                        state.game=False# mettre à jour la class game
                         return
-                    elif event.type == pygame.VIDEORESIZE:
-                        size.width, size.height = pygame.display.get_surface().get_size()
-                        talking_frames=resize_talking_frames()
-                        font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))
-        while pygame.mouse.get_pressed()[0]!=True:
-            screen.blit(talking_frames[1], (px(0,390),(0,0)))
-            for line in range(len(written)):
+                    elif event.type == pygame.VIDEORESIZE:# si le joueur change la taille de la fenêtre
+                        size.width, size.height = pygame.display.get_surface().get_size()# mettre à jour la class size avec la nouvelle taille de l'écran
+                        talking_frames=resize_talking_frames()# charger les images avec les nouvelles tailles
+                        font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))# charger la police d'écriture avec une nouvelle taille
+        #le texte est maintenant entièrement affiché
+        while pygame.mouse.get_pressed()[0]!=True:#tant que l'on ne clique pas
+            screen.blit(talking_frames[1], (px(0,390),(0,0)))# afficher l'image du scientifique
+            for line in range(len(written)):#afficher toute les lignes du texte d'un coup
                 screen.blit(font.render(written[line], True, (0,0,0)), (px(140,450+(line*30)),(0,0)))
             for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        state.game=False
+                    if event.type == pygame.QUIT:# si le programme est fermé
+                        state.game=False# mettre à jour la class
                         quit()
+        #le joueur a cliquer donc quitter le dialogue
         return
+
+
+#charge les images du menu (sous forme de liste pour certains à cause des animations)
 def menu_images():
     title=pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/menu/title.png'),px(800,800))
     scientifique1=[[],
@@ -122,28 +143,33 @@ def menu_images():
                 pygame.transform.scale(pygame.image.load('menu/pixil-layer-2.png'),px(1066,600)),
                 pygame.transform.scale(pygame.image.load('menu/pixil-layer-3.png'),px(1066,600))]
     return title,scientifique1, scientifique2, background
+#changer la position horizontale des scientifiques
 def move(x_scientists):
     for i in range(len(x_scientists)):
+        # si le scientifique est à plus ou moins 10px de son objectif
         if x_scientists[i][0]>x_scientists[i][1]-10 and x_scientists[i][0]<x_scientists[i][1]+10:
-            x_scientists[i][1]=random.randint(0,int(px(x=900)))
+            x_scientists[i][1]=random.randint(0,int(px(x=900)))# fixer un nouvel objectif
+        #fait la différence entre l'objectif et la position et le converti en veceur unitaire multipplié par 3 pour
+        #changer la position horizontale du scientifique par 3 ou -3
         x_scientists[i][0]+=(x_scientists[i][1]-x_scientists[i][0])*x_scientists[i][3]/abs(x_scientists[i][1]-x_scientists[i][0])
         x_scientists[i][2]=int((x_scientists[i][1]-x_scientists[i][0])/abs(x_scientists[i][1]-x_scientists[i][0]))
 def menu():
-    play_button=(px(x=300),px(y=250),px(x=465),px(y=100))
-    title_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(y=70),px(x=70))))
-    credit_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=20),px(y=20))))
+    play_button=(px(x=300),px(y=250),px(x=465),px(y=100))# rect du bouton jouer
+    title_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(y=70),px(x=70))))#police du titre
+    credit_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=20),px(y=20))))#police des credits
     show_play=False
-    title, scientifique0,scientifique1,background=menu_images()
+    title, scientifique0,scientifique1,background=menu_images()#charger les images
     #x_scientists=[[0,random.randint(0,int(px(x=700))),1,3],[900,random.randint(0,int(px(x=900))),1,5]]
-    x_scientists=[[0,random.randint(0,int(px(x=700))),1,3]]
-    i=0
+    #x_scientists=[[position, objectif, nr.image, vitesse de déplacement]]
+    x_scientists=[[0,random.randint(0,int(px(x=700))),1,3]]# liste des positions horizontales des scientifiques
+    i=0#initialiser l'horloge du programme
     run=True
     while run and state.game:
-        i+=0.8
-        move(x_scientists)
-        mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
+        i+=0.8#ajouter 0.8 a l'horloge a chaque itération
+        move(x_scientists)# mettre a jour la position des scientifiques
+        mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))#récupérer la position du curseur sous forme de Rect
         screen.fill((173, 216, 230))
-        for image in range(len(background)):
+        for image in range(len(background)):# itérer à travers les images de l'animation
             screen.blit(background[image],px(0,-image+(mouse[1]/100*(image))))
         screen.blit(title,px(130,50))
         if int(i)%4 and show_play:screen.blit(title_font.render("", True, (0, 0, 0)), (play_button[0] + 10, play_button[1] - 5))
@@ -152,7 +178,7 @@ def menu():
         screen.blit(scientifique0[x_scientists[0][2]][int(i)%3],(x_scientists[0][0],px(y=385-3+(mouse[1]/100*(3)))))
         #screen.blit(scientifique1[x_scientists[1][2]][int(i+1)%3],(5,px(y=366)))
         pygame.draw.rect(screen, (255,0,0),play_button,5,True)
-        screen.blit(credit_font.render("Un jeu créer par AéroKids IPSA",True,(0,0,0)),px(720,570))
+        screen.blit(credit_font.render("Un jeu créé par AéroKids IPSA",True,(0,0,0)),px(720,570))
 
         pygame.display.flip() # refresh l'écran
         pygame.time.wait(80)
@@ -229,11 +255,14 @@ def intro():
           "Je vais te guider au cours de cette mission !",
           "Si tu en a marre de m'entendre parler tu peux cliquer n'importe où pour accélerer",
           "  ( clique n'importe où )"])
+    screen.fill((173, 216, 230))
     screen.blit(resize_help()[0], px(10,-30))
     pygame.display.update()
     talk([f"En haut à gauche se trouve le bouton aide.",
           "Tu y trouveras toutes les informations nécessaires pour t'aider",
           "  ( clique n'importe où )"])
+    screen.fill((173, 216, 230))
+    screen.blit(resize_help()[0], px(10,-30))
     screen.blit(resize_assets()[1][0],px(900,50))
     screen.blit(resize_assets()[2][0],px(900,250))
     screen.blit(resize_assets()[3][0],px(700,150))
@@ -241,6 +270,12 @@ def intro():
     talk([f"Aide toi des flèches pour naviguer le niveau.",
           "Et lorsque tu penses avoir trouver la bonne réponse appuie sur OK",
           "  ( clique n'importe où )"])
+    screen.fill((173, 216, 230))
+    screen.blit(resize_help()[0], px(10,-30))
+    screen.blit(resize_assets()[1][0],px(900,50))
+    screen.blit(resize_assets()[2][0],px(900,250))
+    screen.blit(resize_assets()[3][0],px(700,150))
+    pygame.display.update()
     talk([f"Tu es prêt à envoyer un {mission} dans l'espace ?",
           "Alors c'est parti !!!",
           "  ( clique n'importe où )"])
@@ -354,17 +389,17 @@ def resize_images(parts):
             parts[category][l]=pygame.transform.scale(parts[category][l],px(1500,1500))
     return parts
 def resize_buttons():
-    left_button=[pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/left_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/left_button2.png'),px(150,150))]
-    right_button=[pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/right_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/right_button2.png'),px(150,150))]
+    left_button=[pygame.transform.scale(pygame.image.load('satellite customisation/left_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/left_button2.png'),px(150,150))]
+    right_button=[pygame.transform.scale(pygame.image.load('satellite customisation/right_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/right_button2.png'),px(150,150))]
     buttons = {(px(0,20),px(150,150)):[left_button,['antenna',-1]],(px(0,220),px(150,150)):[left_button,['energy',-1]],(px(0,420),px(150,150)):[left_button,['sensor',-1]],
                (px(750,20),px(150,150)):[right_button,['antenna',1]],(px(750,220),px(150,150)):[right_button,['energy',1]],(px(750,420),px(150,150)):[right_button,['sensor',1]]}
     return buttons
 def resize_ok():
     return [pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button2.png'),px(150,150))]
 def resize_annotation():
-    return {'energy':[px(330,210),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation1.png'),px(80,80)),px(11)],
-                'sensor':[px(330,440),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation2.png'),px(80,80)),px(10)],
-                'antenna':[px(330,60),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/annotation1.png'),px(80,80)),px(11)]}
+    return {'energy':[px(330,210),pygame.transform.scale(pygame.image.load('satellite customisation/annotation1.png'),px(80,80)),px(11)],
+                'sensor':[px(330,440),pygame.transform.scale(pygame.image.load('satellite customisation/annotation2.png'),px(80,80)),px(10)],
+                'antenna':[px(330,60),pygame.transform.scale(pygame.image.load('satellite customisation/annotation1.png'),px(80,80)),px(11)]}
 
 def satellite_creator():
 
@@ -403,7 +438,8 @@ def satellite_creator():
             if p[element][sat[element]]!='':
                 screen.blit(annotation[element][1], annotation[element][0])
                 if p[element][sat[element]] in check_missions[mission][1]:
-                    screen.blit(font.render(p[element][sat[element]], True, (2,107,2)),(((annotation[element][0][0]-(len(p[element][sat[element]])*annotation[element][2]),annotation[element][0][1]-annotation[element][2])),(0,0)))
+                    #(2,107,2)
+                    screen.blit(font.render(p[element][sat[element]], True, (0,0,0)),(((annotation[element][0][0]-(len(p[element][sat[element]])*annotation[element][2]),annotation[element][0][1]-annotation[element][2])),(0,0)))
                 else: screen.blit(font.render(p[element][sat[element]], True, (0,0,0)),(((annotation[element][0][0]-(len(p[element][sat[element]])*annotation[element][2]),annotation[element][0][1]-annotation[element][2])),(0,0)))
 
 
