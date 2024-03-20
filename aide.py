@@ -46,5 +46,5 @@ screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
 class size:
     width, height = pygame.display.get_surface().get_size()
 screen.fill((173, 216, 230))
-help(0)
+#help(0)
 

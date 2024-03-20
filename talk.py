@@ -49,4 +49,4 @@ class size:
     width, height = pygame.display.get_surface().get_size()
 pygame.display.set_caption('SATMAN')
 txt=["Choisis l'orbite de ton satellite"," Une orbite haute sera plutôt utilisé pour des satellites géostationnaires","Une orbite moyenne sera généralement utilisé pour des satellites de navigation","Une orbite basse est souvant utilisé pour des satellites de communication"]
-talk(txt)
+#talk(txt)
