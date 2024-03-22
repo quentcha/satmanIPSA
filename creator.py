@@ -33,7 +33,7 @@ def resize_annotation():
 def satellite_creator(txt):
 
     p = {'energy':['','panneaux solaires','réacteur nucléaire'],'sensor':['','senseur optique','senseur infrarouge','propulseur'], 'antenna':['','petite antenne', 'antenne moyenne', 'grande antenne']}
-    parts = {'body':['body.png'], 'energy':['empty.png','solar panels.png','atomic generator.png'],'sensor':['empty.png','optic sensor.png','infrared sensor.png','small thruster.png'], 'antenna':['empty.png','small antenna.png', 'medium antenna.png', 'big antenna.png']}
+    parts = {'body':['body.png'], 'energy':['_empty.png','solar panels.png','atomic generator.png'],'sensor':['_empty.png','optic sensor.png','infrared sensor.png','small thruster.png'], 'antenna':['_empty.png','small antenna.png', 'medium antenna.png', 'big antenna.png']}
     parts=convert_images(parts)
     buttons=resize_buttons()
     game=True
@@ -93,3 +93,4 @@ class size:
     width, height = pygame.display.get_surface().get_size()
 pygame.display.set_caption('SATMAN')
 print(satellite_creator("fghjuiuygtfrdsfgh"))
+

@@ -48,9 +48,9 @@ def blit(txt):
     help_font = pygame.font.Font('Grand9K Pixel.ttf', int(px(15)))
     Mission_font = pygame.font.Font('Grand9K Pixel.ttf', int(px(30)))
     pygame.draw.rect(screen, (140, 175, 186), (px(30, 30),px(1006,540)))
-    screen.blit(Mission_font.render("Objectif : "+mission, True, (0,0,0)), (px(35,35),(0,0)))
+    screen.blit(Mission_font.render("Objectif : "+mission, True, txt_color), (px(35,35),(0,0)))
     for phrase in range(len(txt.split("\n"))):
-        screen.blit(help_font.render(txt.split("\n")[phrase], True, (0,0,0)), (px(35,100+phrase*30),(0,0)))
+        screen.blit(help_font.render(txt.split("\n")[phrase], True, txt_color), (px(35,100+phrase*30),(0,0)))
 #fonction gérant la fenêtre aide
 def help(num):
     back_button=resize_return_help_buttons()#charge les images du bouton retour
@@ -92,7 +92,7 @@ def talk(txt):
                 written[paragraph]=written[paragraph]+txt[paragraph][letter]#ajouter cette lettre au texte d"jà écrit
                 screen.blit(talking_frames[(letter%6)//3], (px(0,390),(0,0)))#avancer d'une image dans l'animation du scientifique qui parle
                 for line in range(len(written)):#affiche les lignes déjà écrites
-                    screen.blit(font.render(written[line], True, (0,0,0)), (px(140,450+(line*30)),(0,0)))
+                    screen.blit(font.render(written[line], True, txt_color), (px(140,450+(line*30)),(0,0)))
                     pygame.display.update()
                 #si un clique est enregistré et que l'on est pas à la fin du texte alors accéléré la vitesse d'affichage
                 if pygame.mouse.get_pressed()[0]==True and len(written)+len(written[-1])!=len(txt)+len(txt[-1]):pygame.time.wait(10)
@@ -110,7 +110,7 @@ def talk(txt):
         while pygame.mouse.get_pressed()[0]!=True:#tant que l'on ne clique pas
             screen.blit(talking_frames[1], (px(0,390),(0,0)))# afficher l'image du scientifique
             for line in range(len(written)):#afficher toute les lignes du texte d'un coup
-                screen.blit(font.render(written[line], True, (0,0,0)), (px(140,450+(line*30)),(0,0)))
+                screen.blit(font.render(written[line], True, txt_color), (px(140,450+(line*30)),(0,0)))
             for event in pygame.event.get():
                     if event.type == pygame.QUIT:# si le programme est fermé
                         state.game=False# mettre à jour la class
@@ -131,13 +131,12 @@ def menu_images():
     pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 3 M.png'),px(280,280))]
     ]
     scientifique2=[[],
-    [pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 1.png'),px(300,300)),
-    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 2.png'),px(300,300)),
-    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 3.png'),px(300,300))],
-    [pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 1 M.png'),px(300,300)),
-     pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 2 M.png'),px(300,300)),
-    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 3 M.png'),px(300,300))]
-    ]
+    [pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 1 M.png'),px(300,300)),
+     pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 2 M.png'),px(300,300)),
+    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 3 M.png'),px(300,300))],
+    [pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 1.png'),px(300,300)),
+    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 2.png'),px(300,300)),
+    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 3.png'),px(300,300))]]
     background=[pygame.transform.scale(pygame.image.load('menu/pixil-layer-0.png'),px(1066,600)),
                 pygame.transform.scale(pygame.image.load('menu/pixil-layer-1.png'),px(1066,600)),
                 pygame.transform.scale(pygame.image.load('menu/pixil-layer-2.png'),px(1066,600)),
@@ -147,7 +146,7 @@ def menu_images():
 def move(x_scientists):
     for i in range(len(x_scientists)):
         # si le scientifique est à plus ou moins 10px de son objectif
-        if x_scientists[i][0]>x_scientists[i][1]-10 and x_scientists[i][0]<x_scientists[i][1]+10:
+        if x_scientists[i][0]>x_scientists[i][1]-15 and x_scientists[i][0]<x_scientists[i][1]+15:
             x_scientists[i][1]=random.randint(0,int(px(x=900)))# fixer un nouvel objectif
         #fait la différence entre l'objectif et la position et le converti en veceur unitaire multipplié par 3 pour
         #changer la position horizontale du scientifique par 3 ou -3
@@ -161,24 +160,24 @@ def menu():
     title, scientifique0,scientifique1,background=menu_images()#charger les images
     #x_scientists=[[0,random.randint(0,int(px(x=700))),1,3],[900,random.randint(0,int(px(x=900))),1,5]]
     #x_scientists=[[position, objectif, nr.image, vitesse de déplacement]]
-    x_scientists=[[0,random.randint(0,int(px(x=700))),1,3]]# liste des positions horizontales des scientifiques
+    x_scientists=[[0,random.randint(0,int(px(x=700))),1,3],[900,random.randint(0,int(px(x=900))),1,11]]# liste des positions horizontales des scientifiques
     i=0#initialiser l'horloge du programme
     run=True
     while run and state.game:
         i+=0.8#ajouter 0.8 a l'horloge a chaque itération
         move(x_scientists)# mettre a jour la position des scientifiques
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))#récupérer la position du curseur sous forme de Rect
-        screen.fill((173, 216, 230))
+        screen.fill(bg_color)
         for image in range(len(background)):# itérer à travers les images de l'animation
             screen.blit(background[image],px(0,-image+(mouse[1]/100*(image))))
         screen.blit(title,px(130,50))
-        if int(i)%4 and show_play:screen.blit(title_font.render("", True, (0, 0, 0)), (play_button[0] + 10, play_button[1] - 5))
-        else:screen.blit(title_font.render("DECOLLAGE", True, (0, 0, 0)), (play_button[0] + 10, play_button[1] - 5))
+        if int(i)%4 and show_play:screen.blit(title_font.render("", True, txt_color), (play_button[0] + 10, play_button[1] - 5))
+        else:screen.blit(title_font.render("DECOLLAGE", True, txt_color), (play_button[0] + 10, play_button[1] - 5))
 
         screen.blit(scientifique0[x_scientists[0][2]][int(i)%3],(x_scientists[0][0],px(y=385-3+(mouse[1]/100*(3)))))
-        #screen.blit(scientifique1[x_scientists[1][2]][int(i+1)%3],(5,px(y=366)))
+        screen.blit(scientifique1[x_scientists[1][2]][int(i+1)%3],(x_scientists[1][0],px(y=385-20+(mouse[1]/100*(3)))))
         pygame.draw.rect(screen, (255,0,0),play_button,5,True)
-        screen.blit(credit_font.render("Un jeu créé par AéroKids IPSA",True,(0,0,0)),px(720,570))
+        screen.blit(credit_font.render("Un jeu créé par AéroKids IPSA",True,txt_color),px(720,570))
 
         pygame.display.flip() # refresh l'écran
         pygame.time.wait(80)
@@ -219,11 +218,11 @@ def mission_chooser():
     init=True
     while run and state.game:
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
-        screen.fill((173, 216, 230))
-        screen.blit(title.render('CHOISIS TA MISSION :', True, (0,)*3), (px(10,10),(0,0)))
+        screen.fill(bg_color)
+        screen.blit(title.render('CHOISIS TA MISSION :', True, txt_color), (px(10,10),(0,0)))
         for im in range(len(logos)):
             screen.blit(logos[im][0], list(rect.keys())[im])
-            screen.blit(Mission_name.render(list(rect.values())[im], True, (0,0,0)), ((list(rect.keys())[im][0][0]+px(x=100-(len(list(rect.values())[im])/2)*11),list(rect.keys())[im][0][1]+px(y=250)),(0,0)))
+            screen.blit(Mission_name.render(list(rect.values())[im], True, txt_color), ((list(rect.keys())[im][0][0]+px(x=100-(len(list(rect.values())[im])/2)*11),list(rect.keys())[im][0][1]+px(y=250)),(0,0)))
         #screen.blit(comm[0], px(60,300))
         coll=pygame.Rect.collidedict(mouse,rect)
         if coll and init==False:
@@ -249,19 +248,19 @@ def mission_chooser():
                 (px(435,200),px(200,200)):'satellite de positionnement',
                 (px(805,200),px(200,200)):"satellite d'observation"}
 def intro():
-    screen.fill((173, 216, 230))
+    screen.fill(bg_color)
     pygame.display.update()
     talk([f"Bonjour, je suis l'ingénieur en chef du projet SATMAN.",
           "Je vais te guider au cours de cette mission !",
           "Si tu en a marre de m'entendre parler tu peux cliquer n'importe où pour accélerer",
           "  ( clique n'importe où )"])
-    screen.fill((173, 216, 230))
+    screen.fill(bg_color)
     screen.blit(resize_help()[0], px(10,-30))
     pygame.display.update()
     talk([f"En haut à gauche se trouve le bouton aide.",
           "Tu y trouveras toutes les informations nécessaires pour t'aider",
           "  ( clique n'importe où )"])
-    screen.fill((173, 216, 230))
+    screen.fill(bg_color)
     screen.blit(resize_help()[0], px(10,-30))
     screen.blit(resize_assets()[1][0],px(900,50))
     screen.blit(resize_assets()[2][0],px(900,250))
@@ -270,7 +269,7 @@ def intro():
     talk([f"Aide toi des flèches pour naviguer le niveau.",
           "Et lorsque tu penses avoir trouver la bonne réponse appuie sur OK",
           "  ( clique n'importe où )"])
-    screen.fill((173, 216, 230))
+    screen.fill(bg_color)
     screen.blit(resize_help()[0], px(10,-30))
     screen.blit(resize_assets()[1][0],px(900,50))
     screen.blit(resize_assets()[2][0],px(900,250))
@@ -306,7 +305,7 @@ def choose_orbit():
     run=True
     while run and state.game:
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
-        screen.fill((173, 216, 230))
+        screen.fill(bg_color)
 
         earth_w,earth_h=pygame.transform.rotate(earth, angle).get_size()
         for circle in orbite:
@@ -322,7 +321,7 @@ def choose_orbit():
                 screen.blit(font.render(sat, True, (255,0,0)), (size.width/2+x+7,size.height/2-y-7,0,0))
 
             else:
-                pygame.draw.circle(screen, (0,0,0),(size.width/2+x,size.height/2-y),int(px(5)),int(px(5)))
+                pygame.draw.circle(screen, (0,)*3,(size.width/2+x,size.height/2-y),int(px(5)),int(px(5)))
 
         screen.blit(pygame.transform.rotate(earth, angle),((size.width/2)-(earth_w/2),(size.height/2)-(earth_h/2)))
 
@@ -404,7 +403,7 @@ def resize_annotation():
 def satellite_creator():
 
     p = {'energy':['','panneaux solaires','générateur nucléaire'],'sensor':['','senseur optique','senseur infrarouge','propulseur'], 'antenna':['','petite antenne', 'antenne moyenne', 'grande antenne']}
-    parts = {'body':['body.png'], 'energy':['empty.png','solar panels.png','atomic generator.png'],'sensor':['empty.png','optic sensor.png','infrared sensor.png','small thruster.png'], 'antenna':['empty.png','small antenna.png', 'medium antenna.png', 'big antenna.png']}
+    parts = {'body':['body.png'], 'energy':['_empty.png','solar panels.png','atomic generator.png'],'sensor':['_empty.png','optic sensor.png','infrared sensor.png','small thruster.png'], 'antenna':['_empty.png','small antenna.png', 'medium antenna.png', 'big antenna.png']}
     parts=convert_images(parts)
     buttons=resize_buttons()
     sat={'body':0,'energy':0,'sensor':0,'antenna':0}
@@ -415,7 +414,7 @@ def satellite_creator():
     initialize=True
     run=True
     while run and state.game:
-        screen.fill((173, 216, 230))
+        screen.fill(bg_color)
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
 
         screen.blit(help_button[0],px(911,-50))
@@ -439,8 +438,8 @@ def satellite_creator():
                 screen.blit(annotation[element][1], annotation[element][0])
                 if p[element][sat[element]] in check_missions[mission][1]:
                     #(2,107,2)
-                    screen.blit(font.render(p[element][sat[element]], True, (0,0,0)),(((annotation[element][0][0]-(len(p[element][sat[element]])*annotation[element][2]),annotation[element][0][1]-annotation[element][2])),(0,0)))
-                else: screen.blit(font.render(p[element][sat[element]], True, (0,0,0)),(((annotation[element][0][0]-(len(p[element][sat[element]])*annotation[element][2]),annotation[element][0][1]-annotation[element][2])),(0,0)))
+                    screen.blit(font.render(p[element][sat[element]], True, txt_color),(((annotation[element][0][0]-(len(p[element][sat[element]])*annotation[element][2]),annotation[element][0][1]-annotation[element][2])),(0,0)))
+                else: screen.blit(font.render(p[element][sat[element]], True, txt_color),(((annotation[element][0][0]-(len(p[element][sat[element]])*annotation[element][2]),annotation[element][0][1]-annotation[element][2])),(0,0)))
 
 
         for pos in buttons:
@@ -477,8 +476,6 @@ def satellite_creator():
             talk(txt)
 
     return [p['energy'][sat['energy']],p['sensor'][sat['sensor']],p['antenna'][sat['antenna']]]
-def random_mission():
-    return list(check_missions.keys())[random.randint(0,len(check_missions.keys())-1)]
 
 
 
@@ -490,6 +487,8 @@ class size:
     width, height = pygame.display.get_surface().get_size()
 pygame.display.set_caption('SATMAN')
 click,transition_sound, typing=load_sound()
+bg_color=(173, 216, 230)
+txt_color=(0,0,0)
 
 #missions={nom de la mission:           [orbite nécessaire       , [source d'énergie    , senseur        , antenne         ]]
 check_missions={'satellite de communication': ['orbite géostationnaire', ['panneaux solaires','','grande antenne']],
