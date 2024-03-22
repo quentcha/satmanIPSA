@@ -78,7 +78,7 @@ def help(num):
 
 #charge et adapte la taille des images du dialogue
 def resize_talking_frames():
-    return [pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/talk/talk0.png'),px(1060,1060)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/talk/talk1.png'),px(1060,1060))]
+    return [pygame.transform.scale(pygame.image.load('talk/talk0.png'),px(1060,1060)),pygame.transform.scale(pygame.image.load('talk/talk1.png'),px(1060,1060))]
 # fonction affichant et gérant les dialogues
 def talk(txt):
     if state.game:#si le jeu n'a pas été arrêté
@@ -121,7 +121,7 @@ def talk(txt):
 
 #charge les images du menu (sous forme de liste pour certains à cause des animations)
 def menu_images():
-    title=pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/menu/title.png'),px(800,800))
+    title=pygame.transform.scale(pygame.image.load('menu/title.png'),px(800,800))
     scientifique1=[[],
     [pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 1.png'),px(280,280)),
     pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 2.png'),px(280,280)),
@@ -381,7 +381,7 @@ def choose_orbit():
 def convert_images(parts):
     for category in parts:
         for l in range(len(parts[category])):
-            parts[category][l]=pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/'+str(parts[category][l])),px(1500,1500))
+            parts[category][l]=pygame.transform.scale(pygame.image.load('satellite customisation/'+str(parts[category][l])),px(1500,1500))
     return parts
 def resize_images(parts):
     for category in parts:
@@ -395,7 +395,7 @@ def resize_buttons():
                (px(750,20),px(150,150)):[right_button,['antenna',1]],(px(750,220),px(150,150)):[right_button,['energy',1]],(px(750,420),px(150,150)):[right_button,['sensor',1]]}
     return buttons
 def resize_ok():
-    return [pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button2.png'),px(150,150))]
+    return [pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(150,150))]
 def resize_annotation():
     return {'energy':[px(330,210),pygame.transform.scale(pygame.image.load('satellite customisation/annotation1.png'),px(80,80)),px(11)],
                 'sensor':[px(330,440),pygame.transform.scale(pygame.image.load('satellite customisation/annotation2.png'),px(80,80)),px(10)],
