@@ -141,7 +141,9 @@ def menu_images():
                 pygame.transform.scale(pygame.image.load('menu/pixil-layer-1.png'),px(1066,600)),
                 pygame.transform.scale(pygame.image.load('menu/pixil-layer-2.png'),px(1066,600)),
                 pygame.transform.scale(pygame.image.load('menu/pixil-layer-3.png'),px(1066,600))]
-    return title,scientifique1, scientifique2, background
+    scientifique3=[pygame.transform.scale(pygame.image.load('menu/scientist3/scientifique femme 1.png'),px(300,300)),
+                pygame.transform.scale(pygame.image.load('menu/scientist3/scientifique femme 2.png'),px(300,300))]
+    return title,scientifique1, scientifique2, background, scientifique3
 #changer la position horizontale des scientifiques
 def move(x_scientists):
     for i in range(len(x_scientists)):
@@ -157,7 +159,7 @@ def menu():
     title_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(y=70),px(x=70))))#police du titre
     credit_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=20),px(y=20))))#police des credits
     show_play=False
-    title, scientifique0,scientifique1,background=menu_images()#charger les images
+    title, scientifique0,scientifique1,background, scientifique3=menu_images()#charger les images
     #x_scientists=[[0,random.randint(0,int(px(x=700))),1,3],[900,random.randint(0,int(px(x=900))),1,5]]
     #x_scientists=[[position, objectif, nr.image, vitesse de déplacement]]
     x_scientists=[[0,random.randint(0,int(px(x=700))),1,3],[900,random.randint(0,int(px(x=900))),1,11]]# liste des positions horizontales des scientifiques
@@ -174,8 +176,10 @@ def menu():
         if int(i)%4 and show_play:screen.blit(title_font.render("", True, txt_color), (play_button[0] + 10, play_button[1] - 5))
         else:screen.blit(title_font.render("DECOLLAGE", True, txt_color), (play_button[0] + 10, play_button[1] - 5))
 
-        screen.blit(scientifique0[x_scientists[0][2]][int(i)%3],(x_scientists[0][0],px(y=385-3+(mouse[1]/100*(3)))))
-        screen.blit(scientifique1[x_scientists[1][2]][int(i+1)%3],(x_scientists[1][0],px(y=385-20+(mouse[1]/100*(3)))))
+
+        screen.blit(scientifique3[int(i%2)], (px(x=450),px(y=362+(mouse[1]/100*(3)))))
+        screen.blit(scientifique0[x_scientists[0][2]][int(i)%3],(x_scientists[0][0],px(y=382+(mouse[1]/100*(3)))))
+        screen.blit(scientifique1[x_scientists[1][2]][int(i+1)%3],(x_scientists[1][0],px(y=365+(mouse[1]/100*(3)))))
         pygame.draw.rect(screen, (255,0,0),play_button,5,True)
         screen.blit(credit_font.render("Un jeu créé par AéroKids IPSA",True,txt_color),px(720,570))
 
@@ -197,7 +201,7 @@ def menu():
                 title_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(y=70),px(x=70))))
                 credit_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=20),px(y=20))))
                 play_button=(px(x=300),px(y=250),px(x=465),px(y=100))
-                title, scientifique0,scientifique1, background=menu_images()
+                title, scientifique0,scientifique1, background, scientifique3=menu_images()
 def mission_logos():
     comm=[pygame.transform.scale(pygame.image.load('mission chooser/satellite de communication.png'),px(200,200)),
             pygame.transform.scale(pygame.image.load('mission chooser/satellite de communication.png'),px(300,300))]
@@ -477,7 +481,104 @@ def satellite_creator():
 
     return [p['energy'][sat['energy']],p['sensor'][sat['sensor']],p['antenna'][sat['antenna']]]
 
+def load_space_velocity_assets():
+    clouds=[pygame.transform.scale(pygame.image.load('space velocity/cloud0.png'),px(200,200)),
+            pygame.transform.scale(pygame.image.load('space velocity/cloud1.png'),px(200,200)),
+            pygame.transform.scale(pygame.image.load('space velocity/cloud2.png'),px(200,200)),
+            pygame.transform.scale(pygame.image.load('space velocity/cloud3.png'),px(200,200)),
+            pygame.transform.scale(pygame.image.load('space velocity/cloud4.png'),px(200,200)),
+            pygame.transform.scale(pygame.image.load('space velocity/cloud5.png'),px(200,200))]
+    speedometer=pygame.transform.scale(pygame.image.load('space velocity/speedometer.png'),px(400,400))
+    liberation_button=[pygame.transform.scale(pygame.image.load('space velocity/lancement0.png'),px(250,250)),
+        pygame.transform.scale(pygame.image.load('space velocity/lancement1.png'),px(250,250)),
+        pygame.transform.scale(pygame.image.load('space velocity/lancement2.png'),px(250,250))]
+    return clouds, speedometer, liberation_button
+def load_space_vehicles():
+    arianeV=pygame.transform.scale(pygame.image.load('lanceur/arianeV.png'),px(400,400))
+    sls=pygame.transform.scale(pygame.image.load('lanceur/SLS.png'),px(400,400))
+    vega=pygame.transform.scale(pygame.image.load('lanceur/vega.png'),px(400,400))
+    booster_arianeV=[pygame.transform.scale(pygame.image.load('lanceur/Feu booster Ariane 1.png'),px(400,400)),
+                     pygame.transform.scale(pygame.image.load('lanceur/Feu booster Ariane 2.png'),px(400,400)),
+                     366,265]
+    booster_sls=[pygame.transform.scale(pygame.image.load('lanceur/Feu booster SLS 1.png'),px(400,400)),
+                 pygame.transform.scale(pygame.image.load('lanceur/Feu booster SLS 2.png'),px(400,400)),
+                 343,265]
+    return {'arianeV':[arianeV,booster_arianeV],'SLS':[sls, booster_sls], 'vega':[vega, booster_arianeV]}
+def second_space_velocity():
+    run=True
+    clock=pygame.time.Clock()
+    clock.tick(70)
+    clouds, speedometer, liberation_button=load_space_velocity_assets()
+    lanceur=load_space_vehicles()[check_missions[mission][2]][0]
+    booster=load_space_vehicles()[check_missions[mission][2]][1]
+    help_button=resize_help()
+    layers=[[None, [0,0], 0],]*(len(clouds)+1)
+    layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
+    time=1000
+    i=0
+    initialize=True
+    while run and state.game:
+        mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
+        clock.tick(70)#maintien 70 fps quel que soit la taille de l'écran et donc la vitesse de rafraichissement
+        i+=0.3
+        if i>= time:
+            run = False
+        screen.fill(bg_color)
+        for slots in range(len(layers)-int((i*((len(clouds)+1)//2))/time)):#diminue le nombre de nuages au fil du temps
+            if layers[slots]==[None, [0,0], 0]:
+                layers[slots]=[clouds[random.randint(0,len(clouds)-1)], [random.randint(-200,int(size.width)),random.randint(int(px(y=-200)),int(px(y=-110)))], random.randint(int(px(y=1)),int(px(y=5)))+(i%time/(time/200))]
+            else:
+                screen.blit(layers[slots][0], (layers[slots][1][0], layers[slots][1][1]))
+                if layers[slots][1][1]>=size.height+100:
+                    layers[slots]=[None, [0,0], 0]
+                if layers[slots][0]!=lanceur:
+                    layers[slots][1][1]+=layers[slots][2]
+                else:
+                    layers[slots][1][0]=px(x=350+i%3)
+                    screen.blit(booster[int(i)%2], px(booster[2]+i%3,booster[3]))
 
+        screen.blit(speedometer, px(-150,100))
+        #max 446,min 110
+        pygame.draw.rect(screen, ((0,0,0)), (px(190,495-(i*385)/time),px(56,5)))
+#775-1295
+        pos_button=px(745,200)
+        if i>(time*775)/2000 and i<(time*1295)/2000:
+            screen.blit(liberation_button[int(i/5)%2], pos_button)
+        else:
+            screen.blit(liberation_button[0], pos_button)
+
+        screen.blit(help_button[0],px(5,-50))
+        if pygame.Rect.colliderect(mouse,(px(5,-50),px(150,100))):
+            screen.blit(help_button[1],px(5,-50))
+            if pygame.mouse.get_pressed()[0]:
+                pygame.mixer.Sound.play(click)
+                help(2)
+        if pygame.Rect.colliderect(mouse,(pos_button,px(250,250))):
+            if i>(time*775)/2000 and i<(time*1295)/2000:
+                screen.blit(liberation_button[(int(i/5)%2)+1], pos_button)
+                if pygame.mouse.get_pressed()[0]:
+                    pygame.mixer.Sound.play(click)
+                    return True
+            else:
+                screen.blit(liberation_button[2], pos_button)
+                if pygame.mouse.get_pressed()[0]:
+                    pygame.mixer.Sound.play(click)
+                    run=False
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                state.game=False
+                run=False
+            elif event.type == pygame.VIDEORESIZE:
+                size.width, size.height = pygame.display.get_surface().get_size()
+                clouds, speedometer, liberation_button=load_space_velocity_assets()
+                lanceur=load_space_vehicles()[check_missions[mission][2]][0]
+                booster=load_space_vehicles()[check_missions[mission][2]][1]
+                help_button=resize_help()
+                layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
+        if initialize==True:
+            talk(txt)
+            initialize=False
 
 pygame.init()
 screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
@@ -491,9 +592,9 @@ bg_color=(173, 216, 230)
 txt_color=(0,0,0)
 
 #missions={nom de la mission:           [orbite nécessaire       , [source d'énergie    , senseur        , antenne         ]]
-check_missions={'satellite de communication': ['orbite géostationnaire', ['panneaux solaires','','grande antenne']],
-          "satellite d'observation": ['orbite basse',['générateur nucléaire','senseur optique', 'antenne moyenne']],
-            "satellite de positionnement":['orbite moyenne',['générateur nucléaire','','petite antenne']]}
+check_missions={'satellite de communication': ['orbite géostationnaire', ['panneaux solaires','','grande antenne'], 'SLS'],
+          "satellite d'observation": ['orbite basse',['générateur nucléaire','senseur optique', 'antenne moyenne'], 'vega'],
+            "satellite de positionnement":['orbite moyenne',['générateur nucléaire','','petite antenne'], 'arianeV']}
 
 menu()
 if state.game:transition(1)
@@ -504,29 +605,41 @@ if state.game:intro()
 if state.game:transition(1)
 
 #textes_erreurs={nom de la mission :          [[texte explicatif orbite],[texte explicatif composition satelllite]]
-textes_erreurs={'satellite de communication': [["Bien joué !","Un satellite de communication doit constamment être au dessus du même point","pour faciliter le calibrage des antennes relais,","c'est-à-dire a un orbite géostationnaire."],
-                                               ["Bien joué !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante, en orbite haute une source d'énergie", "présente en abondance est le rayonnement solaire."]],
+textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite de communication doit constamment être au dessus du même point", "pour faciliter le calibrage des antennes relais,", "c'est-à-dire a un orbite géostationnaire."],
+                                                  ["Bien joué !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante, en orbite haute une source d'énergie", "présente en abondance est le rayonnement solaire."],
+                                                ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
         "satellite d'observation":[["Bien joué !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
-                                    ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier,", "d'une antenne moyenne pour les transmettre en bonne qualité", "et d'une source d'énergie constante même lorsqu'il se trouve à l'ombre de la Terre."]],
+                                    ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier,", "d'une antenne moyenne pour les transmettre en bonne qualité", "et d'une source d'énergie constante même lorsqu'il se trouve à l'ombre de la Terre."],
+                                    ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
 
         "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire"],
-                                       ["Bien joué !","Un satellite de positionnement nécessite une horloge atomique","afin d'être le plus précis possible pour l'heure d'envoi du signal","et une petite antenne car les informations doivent-être envoyés rapidement"]]}
+                                       ["Bien joué !","Un satellite de positionnement nécessite une horloge atomique","afin d'être le plus précis possible pour l'heure d'envoi du signal","et une petite antenne car les informations doivent-être envoyés rapidement"],
+                                    ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]]
+                   }
 #textes_explicatifs=[[texte explicatif orbite],[texte explicatif customisation satellite]]
 textes_explicatifs=[[f"Choisi l'orbite du {mission}","L'orbite basse permet au satellite d'être au plus près de la Terre"," L'orbite moyen est idéal pour avoir une période orbitale moyenne.","En orbite géostationnaire les satellites restent au même point par rapport au sol"],
-                    ["Construis ton satellite.", "Le satellite doit pouvoir répondre aux besoins de sa mission."]]
+                    ["Construis ton satellite.", "Le satellite doit pouvoir répondre aux besoins de sa mission."],
+                    ["Libère le satellite à la bonne vitesse et au bon moment pour qu'il aille en orbite"]]
 help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \n Les satellites sont souvent déployés \n en orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \n et une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\n comme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
-           'Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \n et qu\'ils puisse transmettre une quantité de données suffisante.\n \n Il est nécessaire d\'avoir des capteurs adaptés à la mission, certains satellites ne nécessitent aucun capteur.\n\n Tout les satellites ont besoin d\'une source d\'alimentation,\nen orbit basse, les satellites sont parfois à l\'ombre de la Terre, \n ils ne peuvent donc être alimenté par des panneaux solaires.\n\n Parfois les satellites doivent-être très précis, c\'est pourquoi on utilise alors une horloge atomique,\n le \'capteur\' et la source d\'énergie sont alors les mêmes.']
+           'Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \n et qu\'ils puisse transmettre une quantité de données suffisante.\n \n Il est nécessaire d\'avoir des capteurs adaptés à la mission, certains satellites ne nécessitent aucun capteur.\n\n Tout les satellites ont besoin d\'une source d\'alimentation,\nen orbit basse, les satellites sont parfois à l\'ombre de la Terre, \n ils ne peuvent donc être alimenté par des panneaux solaires.\n\n Parfois les satellites doivent-être très précis, c\'est pourquoi on utilise alors une horloge atomique,\n le \'capteur\' et la source d\'énergie sont alors les mêmes.',
+           "La vitesse de satellisation est la vitesse que notre satellite doit atteindre pour se mettre en orbite au tour de la Terre.\n Cette vitesse doit être assez élevée pour que notre vaisseau spatial ne retombe pas sur la surface de la Terre,\n elle doit donc être supérieure à 7,8 km/s.\n \n La vitesse de libération est la vitesse que le satellite a besoin pour échapper à la gravitation de notre planète, \nelle dépend de son volume, pour la Terre, elle est de 11km/s.\n\n A noter que cette vitesse dépend des différentes planètes et de leur volume,  \nau plus elles sont volumineuses au plus la vitesse de libération sera grande." ]
 
 
 txt=textes_explicatifs[0]
 while choose_orbit()!=check_missions[mission][0] and state.game:
     txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
-talk(textes_erreurs[mission][0])
+talk(textes_fin_niveau[mission][0])
 if state.game:transition(1)
 
 txt=textes_explicatifs[1]
 while satellite_creator()!=check_missions[mission][1] and state.game:
     txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
-talk(textes_erreurs[mission][1])
+talk(textes_fin_niveau[mission][1])
+if state.game:transition(1)
+
+txt=textes_explicatifs[2]
+while second_space_velocity()!=True and state.game:
+    txt=["Raté, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
+talk(textes_fin_niveau[mission][2])
 if state.game:transition(1)
 
