@@ -2,6 +2,7 @@
 import pygame
 import math
 import random
+import os
 
 # fonction adaptant les positions en fonction de la taille de l'écran
 # (prend en argument la position x et y initial sur une taille d'écran de 1066x600)
@@ -12,8 +13,9 @@ def px(x=None,y=None):
         return (y*size.height)/600# produit en croix appelant la class size
     else:
         return ((x*size.width)/1066,(y*size.height)/600)#sinon renvoyé la nouvelle valeur de x et y
-
-
+def resize_help():
+    return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
+            pygame.transform.scale(pygame.image.load('aide/aide-2.png'),px(150,150))]
 #fonction pour chargé les sons dans le programme (appelé une seule fois)
 def load_sound():
     cl=pygame.mixer.Sound("sound/Menu Selection Click.wav")
@@ -173,8 +175,8 @@ def menu():
         for image in range(len(background)):# itérer à travers les images de l'animation
             screen.blit(background[image],px(0,-image+(mouse[1]/100*(image))))
         screen.blit(title,px(130,50))
-        if int(i)%4 and show_play:screen.blit(title_font.render("", True, txt_color), (play_button[0] + 10, play_button[1] - 5))
-        else:screen.blit(title_font.render("DECOLLAGE", True, txt_color), (play_button[0] + 10, play_button[1] - 5))
+        if int(i)%4 and show_play:screen.blit(title_font.render("", True, txt_color), (0,0))
+        else:screen.blit(title_font.render("DECOLLAGE", True, txt_color), (play_button[0] + px(x=10), play_button[1] - px(y=5)))
 
 
         screen.blit(scientifique3[int(i%2)], (px(x=450),px(y=362+(mouse[1]/100*(3)))))
@@ -283,7 +285,7 @@ def intro():
           "Alors c'est parti !!!",
           "  ( clique n'importe où )"])
 def resize_assets():
-    earth= pygame.transform.scale(pygame.image.load('orbit/earth.png'),(px(70),)*2)
+    earth= pygame.transform.scale(pygame.image.load('orbit/earth.png'),(min(px(x=70),px(y=70)),)*2)
     up_button=[pygame.transform.scale(pygame.image.load('orbit/up_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/up_button2.png'),px(150,150))]
     down_button=[pygame.transform.scale(pygame.image.load('orbit/down_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/down_button2.png'),px(150,150))]
     ok_button=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button2.png'),px(150,150))]
@@ -294,9 +296,6 @@ def point_circulaire(angle, rayon):
     y = rayon * math.sin(math.radians(angle))
 
     return x, y
-def resize_help():
-    return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
-            pygame.transform.scale(pygame.image.load('aide/aide-2.png'),px(150,150))]
 def choose_orbit():
     earth,up_button,down_button,ok_button=resize_assets()
     help_button=resize_help()
@@ -314,18 +313,18 @@ def choose_orbit():
         earth_w,earth_h=pygame.transform.rotate(earth, angle).get_size()
         for circle in orbite:
             if orbite[circle][2]==True:
-                pygame.draw.circle(screen, (105,20,14),(size.width/2,size.height/2),px(orbite[circle][0]),int(px(5)))
+                pygame.draw.circle(screen, (105,20,14),(size.width/2,size.height/2),min(px(x=orbite[circle][0]),px(y=orbite[circle][0])),int(min(px(x=5),px(y=5))))
             else:
-                 pygame.draw.circle(screen, (255,255,255),(size.width/2,size.height/2),px(orbite[circle][0]),int(px(5)))
+                 pygame.draw.circle(screen, (255,255,255),(size.width/2,size.height/2),min(px(x=orbite[circle][0]),px(y=orbite[circle][0])),int(min(px(x=5),px(y=5))))
 
         for sat in orbite:
-            x,y=point_circulaire(angle*orbite[sat][1],px(orbite[sat][0]))
+            x,y=point_circulaire(angle*orbite[sat][1],min(px(x=orbite[sat][0]),px(y=orbite[sat][0])))
             if orbite[sat][2]==True:
-                pygame.draw.circle(screen, (255,0,0),(size.width/2+x,size.height/2-y),int(px(5)),int(px(5)))
+                pygame.draw.circle(screen, (255,0,0),(size.width/2+x,size.height/2-y),int(min(px(x=5),px(y=5))),int(min(px(x=5),px(y=5))))
                 screen.blit(font.render(sat, True, (255,0,0)), (size.width/2+x+7,size.height/2-y-7,0,0))
 
             else:
-                pygame.draw.circle(screen, (0,)*3,(size.width/2+x,size.height/2-y),int(px(5)),int(px(5)))
+                pygame.draw.circle(screen, (0,)*3,(size.width/2+x,size.height/2-y),int(min(px(x=5),px(y=5))),int(min(px(x=5),px(y=5))))
 
         screen.blit(pygame.transform.rotate(earth, angle),((size.width/2)-(earth_w/2),(size.height/2)-(earth_h/2)))
 
@@ -359,7 +358,12 @@ def choose_orbit():
             screen.blit(help_button[1],px(5,-50))
             if pygame.mouse.get_pressed()[0]:
                 pygame.mixer.Sound.play(click)
-                help(0)
+                pygame.mixer.music.pause()
+                help(questions['orbite'])
+                earth,up_button,down_button,ok_button=resize_assets()
+                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                help_button=resize_help()
+                pygame.mixer.music.unpause()
         for key in orbite:
             if key==list(orbite.keys())[orbit_choice]: orbite[key][2]=True
             else: orbite[key][2]=False
@@ -379,87 +383,95 @@ def choose_orbit():
                 help_button=resize_help()
         if initialize==True:
             talk(txt)
+            earth,up_button,down_button,ok_button=resize_assets()
+            font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+            help_button=resize_help()
             initialize=False
     return list(orbite.keys())[orbit_choice]
-def convert_images(parts):
-    for category in parts:
-        for l in range(len(parts[category])):
-            parts[category][l]=pygame.transform.scale(pygame.image.load('satellite customisation/'+str(parts[category][l])),px(1500,1500))
-    return parts
-def resize_images(parts):
-    for category in parts:
-        for l in range(len(parts[category])):
-            parts[category][l]=pygame.transform.scale(parts[category][l],px(1500,1500))
-    return parts
+
+def load_images(part):
+    dir={'bottom':['satellite customisation/bottom', px(330,440)],'middle':['satellite customisation/middle', px(330,210)],'top':['satellite customisation/top', px(330,60)]}[part]
+    choices={}
+    for f in os.listdir(dir[0]):
+        if f!='annotation.png':
+            choices[f[:-4]]=pygame.transform.scale(pygame.image.load(str(dir[0])+'/'+str(f)),px(1500,1500))
+    annotation=[dir[1],pygame.transform.scale(pygame.image.load(dir[0]+'/annotation.png'),px(80,80))]
+
+    return choices, annotation
+
 def resize_buttons():
     left_button=[pygame.transform.scale(pygame.image.load('satellite customisation/left_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/left_button2.png'),px(150,150))]
     right_button=[pygame.transform.scale(pygame.image.load('satellite customisation/right_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/right_button2.png'),px(150,150))]
-    buttons = {(px(0,20),px(150,150)):[left_button,['antenna',-1]],(px(0,220),px(150,150)):[left_button,['energy',-1]],(px(0,420),px(150,150)):[left_button,['sensor',-1]],
-               (px(750,20),px(150,150)):[right_button,['antenna',1]],(px(750,220),px(150,150)):[right_button,['energy',1]],(px(750,420),px(150,150)):[right_button,['sensor',1]]}
-    return buttons
-def resize_ok():
-    return [pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(150,150))]
-def resize_annotation():
-    return {'energy':[px(330,210),pygame.transform.scale(pygame.image.load('satellite customisation/annotation1.png'),px(80,80)),px(11)],
-                'sensor':[px(330,440),pygame.transform.scale(pygame.image.load('satellite customisation/annotation2.png'),px(80,80)),px(10)],
-                'antenna':[px(330,60),pygame.transform.scale(pygame.image.load('satellite customisation/annotation1.png'),px(80,80)),px(11)]}
-
-def satellite_creator():
-
-    p = {'energy':['','panneaux solaires','générateur nucléaire'],'sensor':['','senseur optique','senseur infrarouge','propulseur'], 'antenna':['','petite antenne', 'antenne moyenne', 'grande antenne']}
-    parts = {'body':['body.png'], 'energy':['_empty.png','solar panels.png','atomic generator.png'],'sensor':['_empty.png','optic sensor.png','infrared sensor.png','small thruster.png'], 'antenna':['_empty.png','small antenna.png', 'medium antenna.png', 'big antenna.png']}
-    parts=convert_images(parts)
-    buttons=resize_buttons()
-    sat={'body':0,'energy':0,'sensor':0,'antenna':0}
-    ok_button=resize_ok()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
-    annotation=resize_annotation()
-    help_button=resize_help()
-    initialize=True
+    buttons = {(px(0,220),px(150,150)):[left_button,-1],
+               (px(750,220),px(150,150)):[right_button,1]}
+    ok=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(150,150))]
+    return buttons, ok
+def resize_past_choices(past_choices_list):
+    new_list=[]
+    body=pygame.transform.scale(pygame.image.load('satellite customisation/body.png'),px(1500,1500))
+    for image in range(len(past_choices_list)):
+        new_list.append((pygame.transform.scale(past_choices_list[image][0],px(1500,1500)), pygame.transform.scale(past_choices_list[image][1], px(80,80)),px(past_choices_list[image][2][0],past_choices_list[image][2][1]),past_choices_list[image][3]))
+    return new_list, body
+def custom(part, num):
     run=True
+    initialize=True
+    choices,annotation = load_images(part)
+    past_choices_list, body=resize_past_choices(past_choices)
+    arrow_buttons, ok_button=resize_buttons()
+    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+    help_button=resize_help()
+    index=len(choices)-1
     while run and state.game:
-        screen.fill(bg_color)
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
 
-        screen.blit(help_button[0],px(911,-50))
+        screen.fill(bg_color)
+        screen.blit(body, px(-185,-200))
+        for image in past_choices_list:
+            if image[3]!='_empty':
+                screen.blit(image[0], px(-185,-200))
+                screen.blit(image[1], image[2])
+                screen.blit(font.render(image[3], True, (0,0,0)),((image[2][0]-len(image[3])*px(x=11),image[2][1]-px(y=11)),(0,0)))
+
+        screen.blit(list(choices.values())[index], px(-185,-200))
+        if list(choices.keys())[index]!='_empty':
+            screen.blit(annotation[1], annotation[0])
+            screen.blit(font.render(list(choices.keys())[index], True, (0,0,0)),((annotation[0][0]-px(x=len(list(choices.keys())[index])*11),annotation[0][1]-px(y=11)),(0,0)))
+
+        for element in arrow_buttons:
+            screen.blit(arrow_buttons[element][0][0], element)
+        colliding=pygame.Rect.collidedict(mouse, arrow_buttons)
+        if colliding:
+            screen.blit(colliding[1][0][1], colliding[0][0])
+            if pygame.mouse.get_pressed()[0]==True:
+                if index+colliding[1][1]==len(choices):
+                    index=0
+                elif index+colliding[1][1]<0:
+                    index=len(choices)-1
+                else:index+=colliding[1][1]
+                pygame.mixer.Sound.play(click)
+                pygame.time.wait(200)
+
+        screen.blit(help_button[0],px(5,-50))
         screen.blit(ok_button[0],px(900,420))
         if pygame.Rect.colliderect(mouse,(px(900,420),px(150,150))):
             screen.blit(ok_button[1],px(900,420))
             if pygame.mouse.get_pressed()[0]==True:
                 pygame.mixer.Sound.play(click)
+                pygame.time.wait(200)
                 run=False
-        elif pygame.Rect.colliderect(mouse,(px(911,-50),px(150,100))):
-            screen.blit(help_button[1],px(911,-50))
+        elif pygame.Rect.colliderect(mouse,(px(5,-50),px(150,100))):
+            screen.blit(help_button[1],px(5,-50))
             if pygame.mouse.get_pressed()[0]:
                 pygame.mixer.Sound.play(click)
-                help(1)
-
-        for element in sat:
-            screen.blit(parts[element][sat[element]], px(-185,-200))
-
-        for element in annotation:
-            if p[element][sat[element]]!='':
-                screen.blit(annotation[element][1], annotation[element][0])
-                if p[element][sat[element]] in check_missions[mission][1]:
-                    #(2,107,2)
-                    screen.blit(font.render(p[element][sat[element]], True, txt_color),(((annotation[element][0][0]-(len(p[element][sat[element]])*annotation[element][2]),annotation[element][0][1]-annotation[element][2])),(0,0)))
-                else: screen.blit(font.render(p[element][sat[element]], True, txt_color),(((annotation[element][0][0]-(len(p[element][sat[element]])*annotation[element][2]),annotation[element][0][1]-annotation[element][2])),(0,0)))
-
-
-        for pos in buttons:
-            screen.blit(buttons[pos][0][0], (pos[0][0],pos[0][1]))
-
-        colliding=pygame.Rect.collidedict(mouse, buttons)
-        if colliding:
-            screen.blit(buttons[colliding[0]][0][1], colliding[0][0])
-            if pygame.mouse.get_pressed()[0] == True:
-                pygame.mixer.Sound.play(click)
-                if sat[buttons[colliding[0]][1][0]]+buttons[colliding[0]][1][1]<0:
-                    sat[buttons[colliding[0]][1][0]]=len(parts[buttons[colliding[0]][1][0]])-1
-                elif sat[buttons[colliding[0]][1][0]]+buttons[colliding[0]][1][1]>len(parts[buttons[colliding[0]][1][0]])-1:
-                    sat[buttons[colliding[0]][1][0]]=0
-                else: sat[buttons[colliding[0]][1][0]]+=buttons[colliding[0]][1][1]
                 pygame.time.wait(200)
+                pygame.mixer.music.pause()
+                help(num)
+                help_button=resize_help()
+                choices, annotation = load_images(part)
+                past_choices_list, body=resize_past_choices(past_choices)
+                arrow_buttons, ok_button=resize_buttons()
+                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                pygame.mixer.music.unpause()
 
         pygame.display.update()
         for event in pygame.event.get():
@@ -469,18 +481,20 @@ def satellite_creator():
                 quit()
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
-                parts=resize_images(parts)
-                buttons=resize_buttons()
-                ok_button=resize_ok()
-                annotation=resize_annotation()
                 help_button=resize_help()
+                choices, annotation = load_images(part)
+                past_choices_list, body=resize_past_choices(past_choices)
+                arrow_buttons, ok_button=resize_buttons()
                 font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
         if initialize==True:
-            initialize=False
             talk(txt)
-
-    return [p['energy'][sat['energy']],p['sensor'][sat['sensor']],p['antenna'][sat['antenna']]]
-
+            help_button=resize_help()
+            choices, annotation = load_images(part)
+            past_choices_list, body=resize_past_choices(past_choices)
+            arrow_buttons, ok_button=resize_buttons()
+            font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+            initialize=False
+    return list(choices.keys())[index]
 def load_space_velocity_assets():
     clouds=[pygame.transform.scale(pygame.image.load('space velocity/cloud0.png'),px(200,200)),
             pygame.transform.scale(pygame.image.load('space velocity/cloud1.png'),px(200,200)),
@@ -509,8 +523,9 @@ def second_space_velocity():
     clock=pygame.time.Clock()
     clock.tick(70)
     clouds, speedometer, liberation_button=load_space_velocity_assets()
-    lanceur=load_space_vehicles()[check_missions[mission][2]][0]
-    booster=load_space_vehicles()[check_missions[mission][2]][1]
+    rocket_sound=pygame.mixer.Sound("space velocity/Rocket-SoundBible.com-941967813.mp3")
+    lanceur=load_space_vehicles()[check_missions[mission][4]][0]
+    booster=load_space_vehicles()[check_missions[mission][4]][1]
     help_button=resize_help()
     layers=[[None, [0,0], 0],]*(len(clouds)+1)
     layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
@@ -552,17 +567,27 @@ def second_space_velocity():
             screen.blit(help_button[1],px(5,-50))
             if pygame.mouse.get_pressed()[0]:
                 pygame.mixer.Sound.play(click)
-                help(2)
+                pygame.mixer.music.pause()
+                help(questions['velocity'])
+                clouds, speedometer, liberation_button=load_space_velocity_assets()
+                lanceur=load_space_vehicles()[check_missions[mission][4]][0]
+                booster=load_space_vehicles()[check_missions[mission][4]][1]
+                help_button=resize_help()
+                layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
+                pygame.mixer.music.unpause()
         if pygame.Rect.colliderect(mouse,(pos_button,px(250,250))):
             if i>(time*775)/2000 and i<(time*1295)/2000:
                 screen.blit(liberation_button[(int(i/5)%2)+1], pos_button)
                 if pygame.mouse.get_pressed()[0]:
+                    pygame.mixer.music.stop()
                     pygame.mixer.Sound.play(click)
                     return True
             else:
                 screen.blit(liberation_button[2], pos_button)
                 if pygame.mouse.get_pressed()[0]:
+                    pygame.mixer.music.stop()
                     pygame.mixer.Sound.play(click)
+                    pygame.time.wait(200)
                     run=False
         pygame.display.update()
         for event in pygame.event.get():
@@ -572,12 +597,19 @@ def second_space_velocity():
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 clouds, speedometer, liberation_button=load_space_velocity_assets()
-                lanceur=load_space_vehicles()[check_missions[mission][2]][0]
-                booster=load_space_vehicles()[check_missions[mission][2]][1]
+                lanceur=load_space_vehicles()[check_missions[mission][4]][0]
+                booster=load_space_vehicles()[check_missions[mission][4]][1]
                 help_button=resize_help()
                 layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
         if initialize==True:
             talk(txt)
+            pygame.mixer.music.load("space velocity/Rocket-SoundBible.com-941967813.mp3")
+            pygame.mixer.music.play(1)
+            clouds, speedometer, liberation_button=load_space_velocity_assets()
+            lanceur=load_space_vehicles()[check_missions[mission][4]][0]
+            booster=load_space_vehicles()[check_missions[mission][4]][1]
+            help_button=resize_help()
+            layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
             initialize=False
 
 pygame.init()
@@ -592,54 +624,86 @@ bg_color=(173, 216, 230)
 txt_color=(0,0,0)
 
 #missions={nom de la mission:           [orbite nécessaire       , [source d'énergie    , senseur        , antenne         ]]
-check_missions={'satellite de communication': ['orbite géostationnaire', ['panneaux solaires','','grande antenne'], 'SLS'],
-          "satellite d'observation": ['orbite basse',['générateur nucléaire','senseur optique', 'antenne moyenne'], 'vega'],
-            "satellite de positionnement":['orbite moyenne',['générateur nucléaire','','petite antenne'], 'arianeV']}
+check_missions={'satellite de communication': ['orbite géostationnaire', 'panneaux solaires','_empty','grande antenne', 'SLS'],
+          "satellite d'observation": ['orbite basse','générateur nucléaire','senseur optique', 'antenne moyenne', 'vega'],
+            "satellite de positionnement":['orbite moyenne','générateur nucléaire','_empty','petite antenne', 'arianeV']}
 
 menu()
 if state.game:transition(1)
 #ne pas expliquer mauvais choix mais expliquer bon choix
 mission=mission_chooser()
 if state.game:transition(1)
+'''
 if state.game:intro()
 if state.game:transition(1)
-
+'''
 #textes_erreurs={nom de la mission :          [[texte explicatif orbite],[texte explicatif composition satelllite]]
 textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite de communication doit constamment être au dessus du même point", "pour faciliter le calibrage des antennes relais,", "c'est-à-dire a un orbite géostationnaire."],
-                                                  ["Bien joué !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante, en orbite haute une source d'énergie", "présente en abondance est le rayonnement solaire."],
-                                                ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
+                                                  ["Bien joué !","En orbite haute une source d'énergie présente en abondance"," est le rayonnement solaire."],
+                                                  ["Bien joué !","Un satellite de communication n'a besoin d'aucun senseur car,","il ne transmet que les informations captés par son antenne"],
+                                                  ["Bien joué !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante."],
+                                                  ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
         "satellite d'observation":[["Bien joué !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
-                                    ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier,", "d'une antenne moyenne pour les transmettre en bonne qualité", "et d'une source d'énergie constante même lorsqu'il se trouve à l'ombre de la Terre."],
+                                   ["Bien joué !","Un satellite d'observation a besoin d'une source d'énergie constante,","même lorsqu'il se trouve à l'ombre de la Terre."],
+                                    ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier","la Terre"],
+                                    ["Bien joué !","Une antenne moyenne permet de transmettre les images en bonne qualité"],
                                     ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
 
         "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire"],
-                                       ["Bien joué !","Un satellite de positionnement nécessite une horloge atomique","afin d'être le plus précis possible pour l'heure d'envoi du signal","et une petite antenne car les informations doivent-être envoyés rapidement"],
-                                    ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]]
+                                       ["Bien joué !","Un satellite de positionnement nécessite une horloge atomique","afin d'être le plus précis possible pour l'heure d'envoi du signal"],
+                                       ["Bien joué !","Un satellite de positionnement n'a besoin d'aucun capteur car","sa source d'énergie est son capteur"],
+                                       ["Bien joué !","Un satellite de positionnement doit se contenter d'une petite antenne car","les informations doivent-être envoyés rapidement"],
+                                        ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide ou elle sortirait de l'orbite terrestre."]]
                    }
 #textes_explicatifs=[[texte explicatif orbite],[texte explicatif customisation satellite]]
 textes_explicatifs=[[f"Choisi l'orbite du {mission}","L'orbite basse permet au satellite d'être au plus près de la Terre"," L'orbite moyen est idéal pour avoir une période orbitale moyenne.","En orbite géostationnaire les satellites restent au même point par rapport au sol"],
-                    ["Construis ton satellite.", "Le satellite doit pouvoir répondre aux besoins de sa mission."],
+                    ["Construis ton satellite.", "Choisis la source d'énergie adéquate."],
+                    ["Construis ton satellite.", "Choisis le senseur adapté.", "Il est possible qu'il n'y ais besoin d'aucun senseur"],
+                    ["Construis ton satellite.", "Choisis le bon moyen de communication", "Il est possible qu'il n'y ais besoin d'aucun moyen de communication"],
                     ["Libère le satellite à la bonne vitesse et au bon moment pour qu'il aille en orbite"]]
-help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \n Les satellites sont souvent déployés \n en orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \n et une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\n comme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
-           'Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \n et qu\'ils puisse transmettre une quantité de données suffisante.\n \n Il est nécessaire d\'avoir des capteurs adaptés à la mission, certains satellites ne nécessitent aucun capteur.\n\n Tout les satellites ont besoin d\'une source d\'alimentation,\nen orbit basse, les satellites sont parfois à l\'ombre de la Terre, \n ils ne peuvent donc être alimenté par des panneaux solaires.\n\n Parfois les satellites doivent-être très précis, c\'est pourquoi on utilise alors une horloge atomique,\n le \'capteur\' et la source d\'énergie sont alors les mêmes.',
-           "La vitesse de satellisation est la vitesse que notre satellite doit atteindre pour se mettre en orbite au tour de la Terre.\n Cette vitesse doit être assez élevée pour que notre vaisseau spatial ne retombe pas sur la surface de la Terre,\n elle doit donc être supérieure à 7,8 km/s.\n \n La vitesse de libération est la vitesse que le satellite a besoin pour échapper à la gravitation de notre planète, \nelle dépend de son volume, pour la Terre, elle est de 11km/s.\n\n A noter que cette vitesse dépend des différentes planètes et de leur volume,  \nau plus elles sont volumineuses au plus la vitesse de libération sera grande." ]
+help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \nLes satellites sont souvent déployés \nen orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \net une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
+           'Tout les satellites ont besoin d\'une source d\'alimentation,\nen orbite basse, les satellites sont parfois à l\'ombre de la Terre, \nils ne peuvent donc être alimenté par des panneaux solaires.\n\nParfois les satellites doivent-être très précis, c\'est pourquoi on utilise alors une horloge atomique,\nle \'capteur\' et la source d\'énergie sont alors les mêmes.',
+           'Il est nécessaire d\'avoir des capteurs adaptés à la mission, certains satellites ne nécessitent aucun capteur.',
+           "Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \net qu\'ils puisse transmettre une quantité de données suffisante.",
+           "La vitesse de satellisation est la vitesse que notre satellite doit atteindre \npour se mettre en orbite au tour de la Terre.\nCette vitesse doit être assez élevée pour que notre vaisseau spatial ne retombe pas sur la surface de la Terre,\nelle doit donc être supérieure à 7,8 km/s.\n \nLa vitesse de libération est la vitesse que le satellite a besoin pour échapper à la gravitation de notre planète, \nelle dépend de son volume, pour la Terre, elle est de 11km/s.\n\nA noter que cette vitesse dépend des différentes planètes et de leur volume,  \nau plus elles sont volumineuses au plus la vitesse de libération sera grande." ]
 
-
-txt=textes_explicatifs[0]
-while choose_orbit()!=check_missions[mission][0] and state.game:
+questions={'orbite':0,'custom_middle':1, 'custom_bottom':2, 'custom_top':3, 'velocity':4}
+txt=textes_explicatifs[questions['orbite']]
+while choose_orbit()!=check_missions[mission][questions['orbite']] and state.game:
     txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
-talk(textes_fin_niveau[mission][0])
+talk(textes_fin_niveau[mission][questions['orbite']])
 if state.game:transition(1)
-
+'''
 txt=textes_explicatifs[1]
 while satellite_creator()!=check_missions[mission][1] and state.game:
     txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
 talk(textes_fin_niveau[mission][1])
 if state.game:transition(1)
+'''
+past_choices=[]
 
-txt=textes_explicatifs[2]
+txt=textes_explicatifs[questions['custom_middle']]
+while state.game and custom('middle',questions['custom_middle'])!=check_missions[mission][questions['custom_middle']]:
+    txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
+talk(textes_fin_niveau[mission][questions['custom_middle']])
+past_choices.append((pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), pygame.image.load('satellite customisation/middle/annotation.png'), (330,210), check_missions[mission][questions['custom_middle']]))
+
+txt=textes_explicatifs[questions['custom_bottom']]
+while state.game and custom('bottom',questions['custom_bottom'])!=check_missions[mission][questions['custom_bottom']]:
+    txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse.", "Il est possible qu'il ne faille rien mettre"]
+talk(textes_fin_niveau[mission][questions['custom_bottom']])
+past_choices.append((pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), pygame.image.load('satellite customisation/bottom/annotation.png'), (330,440), check_missions[mission][questions['custom_bottom']]))
+
+txt=textes_explicatifs[questions['custom_top']]
+while state.game and custom('top',questions['custom_top'])!=check_missions[mission][questions['custom_top']]:
+    txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse.", "Il est possible qu'il ne faille rien mettre"]
+talk(textes_fin_niveau[mission][questions['custom_top']])
+past_choices.append((pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), pygame.image.load('satellite customisation/top/annotation.png'), (330,60), check_missions[mission][questions['custom_top']]))
+if state.game:transition(1)
+
+txt=textes_explicatifs[questions['velocity']]
 while second_space_velocity()!=True and state.game:
     txt=["Raté, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
-talk(textes_fin_niveau[mission][2])
+talk(textes_fin_niveau[mission][questions['velocity']])
 if state.game:transition(1)
 
