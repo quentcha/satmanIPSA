@@ -332,6 +332,7 @@ def choose_orbit():
         screen.blit(down_button[0],px(900,250))
         screen.blit(up_button[0],px(900,50))
         screen.blit(ok_button[0],px(900,420))
+        
         if pygame.Rect.colliderect(mouse,(px(900,50),px(150,150))):
             screen.blit(up_button[1],px(900,50))
             if pygame.mouse.get_pressed()[0]==True:
