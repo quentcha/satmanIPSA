@@ -116,7 +116,6 @@ def talk(txt):
             for event in pygame.event.get():
                     if event.type == pygame.QUIT:# si le programme est fermé
                         state.game=False# mettre à jour la class
-                        quit()
         #le joueur a cliquer donc quitter le dialogue
         return
 
@@ -249,7 +248,6 @@ def mission_chooser():
             if event.type == pygame.QUIT:
                 state.game=False
                 run=False
-                quit()
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 title=pygame.font.Font('Grand9K Pixel.ttf', int(px(60)))
@@ -380,7 +378,6 @@ def choose_orbit():
             if event.type == pygame.QUIT:
                 run=False
                 state.game=False
-                quit()
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 earth,up_button,down_button,ok_button=resize_assets()
@@ -483,7 +480,6 @@ def custom(part, num):
             if event.type == pygame.QUIT:
                 run=False
                 state.game=False
-                quit()
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 help_button=resize_help()
@@ -701,7 +697,6 @@ def earth_map():
             if event.type == pygame.QUIT:
                 run = False
                 state.game = False
-                pygame.quit()
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 earth, up_button, down_button, ok_button = resize_earth_map_assets()
@@ -752,7 +747,7 @@ def mission_order():
         screen.blit(map[0], px(500,300))
         pygame.draw.rect(screen,(0,0,0),(px(500,320),px(300,190)),int(min(px(x=5),px(y=5))))
         pygame.draw.rect(screen,bg_color,(px(470,290),px(360,250)),int(max(px(x=30),px(y=30))))
-        pygame.draw.circle(screen,(255,0,0),px(600,420),px(5),5)
+        pygame.draw.circle(screen,(255,0,0),px(600,420),px(5),int(px(5)))
         screen.blit(font.render("Kourou",True,(0,0,0)),px(600,510))
 
         screen.blit(ok_button[0], px(10, 390))
@@ -768,7 +763,6 @@ def mission_order():
             if event.type == pygame.QUIT:
                 run = False
                 state.game = False
-                pygame.quit()
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 rocket, sat,earth, map, ok_button=mission_order_assets()
@@ -790,18 +784,16 @@ def credit_assets():
     logo_ipsa=pygame.transform.scale(pygame.image.load('credits/ipsa.png'),px(400,400))
     logo_git=pygame.transform.scale(pygame.image.load('credits/github.png'),px(150,100))
     txt=pygame.transform.scale(pygame.image.load('credits/texte.png'),px(520,125))
+    title=pygame.transform.scale(pygame.image.load('menu/title.png'),px(400,400))
     share=[pygame.transform.scale(pygame.image.load('credits/partage0.png'),px(800,800)), pygame.transform.scale(pygame.image.load('credits/partage1.png'),px(800,800))]
-    return replay,quit, sat, logo_ipsa, logo_git,share,txt
+    return replay,quit, sat, logo_ipsa, logo_git,share,txt,title
 
 def credits():
-    replay,quit,sat, logo_ipsa, logo_git,share,texte_missions=credit_assets()
-    txt=['',
-         '',
-         '',
-         '',
-         '',
+    replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title=credit_assets()
+    txt=[title,
          'FELICITATION',
-         'TU AS COMPLETE LE JEU',
+         'TU AS COMPLETE LA MISSION',
+         mission.upper()+ ' !',
          '',
          '',
          '',
@@ -841,7 +833,7 @@ def credits():
     stars=[]
     for star in range(100):
         stars.append((random.randint(0,int(size.width)),random.randint(0,int(size.height))))
-    start,y=10,10
+    start,y=300,10
     j=0
     clock=pygame.time.Clock()
     pygame.time.wait(200)
@@ -858,11 +850,11 @@ def credits():
             y=start
             for line in range(len(txt)):
                 if type(txt[line])==type(''):
-                    x=(px(x=650)//2)-(font.size(txt[line])[0]//2)
+                    x=(px(x=1066)-(px(x=1066)//4))-(font.size(txt[line])[0]//2)
                     screen.blit(font.render(txt[line],True,(255,255,255)),(x,y))
                     y+=2*font_size
                 else:
-                    x=(px(x=650)//2)-(txt[line].get_width()//2)
+                    x=(px(x=1066)-(px(x=1066)//4))-(txt[line].get_width()//2)
                     screen.blit(txt[line],(x,y))
                     y+=txt[line].get_height()
         if int(i%2):
@@ -870,25 +862,25 @@ def credits():
             start-=(font_size)//2
 
 
-        if pygame.Rect.colliderect(mouse,(px(650,150), px(400,100))):
-            if int(j)%2: screen.blit(replay[1],px(650,150))
-            else:screen.blit(replay[0],px(650,150))
+        if pygame.Rect.colliderect(mouse,(px(10,150), px(400,100))):
+            if int(j)%2: screen.blit(replay[1],px(10,150))
+            else:screen.blit(replay[0],px(10,150))
             if pygame.mouse.get_pressed()[0]==True:
                 pygame.time.wait(200)
                 run=False
-        else:screen.blit(replay[0],px(650,150))
+        else:screen.blit(replay[0],px(10,150))
 
-        if pygame.Rect.colliderect(mouse,(px(650,300), px(400,100))):
-            if int(j%2): screen.blit(quit[1],px(650,300))
-            else:screen.blit(quit[0],px(650,300))
+        if pygame.Rect.colliderect(mouse,(px(10,300), px(400,100))):
+            if int(j%2): screen.blit(quit[1],px(10,300))
+            else:screen.blit(quit[0],px(10,300))
             if pygame.mouse.get_pressed()[0]==True:
                 pygame.time.wait(200)
                 run=False
                 state.game=False
-        else:screen.blit(quit[0],px(650,300))
+        else:screen.blit(quit[0],px(10,300))
 
-        screen.blit(texte_missions, px(650,50))
-        screen.blit(share[int(j%2)], px(650,450))
+        screen.blit(texte_missions, px(10,50))
+        screen.blit(share[int(j%2)], px(10,450))
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -898,13 +890,14 @@ def credits():
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 font_size=int(min(px(x=25),px(y=25)))
-                replay,quit,sat, logo_ipsa, logo_git,share,texte_missions=credit_assets()
+                replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title=credit_assets()
                 font = pygame.font.Font('Grand9K Pixel.ttf', font_size)
                 stars=[]
                 for star in range(100):
                     stars.append((random.randint(0,int(size.width)),random.randint(0,int(size.height))))
 pygame.init()
 screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
+pygame.display.set_icon(pygame.image.load('SATMAN logo.ico'))
 class state:
     game=True
 class size:
@@ -919,6 +912,7 @@ check_missions={'satellite de communication': ['orbite géostationnaire','Kourou
           "satellite d'observation": ['orbite basse','Kourou','générateur nucléaire','senseur optique', 'antenne moyenne','None', 'vega'],
             "satellite de positionnement":['orbite moyenne','Kourou','générateur nucléaire','_empty','petite antenne','None', 'arianeV']}
 
+
 menu()
 if state.game:transition(1)
 
@@ -932,14 +926,14 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite
                                                   ["Bien joué !","Un satellite de communication n'a besoin d'aucun senseur car,","il ne transmet que les informations captés par son antenne"],
                                                   ["Bien joué !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante."],
                                                   ["Très bien alors on peux procéder au décollage !"],
-                                                  ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
+                                                  ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
         "satellite d'observation":[["Bien joué !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
                                    ["Bien joué !","Kourou, est, parmi les propositions","le meilleur site de lancement pour","  profiter de l'effet de fronde."],
                                    ["Bien joué !","Un satellite d'observation a besoin d'une source d'énergie constante,","même lorsqu'il se trouve à l'ombre de la Terre."],
                                     ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier","la Terre"],
                                     ["Bien joué !","Une antenne moyenne permet de transmettre les images en bonne qualité"],
                                    ["Très bien alors on peux procéder au décollage !"],
-                                    ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
+                                    ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
 
         "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire"],
                                        ["Bien joué !","Kourou, est, parmi les propositions","le meilleur site de lancement pour","  profiter de l'effet de fronde."],
@@ -947,7 +941,7 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite
                                        ["Bien joué !","Un satellite de positionnement n'a besoin d'aucun capteur car","sa source d'énergie est son capteur"],
                                        ["Bien joué !","Un satellite de positionnement doit se contenter d'une petite antenne car","les informations doivent-être envoyés rapidement"],
                                        ["Très bien alors on peux procéder au décollage !"],
-                                        ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 11km/s.","Mais la fusée ne doit pas être trop rapide ou elle sortirait de l'orbite terrestre."]]
+                                        ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide ou elle sortirait de l'orbite terrestre."]]
                    }
 
 
@@ -970,6 +964,7 @@ help_text=["Les satellites sont généralement placés en orbite géostationnair
 
 questions={'orbite':0,'map':1,'custom_middle':2, 'custom_bottom':3, 'custom_top':4,'mission_order':5, 'velocity':6}
 while state.game:
+
     mission=mission_chooser()
     if state.game:transition(1)
 
@@ -1019,3 +1014,5 @@ while state.game:
     if state.game: credits()
     if state.game:transition(1)
 
+
+pygame.quit()

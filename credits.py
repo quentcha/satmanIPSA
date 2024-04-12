@@ -19,19 +19,16 @@ def credit_assets():
     logo_ipsa=pygame.transform.scale(pygame.image.load('credits/ipsa.png'),px(400,400))
     logo_git=pygame.transform.scale(pygame.image.load('credits/github.png'),px(150,100))
     txt=pygame.transform.scale(pygame.image.load('credits/texte.png'),px(520,125))
+    title=pygame.transform.scale(pygame.image.load('menu/title.png'),px(400,400))
     share=[pygame.transform.scale(pygame.image.load('credits/partage0.png'),px(800,800)), pygame.transform.scale(pygame.image.load('credits/partage1.png'),px(800,800))]
-    return replay,quit, sat, logo_ipsa, logo_git,share,txt
+    return replay,quit, sat, logo_ipsa, logo_git,share,txt,title
 
 def credits():
-    replay,quit,sat, logo_ipsa, logo_git,share,texte_missions=credit_assets()
-    txt=['',
-         '',
-         '',
-         '',
-         '',
+    replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title=credit_assets()
+    txt=[title,
          'FELICITATION',
-         'TU AS COMPLETE LE JEU',
-         '',
+         'TU AS COMPLETE LA MISSION',
+         mission.upper()+ ' !',
          '',
          '',
          '',
@@ -74,7 +71,7 @@ def credits():
     stars=[]
     for star in range(100):
         stars.append((random.randint(0,int(size.width)),random.randint(0,int(size.height))))
-    start,y=10,10
+    start,y=300,10
     j=0
     clock=pygame.time.Clock()
     while run and state.game:
@@ -179,7 +176,7 @@ def credits():
                 font_size=int(min(px(x=25),px(y=25)))
                 sat_pos=(0,0)
                 sat_dir=(0,-1)
-                replay,quit,sat, logo_ipsa, logo_git,share,texte_missions=credit_assets()
+                replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title=credit_assets()
                 button_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=50),px(y=50))))
                 font = pygame.font.Font('Grand9K Pixel.ttf', font_size)
                 stars=[]
