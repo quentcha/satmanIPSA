@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Apr 12 14:23:42 2024
+
+@author: stric
+"""
+
+
+
 #ajouter tick vert pour satellite creator et une aide qui explique les différents choix et la mission
 import pygame
 import math
