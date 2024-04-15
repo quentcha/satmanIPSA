@@ -92,9 +92,9 @@ def talk(txt):
             written.append("")
             for letter in range(len(txt[paragraph])):#afficher chaque letter
                 written[paragraph]=written[paragraph]+txt[paragraph][letter]#ajouter cette lettre au texte d"jà écrit
-                screen.blit(talking_frames[(letter%6)//3], (px(0,390),(0,0)))#avancer d'une image dans l'animation du scientifique qui parle
+                screen.blit(talking_frames[(letter%6)//3], (px(0,393),(0,0)))#avancer d'une image dans l'animation du scientifique qui parle
                 for line in range(len(written)):#affiche les lignes déjà écrites
-                    screen.blit(font.render(written[line], True, txt_color), (px(140,450+(line*30)),(0,0)))
+                    screen.blit(font.render(written[line], True, txt_color), (px(140,453+(line*30)),(0,0)))
                     pygame.display.update()
                 #si un clique est enregistré et que l'on est pas à la fin du texte alors accéléré la vitesse d'affichage
                 if pygame.mouse.get_pressed()[0]==True and len(written)+len(written[-1])!=len(txt)+len(txt[-1]):pygame.time.wait(10)
@@ -511,7 +511,7 @@ def load_space_velocity_assets():
     return clouds, speedometer, liberation_button
 def load_space_vehicles():
     arianeV=pygame.transform.scale(pygame.image.load('lanceur/arianeV.png'),px(400,400))
-    sls=pygame.transform.scale(pygame.image.load('lanceur/SLS.png'),px(400,400))
+    space_shuttle=pygame.transform.scale(pygame.image.load('lanceur/space shuttle.png'),px(400,400))
     vega=pygame.transform.scale(pygame.image.load('lanceur/vega.png'),px(400,400))
     booster_arianeV=[pygame.transform.scale(pygame.image.load('lanceur/Feu booster Ariane 1.png'),px(400,400)),
                      pygame.transform.scale(pygame.image.load('lanceur/Feu booster Ariane 2.png'),px(400,400)),
@@ -519,7 +519,7 @@ def load_space_vehicles():
     booster_sls=[pygame.transform.scale(pygame.image.load('lanceur/Feu booster SLS 1.png'),px(400,400)),
                  pygame.transform.scale(pygame.image.load('lanceur/Feu booster SLS 2.png'),px(400,400)),
                  343,265]
-    return {'arianeV':[arianeV,booster_arianeV],'SLS':[sls, booster_sls], 'vega':[vega, booster_arianeV]}
+    return {'arianeV':[arianeV,booster_arianeV],'space shuttle':[space_shuttle, booster_sls], 'vega':[vega, booster_arianeV]}
 def second_space_velocity():
     run=True
     clock=pygame.time.Clock()
@@ -626,6 +626,7 @@ def earth_map():
     run = True
     help_button=resize_help()
     locations = {'Kourou':[(335, 305), False],
+                 'Florida':[(280, 240), False],
                  'Pôle Nord':[(400,100), False],
                  'Toulouse':[(470, 190), True],
                  'Himalaya':[(630, 230), False]}
@@ -689,6 +690,7 @@ def earth_map():
         if pygame.Rect.colliderect(mouse,(px(5,-50),px(150,100))):
             screen.blit(help_button[1],px(5,-50))
             if pygame.mouse.get_pressed()[0]:
+                pygame.mixer.Sound.play(click)
                 help(questions['map'])
                 earth, up_button, down_button, ok_button = resize_earth_map_assets()
                 font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
@@ -728,13 +730,14 @@ def mission_order():
     rocket, sat,earth, map, ok_button=mission_order_assets()
     font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=25),px(y=25))))
     initialize=True
+    map_pos={'Kourou':(600,420), 'Florida':(565,390)}
     while run and state.game:
         screen.fill(bg_color)
 
         screen.blit(font.render("MISSION : "+mission,True,(0,0,0)),px(10,10))
 
         screen.blit(rocket[0],px(700,40))
-        screen.blit(font.render((check_missions[mission][questions['velocity']]).upper(),True,(0,0,0)),px(850,5))
+        screen.blit(font.render((check_missions[mission][questions['velocity']]).upper(),True,(0,0,0)),px(840,5))
 
         pygame.draw.line(screen,(0,0,0),px(800,150),px(900,150),5)
         for im in range(len(sat)):
@@ -748,8 +751,8 @@ def mission_order():
         screen.blit(map[0], px(500,300))
         pygame.draw.rect(screen,(0,0,0),(px(500,320),px(300,190)),int(min(px(x=5),px(y=5))))
         pygame.draw.rect(screen,bg_color,(px(470,290),px(360,250)),int(max(px(x=30),px(y=30))))
-        pygame.draw.circle(screen,(255,0,0),px(600,420),px(5),int(px(5)))
-        screen.blit(font.render("Kourou",True,(0,0,0)),px(600,510))
+        pygame.draw.circle(screen,(255,0,0),px(map_pos[check_missions[mission][questions['map']]][0],map_pos[check_missions[mission][questions['map']]][1]),px(5),int(px(5)))
+        screen.blit(font.render(check_missions[mission][questions['map']],True,(0,0,0)),px(600,510))
 
         screen.blit(ok_button[0], px(10, 390))
         mouse = pygame.Rect(pygame.mouse.get_pos(), (20, 20))
@@ -807,7 +810,7 @@ def credits():
          'PARTICIPANTS :',
          '',
          'Professeur Referent : ',
-         'M.BOSS',
+         'M.BOS',
           '',
           'Chef du projet SATMAN : ',
           'Pierre GAUTRON',
@@ -896,6 +899,120 @@ def credits():
                 stars=[]
                 for star in range(100):
                     stars.append((random.randint(0,int(size.width)),random.randint(0,int(size.height))))
+def load_rockets():
+    rockets={'arianeV':pygame.transform.scale(pygame.image.load('lanceur/arianeV.png'),px(550,550))
+                ,'SLS':pygame.transform.scale(pygame.image.load('lanceur/SLS.png'),px(550,550))
+                ,'vega':pygame.transform.scale(pygame.image.load('lanceur/vega.png'),px(550,550)),
+             'space shuttle':pygame.transform.scale(pygame.image.load('lanceur/space shuttle.png'), px(550, 550)),
+             'soyuz':pygame.transform.scale(pygame.image.load('lanceur/soyuz.png'), px(550, 550))}
+
+
+    up_button = [pygame.transform.scale(pygame.image.load('orbit/up_button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('orbit/up_button2.png'), px(150, 150))]
+    down_button = [pygame.transform.scale(pygame.image.load('orbit/down_button1.png'), px(150, 150)),
+                   pygame.transform.scale(pygame.image.load('orbit/down_button2.png'), px(150, 150))]
+    ok_button = [pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'), px(150, 150))]
+    return rockets,up_button,down_button,ok_button
+
+def rocket_choice():
+    run=True
+    index=0
+    txt_size=20
+    initialize=True
+
+    help_button=resize_help()
+    rockets,up_button,down_button,ok_button=load_rockets()
+    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+
+    stats={'arianeV':{"Nom":"Ariane V","Agence Spatiale":"ESA","Capacité d'emport en LEO (en tonnes)":[10.35,24],"Capacité d'emport en GTO (en tonnes)":[5,5],"Fiabilité (en %)":[95.7,100],"Réutilisable":'non'},
+    'SLS':{"Nom":"Space Launch System (SLS)","Agence Spatiale":"NASA","Capacité d'emport en LEO (en tonnes)":[9,24],"Capacité d'emport en GTO (en tonnes)":[3,5],"Fiabilité (en %)":'inconnu',"Réutilisable":'non'},
+    'vega':{"Nom":"Vega","Agence Spatiale":"ESA","Capacité d'emport en LEO (en tonnes)":[2.3,24],"Capacité d'emport en GTO (en tonnes)":[1.5,5],"Fiabilité (en %)":[98,100],"Réutilisable":'non'},
+    'space shuttle':{"Nom":"Navette Spatiale","Agence Spatiale":"NASA","Capacité d'emport en LEO (en tonnes)":[24,24],"Capacité d'emport en GTO (en tonnes)":[5,5],"Fiabilité (en %)":[75,100],"Réutilisable":'non'},
+    'soyuz':{"Nom":"Soyuz","Agence Spatiale":"ROSCOSMOS","Capacité d'emport en LEO (en tonnes)":[7,24],"Capacité d'emport en GTO (en tonnes)":[2.8,5],"Fiabilité (en %)":[98,100],"Réutilisable":'non'}}
+    while run and state.game:
+        screen.fill(bg_color)
+        screen.blit(list(rockets.values())[index],px(400,20))
+
+        #screen.blit(help_button[0],px(5,-50))
+        screen.blit(up_button[0], px(900, 60))
+        screen.blit(down_button[0], px(900, 190))
+        screen.blit(ok_button[0], px(900, 370))
+
+        x=10
+        y=(size.height//2-(len(stats[list(rockets.keys())[index]])*px(txt_size)*4)//2)+px(20)
+        for info in stats[list(rockets.keys())[index]]:
+            if type(stats[list(rockets.keys())[index]][info])==type(''):
+                screen.blit(font.render(info+' : ',True,(txt_color)),px(x,y))
+                y+=px(txt_size)
+                screen.blit(font.render(str(stats[list(rockets.keys())[index]][info]),True,(txt_color)),px(x,y))
+            else:
+                max_val=stats[list(rockets.keys())[index]][info][1]
+                val=stats[list(rockets.keys())[index]][info][0]
+                max_length=150
+
+                screen.blit(font.render(info+' : ',True,(txt_color)),px(x,y))
+                y+=px(txt_size)
+                pygame.draw.rect(screen,(txt_color),(px(x,y+txt_size),px(val*max_length/max_val,int(min(px(x=txt_size),px(y=txt_size))))),int(min(px(x=txt_size),px(y=txt_size))))
+                screen.blit(font.render(str(stats[list(rockets.keys())[index]][info][0]),True,(txt_color)),px(20+val*max_length/max_val,y+txt_size-5))
+
+            y+=px(txt_size)*3
+
+
+        mouse = pygame.Rect(pygame.mouse.get_pos(), (20, 20))
+        if pygame.Rect.colliderect(mouse, (px(900, 120), px(200, 100))):
+            screen.blit(up_button[1], px(900, 60))
+            if pygame.mouse.get_pressed()[0]:
+                pygame.mixer.Sound.play(click)
+                if index+1==len(rockets):
+                    index=0
+                else:index+=1
+                pygame.time.wait(200)
+
+        if pygame.Rect.colliderect(mouse, (px(900, 250), px(200, 100))):
+            screen.blit(down_button[1], px(900, 190))
+            if pygame.mouse.get_pressed()[0]:
+                pygame.mixer.Sound.play(click)
+                if index==0:
+                    index=len(rockets)-1
+                else:index-=1
+                pygame.time.wait(200)
+
+        if pygame.Rect.colliderect(mouse, (px(900, 370), px(200, 100))):
+            screen.blit(ok_button[1], px(900, 370))
+            if pygame.mouse.get_pressed()[0]:
+                pygame.mixer.Sound.play(click)
+                run=False
+                pygame.time.wait(200)
+
+        screen.blit(help_button[0],px(5,-50))
+        if pygame.Rect.colliderect(mouse,(px(5,-50),px(150,100))):
+            screen.blit(help_button[1],px(5,-50))
+            if pygame.mouse.get_pressed()[0]:
+                pygame.mixer.Sound.play(click)
+                help(questions['rocket'])
+                help_button=resize_help()
+                rockets,up_button,down_button,ok_button=load_rockets()
+                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                state.game = False
+            elif event.type == pygame.VIDEORESIZE:
+                size.width, size.height = pygame.display.get_surface().get_size()
+                help_button=resize_help()
+                rockets,up_button,down_button,ok_button=load_rockets()
+                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+        if initialize==True:
+            talk(txt)
+            help_button=resize_help()
+            rockets,up_button,down_button,ok_button=load_rockets()
+            font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+            initialize=False
+    return list(rockets.keys())[index]
+
 pygame.init()
 screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
 pygame.display.set_icon(pygame.image.load('SATMAN logo.ico'))
@@ -909,9 +1026,9 @@ bg_color=(173, 216, 230)
 txt_color=(0,0,0)
 
 #missions={nom de la mission:           [orbite nécessaire       , [source d'énergie    , senseur        , antenne         ]]
-check_missions={'satellite de communication': ['orbite géostationnaire','Kourou', 'panneaux solaires','_empty','grande antenne','None', 'SLS'],
-          "satellite d'observation": ['orbite basse','Kourou','générateur nucléaire','senseur optique', 'antenne moyenne','None', 'vega'],
-            "satellite de positionnement":['orbite moyenne','Kourou','générateur nucléaire','_empty','petite antenne','None', 'arianeV']}
+check_missions={'satellite de communication': ['orbite géostationnaire','space shuttle','Florida', 'panneaux solaires','_empty','grande antenne','None', 'space shuttle'],
+          "satellite d'observation": ['orbite basse','vega','Kourou','générateur nucléaire','senseur optique', 'antenne moyenne','None', 'vega'],
+            "satellite de positionnement":['orbite moyenne','arianeV','Kourou','générateur nucléaire','_empty','petite antenne','None', 'arianeV']}
 
 
 menu()
@@ -922,13 +1039,15 @@ if state.game:transition(1)
 
 #textes_erreurs={nom de la mission :          [[texte explicatif orbite],[texte explicatif composition satelllite]]
 textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite de communication doit constamment être au dessus du même point", "pour faciliter le calibrage des antennes relais,", "c'est-à-dire a un orbite géostationnaire."],
-                                                  ["Bien joué !","Kourou, est, parmi les propositions","le meilleur site de lancement pour","  profiter de l'effet de fronde."],
+                                                  ["Bien joué !","La navette spatiale était parfaite pour emmener une charge utile","en orbite géostationnaire"],
+                                                  ["Bien joué !","La Floride et plus précisemment Cap Canaveral ,est,parmi les propositions","le meilleur site de lancement pour","  profiter de l'effet de fronde."],
                                                   ["Bien joué !","En orbite haute une source d'énergie présente en abondance"," est le rayonnement solaire."],
                                                   ["Bien joué !","Un satellite de communication n'a besoin d'aucun senseur car,","il ne transmet que les informations captés par son antenne"],
                                                   ["Bien joué !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante."],
                                                   ["Très bien alors on peux procéder au décollage !"],
                                                   ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
         "satellite d'observation":[["Bien joué !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
+                                ["Bien joué !","La fusée Vega est parfaite pour emmener une charge utile","en orbite basse"],
                                    ["Bien joué !","Kourou, est, parmi les propositions","le meilleur site de lancement pour","  profiter de l'effet de fronde."],
                                    ["Bien joué !","Un satellite d'observation a besoin d'une source d'énergie constante,","même lorsqu'il se trouve à l'ombre de la Terre."],
                                     ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier","la Terre"],
@@ -937,6 +1056,7 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite
                                     ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
 
         "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire"],
+                                       ["Bien joué !","La fusée Ariane V est parfaite pour emmener une charge utile","en orbite moyenne"],
                                        ["Bien joué !","Kourou, est, parmi les propositions","le meilleur site de lancement pour","  profiter de l'effet de fronde."],
                                        ["Bien joué !","Un satellite de positionnement nécessite une horloge atomique","afin d'être le plus précis possible pour l'heure d'envoi du signal"],
                                        ["Bien joué !","Un satellite de positionnement n'a besoin d'aucun capteur car","sa source d'énergie est son capteur"],
@@ -948,8 +1068,9 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite
 
 
 #textes_explicatifs=[[texte explicatif orbite],[texte explicatif customisation satellite]]
-textes_explicatifs=[[f"Choisi l'orbite du satellite","L'orbite basse permet au satellite d'être au plus près de la Terre"," L'orbite moyen est idéal pour avoir une période orbitale moyenne.","En orbite géostationnaire les satellites restent au même point par rapport au sol"],
-                    ["Choisis le bon site de lancement", "Il n'y a qu'une seule bonne réponse", "N'oublie pas le bouton aide qui est là pour t'aider"],
+textes_explicatifs=[["Choisi l'orbite du satellite","L'orbite basse permet au satellite d'être au plus près de la Terre","L'orbite moyen est idéal pour avoir une période orbitale moyenne.","En orbite géostationnaire les satellites restent au même point par rapport au sol"],
+                    ["Choisis le bon lanceur","Aide toi de l'orbite de ton satellite"],
+                    ["Choisis le bon site de lancement","N'oublie pas le bouton aide qui est là pour t'aider"],
                     ["Construis ton satellite.", "Choisis la source d'énergie adéquate."],
                     ["Construis ton satellite.", "Choisis le senseur adapté.", "Il est possible qu'il n'y ais besoin d'aucun senseur"],
                     ["Construis ton satellite.", "Choisis le bon moyen de communication", "Il est possible qu'il n'y ais besoin d'aucun moyen de communication"],
@@ -957,13 +1078,14 @@ textes_explicatifs=[[f"Choisi l'orbite du satellite","L'orbite basse permet au s
                     ["Libère le satellite à la bonne vitesse et au bon moment pour qu'il aille en orbite"]]
 help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \nLes satellites sont souvent déployés \nen orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \net une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
            "txt explicatif blablabla",
+           "txt explicatif blablabla",
            'Tout les satellites ont besoin d\'une source d\'alimentation,\nen orbite basse, les satellites sont parfois à l\'ombre de la Terre, \nils ne peuvent donc être alimenté par des panneaux solaires.\n\nParfois les satellites doivent-être très précis, c\'est pourquoi on utilise alors une horloge atomique,\nle \'capteur\' et la source d\'énergie sont alors les mêmes.',
            'Il est nécessaire d\'avoir des capteurs adaptés à la mission, certains satellites ne nécessitent aucun capteur.',
            "Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \net qu\'ils puisse transmettre une quantité de données suffisante.",
            "",
            "La vitesse de satellisation est la vitesse que notre satellite doit atteindre \npour se mettre en orbite au tour de la Terre.\nCette vitesse doit être assez élevée pour que notre vaisseau spatial ne retombe pas sur la surface de la Terre,\nelle doit donc être supérieure à 7,8 km/s.\n \nLa vitesse de libération est la vitesse que le satellite a besoin pour échapper à la gravitation de notre planète, \nelle dépend de son volume, pour la Terre, elle est de 11km/s.\n\nA noter que cette vitesse dépend des différentes planètes et de leur volume,  \nau plus elles sont volumineuses au plus la vitesse de libération sera grande." ]
 
-questions={'orbite':0,'map':1,'custom_middle':2, 'custom_bottom':3, 'custom_top':4,'mission_order':5, 'velocity':6}
+questions={'orbite':0,'rocket':1,'map':2,'custom_middle':3, 'custom_bottom':4, 'custom_top':5,'mission_order':6, 'velocity':7}
 while state.game:
 
     mission=mission_chooser()
@@ -973,6 +1095,12 @@ while state.game:
     while choose_orbit()!=check_missions[mission][questions['orbite']] and state.game:
         txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
     talk(textes_fin_niveau[mission][questions['orbite']])
+    if state.game:transition(1)
+
+    txt=textes_explicatifs[questions['rocket']]
+    while rocket_choice()!=check_missions[mission][questions['rocket']] and state.game:
+        txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
+    talk(textes_fin_niveau[mission][questions['rocket']])
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['map']]
