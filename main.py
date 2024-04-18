@@ -1085,7 +1085,7 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite
                                                   ["Bien joué !","En orbite haute une source d'énergie présente en abondance"," est le rayonnement solaire."],
                                                   ["Bien joué !","Un satellite de communication n'a besoin d'aucun senseur car,","il ne transmet que les informations captés par son antenne"],
                                                   ["Bien joué !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante."],
-                                                  ["Très bien alors on peux procéder au décollage !"],
+                                                  ["Bonne réponse !","Notre fusée sera posotionnée près de l'équateur","où la \nvitesse de rotation est maximale","ce qui nous permettra de tirer","parti de cette propulsion"],
                                                   ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
         "satellite d'observation":[["Bien joué !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
                                 ["Bien joué !","La fusée Vega est parfaite pour emmener une charge utile","en orbite basse"],
@@ -1093,7 +1093,7 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite
                                    ["Bien joué !","Un satellite d'observation a besoin d'une source d'énergie constante,","même lorsqu'il se trouve à l'ombre de la Terre."],
                                     ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier","la Terre"],
                                     ["Bien joué !","Une antenne moyenne permet de transmettre les images en bonne qualité"],
-                                   ["Très bien alors on peux procéder au décollage !"],
+                                   ["Bonne réponse !","Notre fusée sera posotionnée près de l'équateur","où la \nvitesse de rotation est maximale","ce qui nous permettra de tirer","parti de cette propulsion"],
                                     ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
 
         "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire"],
@@ -1102,7 +1102,7 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite
                                        ["Bien joué !","Un satellite de positionnement nécessite une horloge atomique","afin d'être le plus précis possible pour l'heure d'envoi du signal"],
                                        ["Bien joué !","Un satellite de positionnement n'a besoin d'aucun capteur car","sa source d'énergie est son capteur"],
                                        ["Bien joué !","Un satellite de positionnement doit se contenter d'une petite antenne car","les informations doivent-être envoyés rapidement"],
-                                       ["Très bien alors on peux procéder au décollage !"],
+                                       ["Bonne réponse !","Notre fusée sera posotionnée près de l'équateur","où la \nvitesse de rotation est maximale","ce qui nous permettra de tirer","parti de cette propulsion"],
                                         ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide ou elle sortirait de l'orbite terrestre."]]
                    }
 
@@ -1114,7 +1114,7 @@ textes_explicatifs=[["Choisi l'orbite du satellite","L'orbite basse permet au sa
                     ["Choisis le bon site de lancement","N'oublie pas le bouton aide qui est là pour t'aider"],
                     ["Construis ton satellite.", "Choisis la source d'énergie adéquate."],
                     ["Construis ton satellite.", "Choisis le senseur adapté.", "Il est possible qu'il n'y ais besoin d'aucun senseur"],
-                    ["Construis ton satellite.", "Choisis le bon moyen de communication", "Il est possible qu'il n'y ais besoin d'aucun moyen de communication"],
+                    ["Construis ton satellite.", "Choisis le moyen de communication optimal", "Il est possible qu'il n'y ais besoin d'aucun moyen de communication"],
                     ["Vérifie les paramètres de mission","Appuis sur OK pour lancer le décollage"],
                     ["Libère le satellite à la bonne vitesse et au bon moment pour qu'il aille en orbite"]]
 help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \nLes satellites sont souvent déployés \nen orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \net une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
