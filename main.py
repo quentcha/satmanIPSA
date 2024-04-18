@@ -261,34 +261,35 @@ def mission_chooser():
 def intro():
     screen.fill(bg_color)
     pygame.display.update()
-    talk([f"Bonjour, je suis l'ingénieur en chef du projet SATMAN.",
-          "Je vais te guider au cours de cette mission !",
-          "Si tu en a marre de m'entendre parler tu peux cliquer n'importe où pour accélerer",
-          "  ( clique n'importe où )"])
+    talk([f"Bonjour ! Je suis l’ingénieur en chef de l'équipe qui travaille sur le jeu SATMAN.",
+          "Je vais t'aider tout au long de cette mission !",
+          "Si tu souhaites que je parle plus vite, clique en maintenant.",
+          "Clique une fois sur l’écran pour continuer."])
     screen.fill(bg_color)
     screen.blit(resize_help()[0], px(10,-30))
     pygame.display.update()
-    talk([f"En haut à gauche se trouve le bouton aide.",
-          "Tu y trouveras toutes les informations nécessaires pour t'aider",
-          "  ( clique n'importe où )"])
-    screen.fill(bg_color)
-    screen.blit(resize_help()[0], px(10,-30))
-    screen.blit(resize_assets()[1][0],px(900,50))
-    screen.blit(resize_assets()[2][0],px(900,250))
-    screen.blit(resize_assets()[3][0],px(700,150))
-    pygame.display.update()
-    talk([f"Aide toi des flèches pour naviguer le niveau.",
-          "Et lorsque tu penses avoir trouver la bonne réponse appuie sur OK",
-          "  ( clique n'importe où )"])
+    talk([f"En haut à gauche, il y a un bouton \"Aide\".",
+          "C'est là que tu peux trouver toutes les informations dont tu as besoin,",
+          " pour te guider et comprendre les termes.",
+          "Clique une fois sur l’écran pour continuer."])
     screen.fill(bg_color)
     screen.blit(resize_help()[0], px(10,-30))
     screen.blit(resize_assets()[1][0],px(900,50))
     screen.blit(resize_assets()[2][0],px(900,250))
     screen.blit(resize_assets()[3][0],px(700,150))
     pygame.display.update()
-    talk(["Tu es prêt à envoyer un satellite dans l'espace ?",
-          "Alors c'est parti !!!",
-          "  ( clique n'importe où )"])
+    talk([f"Utilise les flèches pour te déplacer et changer ta réponse.",
+          "Quand tu penses avoir trouvé la bonne, appuie sur \"OK\".",
+          "Clique une fois sur l’écran pour continuer. "])
+    screen.fill(bg_color)
+    screen.blit(resize_help()[0], px(10,-30))
+    screen.blit(resize_assets()[1][0],px(900,50))
+    screen.blit(resize_assets()[2][0],px(900,250))
+    screen.blit(resize_assets()[3][0],px(700,150))
+    pygame.display.update()
+    talk(["Alors ? ",
+          "Prêt(e) à envoyer un satellite d’observation dans l’espace ?! C’est parti !!",
+          "Clique sur l’écran pour continuer. "])
 def resize_assets():
     earth= pygame.transform.scale(pygame.image.load('orbit/earth.png'),(min(px(x=70),px(y=70)),)*2)
     up_button=[pygame.transform.scale(pygame.image.load('orbit/up_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('orbit/up_button2.png'),px(150,150))]
@@ -829,6 +830,9 @@ def credits():
           'Quentin CHAMBON',
          '',
          '',
+         'ETC...',
+         '',
+         '',
          'RETROUVE LE PROJET EN ENTIER SUR',
          logo_git,
          'GITHUB']
@@ -1039,10 +1043,10 @@ if state.game:transition(1)
 if state.game:intro()
 if state.game:transition(1)
 
-#textes_erreurs={nom de la mission :          [[texte explicatif orbite],[texte explicatif composition satelllite]]
+#textes_erreurs={nom de la mission :          [[texte explicatif orbite],[texte explicatif composition satelllite],etc...]
 textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite de communication doit constamment être au dessus du même point", "pour faciliter le calibrage des antennes relais,", "c'est-à-dire a un orbite géostationnaire."],
                                                   ["Bien joué !","La navette spatiale était parfaite pour emmener une charge utile","en orbite géostationnaire"],
-                                                  ["Bien joué !","La Floride et plus précisemment Cap Canaveral ,est,parmi les propositions","le meilleur site de lancement pour","  profiter de l'effet de fronde."],
+                                                  ["Bonne réponse, la NASA envoie notre fusée depuis Cap Canaveral car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
                                                   ["Bien joué !","En orbite haute une source d'énergie présente en abondance"," est le rayonnement solaire."],
                                                   ["Bien joué !","Un satellite de communication n'a besoin d'aucun senseur car,","il ne transmet que les informations captés par son antenne"],
                                                   ["Bien joué !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante."],
@@ -1050,41 +1054,42 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite
                                                   ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
         "satellite d'observation":[["Bien joué !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
                                 ["Bien joué !","La fusée Vega est parfaite pour emmener une charge utile","en orbite basse"],
-                                   ["Bien joué !","Kourou, est, parmi les propositions","le meilleur site de lancement pour","  profiter de l'effet de fronde."],
-                                   ["Bien joué !","Un satellite d'observation a besoin d'une source d'énergie constante,","même lorsqu'il se trouve à l'ombre de la Terre."],
-                                    ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier","la Terre"],
-                                    ["Bien joué !","Une antenne moyenne permet de transmettre les images en bonne qualité"],
-                                   ["Très bien alors on peux procéder au décollage !"],
-                                    ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
+                                ["Bonne réponse, l'ESA envoie notre fusée depuis Kourou car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
+                                ["Bien joué !","Un satellite d'observation a besoin d'une source d'énergie constante,","même lorsqu'il se trouve à l'ombre de la Terre."],
+                                ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier","la Terre"],
+                                ["Bien joué !","Une antenne moyenne permet de transmettre les images en bonne qualité"],
+                                ["Très bien alors on peux procéder au décollage !"],
+                                ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
 
         "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire"],
                                        ["Bien joué !","La fusée Ariane V est parfaite pour emmener une charge utile","en orbite moyenne"],
-                                       ["Bien joué !","Kourou, est, parmi les propositions","le meilleur site de lancement pour","  profiter de l'effet de fronde."],
+                                        ["Bonne réponse, l'ESA envoie notre fusée depuis Kourou car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
                                        ["Bien joué !","Un satellite de positionnement nécessite une horloge atomique","afin d'être le plus précis possible pour l'heure d'envoi du signal"],
                                        ["Bien joué !","Un satellite de positionnement n'a besoin d'aucun capteur car","sa source d'énergie est son capteur"],
                                        ["Bien joué !","Un satellite de positionnement doit se contenter d'une petite antenne car","les informations doivent-être envoyés rapidement"],
                                        ["Très bien alors on peux procéder au décollage !"],
                                         ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide ou elle sortirait de l'orbite terrestre."]]
-                   }
+        }
 
 
 
-#textes_explicatifs=[[texte explicatif orbite],[texte explicatif customisation satellite]]
-textes_explicatifs=[["Choisi l'orbite du satellite","L'orbite basse permet au satellite d'être au plus près de la Terre","L'orbite moyen est idéal pour avoir une période orbitale moyenne.","En orbite géostationnaire les satellites restent au même point par rapport au sol"],
-                    ["Choisis le bon lanceur","Aide toi de l'orbite de ton satellite"],
-                    ["Choisis le bon site de lancement","N'oublie pas le bouton aide qui est là pour t'aider"],
-                    ["Construis ton satellite.", "Choisis la source d'énergie adéquate."],
-                    ["Construis ton satellite.", "Choisis le senseur adapté.", "Il est possible qu'il n'y ais besoin d'aucun senseur"],
-                    ["Construis ton satellite.", "Choisis le bon moyen de communication", "Il est possible qu'il n'y ais besoin d'aucun moyen de communication"],
+#textes_explicatifs=[[texte explicatif orbite],[texte explicatif customisation satellite],etc...]
+textes_explicatifs=[["Choisis l'orbite du satellite d’observation."," Quelle orbite te paraît adéquate ?","Utilise le bouton \"Aide\" pour en apprendre plus sur les différentes orbites."],
+                    ["Choisis ton lanceur.","Le bouton \"Aide\" contient des informations à propose des différents lanceurs."],
+                    ["Choisis le lieu du lancement de ton satellite."," Le bouton  \"Aide\" contient des informations à propos des différents lieux."],
+                    ["Construis ton satellite.", "Choisis la source d'énergie adéquate.", "Le bouton \"Aide\" contient la description des pièces des satellites."],
+                    ["Construis ton satellite.", "Choisis le senseur adapté.", "Il est possible qu'il n'y ais besoin d'aucun senseur.","Le bouton \"Aide\" contient la description des pièces des satellites."],
+                    ["Construis ton satellite.", "Choisis le bon moyen de communication.", "Il est possible qu'il n'y ais besoin d'aucun moyen de communication.","Le bouton \"Aide\" contient la description des pièces des satellites."],
                     ["Vérifie les paramètres de mission","Appuis sur OK pour lancer le décollage"],
-                    ["Libère le satellite à la bonne vitesse et au bon moment pour qu'il aille en orbite"]]
+                    ["Choisis quelle doit être la vitesse de libération de ton satellite,"," pour qu’il ne puisse pas retomber sur Terre !","Le bouton \"Aide\" te donnera des précisions sur la vitesse idéale."]]
+
 help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \nLes satellites sont souvent déployés \nen orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \net une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
            "txt explicatif blablabla",
            "txt explicatif blablabla",
            'Tout les satellites ont besoin d\'une source d\'alimentation,\nen orbite basse, les satellites sont parfois à l\'ombre de la Terre, \nils ne peuvent donc être alimenté par des panneaux solaires.\n\nParfois les satellites doivent-être très précis, c\'est pourquoi on utilise alors une horloge atomique,\nle \'capteur\' et la source d\'énergie sont alors les mêmes.',
            'Il est nécessaire d\'avoir des capteurs adaptés à la mission, certains satellites ne nécessitent aucun capteur.',
            "Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \net qu\'ils puisse transmettre une quantité de données suffisante.",
-           "",
+           "NONE",
            "La vitesse de satellisation est la vitesse que notre satellite doit atteindre \npour se mettre en orbite au tour de la Terre.\nCette vitesse doit être assez élevée pour que notre vaisseau spatial ne retombe pas sur la surface de la Terre,\nelle doit donc être supérieure à 7,8 km/s.\n \nLa vitesse de libération est la vitesse que le satellite a besoin pour échapper à la gravitation de notre planète, \nelle dépend de son volume, pour la Terre, elle est de 11km/s.\n\nA noter que cette vitesse dépend des différentes planètes et de leur volume,  \nau plus elles sont volumineuses au plus la vitesse de libération sera grande." ]
 
 questions={'orbite':0,'rocket':1,'map':2,'custom_middle':3, 'custom_bottom':4, 'custom_top':5,'mission_order':6, 'velocity':7}
