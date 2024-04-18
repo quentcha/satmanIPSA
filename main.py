@@ -14,6 +14,7 @@ def px(x=None,y=None):
     elif x==None:#si aucune valeur x n'est donné, calculer seulement y
         return (y*size.height)/600# produit en croix appelant la class size
     else:
+<<<<<<< Updated upstream
         return ((x*size.width)/1066,(y*size.height)/600)#sinon renvoyé la nouvelle valeur de x et y
 def resize_help():
     return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
@@ -24,8 +25,11 @@ def load_sound():
     tr=pygame.mixer.Sound("sound/transition.wav")
     ty=''
     return cl, tr, ty
+=======
+        return ((x*size.width)/1066,(y*size.height)/600)
 def resize_talking_frames():
-    return [pygame.transform.scale(pygame.image.load('satmanIPSA/talk/talk0.png'),px(1060,1060)),pygame.transform.scale(pygame.image.load('talk/talk1.png'),px(1060,1060))]
+    return [pygame.transform.scale(pygame.image.load('satmanIPSA/talk/talk0.png'),px(1060,1060)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/talk/talk1.png'),px(1060,1060))]
+>>>>>>> Stashed changes
 
 
 # charge et adapte la taille des images pour l'animation
@@ -292,14 +296,17 @@ def intro():
           "Alors c'est parti !!!",
           "  ( clique n'importe où )"])
 def resize_assets():
+<<<<<<< Updated upstream
     earth= pygame.transform.scale(pygame.image.load('orbit/earth.png'),(min(px(x=70),px(y=70)),)*2)
     up_button=[pygame.transform.scale(pygame.image.load('orbit/up_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('orbit/up_button2.png'),px(150,150))]
     down_button=[pygame.transform.scale(pygame.image.load('orbit/down_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('orbit/down_button2.png'),px(150,150))]
     ok_button=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(150,150))]
+=======
     earth= pygame.transform.scale(pygame.image.load('satmanIPSA/orbit/earth.png'),(px(70),)*2)
-    up_button=[pygame.transform.scale(pygame.image.load('satmanIPSA/orbit/up_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('orbit/up_button2.png'),px(150,150))]
-    down_button=[pygame.transform.scale(pygame.image.load('satmanIPSA/orbit/down_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('orbit/down_button2.png'),px(150,150))]
-    ok_button=[pygame.transform.scale(pygame.image.load('satmanIPSA/satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(150,150))]
+    up_button=[pygame.transform.scale(pygame.image.load('satmanIPSA/orbit/up_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/up_button2.png'),px(150,150))]
+    down_button=[pygame.transform.scale(pygame.image.load('satmanIPSA/orbit/down_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/down_button2.png'),px(150,150))]
+    ok_button=[pygame.transform.scale(pygame.image.load('satmanIPSA/satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button2.png'),px(150,150))]
+>>>>>>> Stashed changes
     return earth,up_button,down_button,ok_button
 def point_circulaire(angle, rayon):
     # Conversion des coordonnées polaires en coordonnées cartésiennes
@@ -411,6 +418,7 @@ def load_images(part):
     return choices, annotation
 
 def resize_buttons():
+<<<<<<< Updated upstream
     left_button=[pygame.transform.scale(pygame.image.load('satellite customisation/left_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/left_button2.png'),px(150,150))]
     right_button=[pygame.transform.scale(pygame.image.load('satellite customisation/right_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/right_button2.png'),px(150,150))]
     buttons = {(px(0,220),px(150,150)):[left_button,-1],
@@ -425,8 +433,9 @@ def resize_past_choices(past_choices_list):
     return new_list, body
 def custom(part, num):
     run=True
-    left_button=[pygame.transform.scale(pygame.image.load('satellite customisation/left_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/left_button2.png'),px(150,150))]
-    right_button=[pygame.transform.scale(pygame.image.load('satellite customisation/right_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/right_button2.png'),px(150,150))]
+=======
+    left_button=[pygame.transform.scale(pygame.image.load('satmanIPSA/satellite customisation/left_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/left_button2.png'),px(150,150))]
+    right_button=[pygame.transform.scale(pygame.image.load('satmanIPSA/satellite customisation/right_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/right_button2.png'),px(150,150))]
     buttons = {(px(0,20),px(150,150)):[left_button,['antenna',-1]],(px(0,220),px(150,150)):[left_button,['energy',-1]],(px(0,420),px(150,150)):[left_button,['sensor',-1]],
                (px(750,20),px(150,150)):[right_button,['antenna',1]],(px(750,220),px(150,150)):[right_button,['energy',1]],(px(750,420),px(150,150)):[right_button,['sensor',1]]}
     return buttons
@@ -448,6 +457,7 @@ def satellite_creator():
     ok_button=resize_ok()
     font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
     annotation=resize_annotation()
+>>>>>>> Stashed changes
     initialize=True
     choices,annotation = load_images(part)
     past_choices_list, body=resize_past_choices(past_choices)
