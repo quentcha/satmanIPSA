@@ -18,12 +18,6 @@ def px(x=None,y=None):
 def resize_help():
     return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
             pygame.transform.scale(pygame.image.load('aide/aide-2.png'),px(150,150))]
-#fonction pour chargé les sons dans le programme (appelé une seule fois)
-def load_sound():
-    cl=pygame.mixer.Sound("sound/Menu Selection Click.wav")
-    tr=pygame.mixer.Sound("sound/transition.wav")
-    ty=''
-    return cl, tr, ty
 
 
 # charge et adapte la taille des images pour l'animation
@@ -92,7 +86,9 @@ def talk(txt):
         written=[]#texte déjà écrit (sera afficher directement)
         for paragraph in range(len(txt)):
             written.append("")
+            s,a=0,random.randint(3,7)
             for letter in range(len(txt[paragraph])):#afficher chaque letter
+                s+=1
                 written[paragraph]=written[paragraph]+txt[paragraph][letter]#ajouter cette lettre au texte d"jà écrit
                 screen.blit(talking_frames[(letter%6)//3], (px(0,393),(0,0)))#avancer d'une image dans l'animation du scientifique qui parle
                 for line in range(len(written)):#affiche les lignes déjà écrites
@@ -110,14 +106,22 @@ def talk(txt):
                         size.width, size.height = pygame.display.get_surface().get_size()# mettre à jour la class size avec la nouvelle taille de l'écran
                         talking_frames=resize_talking_frames()# charger les images avec les nouvelles tailles
                         font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))# charger la police d'écriture avec une nouvelle taille
+                if s==a:
+                    pygame.mixer.Sound.play(typing)
+                    s=0
+                    a=random.randint(3,7)
         #le texte est maintenant entièrement affiché
-        while pygame.mouse.get_pressed()[0]!=True:#tant que l'on ne clique pas
+        while pygame.mouse.get_pressed()[0]!=True and state.game:#tant que l'on ne clique pas et que l'utilisateur n'a pas quitté
             screen.blit(talking_frames[1], (px(0,390),(0,0)))# afficher l'image du scientifique
             for line in range(len(written)):#afficher toute les lignes du texte d'un coup
                 screen.blit(font.render(written[line], True, txt_color), (px(140,450+(line*30)),(0,0)))
             for event in pygame.event.get():
                     if event.type == pygame.QUIT:# si le programme est fermé
                         state.game=False# mettre à jour la class
+                    elif event.type == pygame.VIDEORESIZE:# si le joueur change la taille de la fenêtre
+                        size.width, size.height = pygame.display.get_surface().get_size()# mettre à jour la class size avec la nouvelle taille de l'écran
+                        talking_frames=resize_talking_frames()# charger les images avec les nouvelles tailles
+                        font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))# charger la police d'écriture avec une nouvelle taille
         #le joueur a cliquer donc quitter le dialogue
         return
 
@@ -238,7 +242,7 @@ def mission_chooser():
         #screen.blit(comm[0], px(60,300))
         coll=pygame.Rect.collidedict(mouse,rect)
         if coll and init==False:
-            screen.blit(logos[list(rect.keys()).index(coll[0])][1], (coll[0][0][0]-50,coll[0][0][1]-50))
+            screen.blit(logos[list(rect.keys()).index(coll[0])][1], (coll[0][0][0]-px(x=50),coll[0][0][1]-px(y=50)))
             if pygame.mouse.get_pressed()[0]==True:
                 pygame.mixer.Sound.play(click)
                 run=False
@@ -511,7 +515,14 @@ def load_space_velocity_assets():
     liberation_button=[pygame.transform.scale(pygame.image.load('space velocity/lancement0.png'),px(250,250)),
         pygame.transform.scale(pygame.image.load('space velocity/lancement1.png'),px(250,250)),
         pygame.transform.scale(pygame.image.load('space velocity/lancement2.png'),px(250,250))]
-    return clouds, speedometer, liberation_button
+    explosion=[pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-0.png'),px(1066,1066)),
+               pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-1.png'),px(1066,1066)),
+            pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-2.png'),px(1066,1066)),
+            pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-3.png'),px(1066,1066)),
+               pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-4.png'),px(1066,1066)),
+               pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-5.png'),px(1066,1066)),
+               pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-6.png'),px(1066,1066))]
+    return clouds, speedometer, liberation_button, explosion
 def load_space_vehicles():
     arianeV=pygame.transform.scale(pygame.image.load('lanceur/arianeV.png'),px(400,400))
     space_shuttle=pygame.transform.scale(pygame.image.load('lanceur/space shuttle.png'),px(400,400))
@@ -527,7 +538,7 @@ def second_space_velocity():
     run=True
     clock=pygame.time.Clock()
     #clock.tick(70)
-    clouds, speedometer, liberation_button=load_space_velocity_assets()
+    clouds, speedometer, liberation_button, explosion=load_space_velocity_assets()
     lanceur=load_space_vehicles()[check_missions[mission][questions['velocity']]][0]
     booster=load_space_vehicles()[check_missions[mission][questions['velocity']]][1]
     help_button=resize_help()
@@ -540,7 +551,13 @@ def second_space_velocity():
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
         clock.tick(70)#maintien 70 fps quel que soit la taille de l'écran et donc la vitesse de rafraichissement
         i+=0.3
-        if i>= time:
+        if i>= (time*1295)/2000:
+            pygame.mixer.Channel(1).stop()
+            pygame.mixer.Sound.play(explosion_sound)
+            for frame in explosion:
+                screen.blit(frame,px(0,0))
+                pygame.display.update()
+                pygame.time.wait(200)
             run = False
         screen.fill(bg_color)
         for slots in range(len(layers)-int((i*((len(clouds)+1)//2))/time)):#diminue le nombre de nuages au fil du temps
@@ -571,24 +588,26 @@ def second_space_velocity():
             screen.blit(help_button[1],px(5,-50))
             if pygame.mouse.get_pressed()[0]:
                 pygame.mixer.Sound.play(click)
-                pygame.mixer.music.pause()
+                pygame.mixer.Channel(1).pause()
                 help(questions['velocity'])
-                clouds, speedometer, liberation_button=load_space_velocity_assets()
+                clouds, speedometer, liberation_button, explosion=load_space_velocity_assets()
                 lanceur=load_space_vehicles()[check_missions[mission][questions['velocity']]][0]
                 booster=load_space_vehicles()[check_missions[mission][questions['velocity']]][1]
                 help_button=resize_help()
                 layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
-                pygame.mixer.music.unpause()
+                pygame.mixer.Channel(1).unpause()
         if pygame.Rect.colliderect(mouse,(pos_button,px(250,250))):
             if i>(time*775)/2000 and i<(time*1295)/2000:
                 screen.blit(liberation_button[(int(i/5)%2)+1], pos_button)
                 if pygame.mouse.get_pressed()[0]:
+                    pygame.mixer.Channel(1).stop()
                     pygame.mixer.music.stop()
                     pygame.mixer.Sound.play(click)
                     return True
             else:
                 screen.blit(liberation_button[2], pos_button)
                 if pygame.mouse.get_pressed()[0]:
+                    pygame.mixer.Channel(1).stop()
                     pygame.mixer.music.stop()
                     pygame.mixer.Sound.play(click)
                     pygame.time.wait(200)
@@ -600,16 +619,17 @@ def second_space_velocity():
                 run=False
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
-                clouds, speedometer, liberation_button=load_space_velocity_assets()
+                clouds, speedometer, liberation_button, explosion=load_space_velocity_assets()
                 lanceur=load_space_vehicles()[check_missions[mission][questions['velocity']]][0]
                 booster=load_space_vehicles()[check_missions[mission][questions['velocity']]][1]
                 help_button=resize_help()
                 layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
         if initialize==True:
             talk(txt)
-            pygame.mixer.music.load("space velocity/Rocket-SoundBible.com-941967813.mp3")
-            pygame.mixer.music.play(1)
-            clouds, speedometer, liberation_button=load_space_velocity_assets()
+            rocket_sound=pygame.mixer.Sound("space velocity/Rocket-SoundBible.com-941967813.mp3")
+            rocket_sound.set_volume(0.5)
+            pygame.mixer.Channel(1).play(rocket_sound, loops=0)
+            clouds, speedometer, liberation_button, explosion=load_space_velocity_assets()
             lanceur=load_space_vehicles()[check_missions[mission][questions['velocity']]][0]
             booster=load_space_vehicles()[check_missions[mission][questions['velocity']]][1]
             help_button=resize_help()
@@ -1018,8 +1038,21 @@ def rocket_choice():
             font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
             initialize=False
     return list(rockets.keys())[index]
+#fonction pour chargé les sons dans le programme (appelé une seule fois)
+def load_sound():
+    cl=pygame.mixer.Sound("sound/Menu Selection Click.wav")
+    tr=pygame.mixer.Sound("sound/transition.wav")
+    ty=pygame.mixer.Sound("sound/media-10405313.mp3")
+    ex=pygame.mixer.Sound("sound/explosion.wav")
+    return cl, tr, ty,ex
+def load_and_play(name, volume):
+    pygame.mixer.music.stop()
+    pygame.mixer.music.load(name)
+    pygame.mixer.music.set_volume(volume)
+    pygame.mixer.music.play(-1)
 
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
 pygame.display.set_icon(pygame.image.load('SATMAN logo.ico'))
 class state:
@@ -1027,7 +1060,7 @@ class state:
 class size:
     width, height = pygame.display.get_surface().get_size()
 pygame.display.set_caption('SATMAN')
-click,transition_sound, typing=load_sound()
+click,transition_sound, typing, explosion_sound=load_sound()
 bg_color=(173, 216, 230)
 txt_color=(0,0,0)
 
@@ -1036,7 +1069,7 @@ check_missions={'satellite de communication': ['orbite géostationnaire','space 
           "satellite d'observation": ['orbite basse','vega','Kourou','générateur nucléaire','senseur optique', 'antenne moyenne','None', 'vega'],
             "satellite de positionnement":['orbite moyenne','arianeV','Kourou','générateur nucléaire','_empty','petite antenne','None', 'arianeV']}
 
-
+load_and_play('sound/music/sunnyday (intro).wav',0.2)
 menu()
 if state.game:transition(1)
 
@@ -1093,9 +1126,21 @@ help_text=["Les satellites sont généralement placés en orbite géostationnair
            "La vitesse de satellisation est la vitesse que notre satellite doit atteindre \npour se mettre en orbite au tour de la Terre.\nCette vitesse doit être assez élevée pour que notre vaisseau spatial ne retombe pas sur la surface de la Terre,\nelle doit donc être supérieure à 7,8 km/s.\n \nLa vitesse de libération est la vitesse que le satellite a besoin pour échapper à la gravitation de notre planète, \nelle dépend de son volume, pour la Terre, elle est de 11km/s.\n\nA noter que cette vitesse dépend des différentes planètes et de leur volume,  \nau plus elles sont volumineuses au plus la vitesse de libération sera grande." ]
 
 questions={'orbite':0,'rocket':1,'map':2,'custom_middle':3, 'custom_bottom':4, 'custom_top':5,'mission_order':6, 'velocity':7}
-while state.game:
 
+
+
+
+
+while state.game:
+    load_and_play('sound/music/8bit Bossa (main).mp3',0.4)
     mission=mission_chooser()
+    if state.game:transition(1)
+
+    load_and_play('sound/music/tense_drive (takeoff).mp3',0.6)
+    txt=textes_explicatifs[questions['velocity']]
+    while second_space_velocity()!=True and state.game:
+        txt=["Raté, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
+    talk(textes_fin_niveau[mission][questions['velocity']])
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['orbite']]
@@ -1141,6 +1186,7 @@ while state.game:
     talk(textes_fin_niveau[mission][questions['mission_order']])
     if state.game:transition(1)
 
+    load_and_play('sound/music/tense_drive (takeoff).mp3',0.6)
     txt=textes_explicatifs[questions['velocity']]
     while second_space_velocity()!=True and state.game:
         txt=["Raté, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
