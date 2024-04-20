@@ -28,14 +28,33 @@ def load_anim():
         anim.append(pygame.transform.scale(pygame.image.load(f'transition/pixil-frame-{i}.png'),px(1066,1066)))
     return anim
 #fonction jouant l'animation (prend en argument la direction de lecture -1 ou 1)
-def transition(read):
+def transition(read,name=None,vol=None):
     anim=load_anim()# charge les animations
-    pygame.mixer.Sound.play(transition_sound)#joue le son de transition
+    pygame.mixer.Sound.play(transition_sound).set_volume(30)#joue le son de transition
+    if name==None and vol==None:
+        vol=pygame.mixer.music.get_volume()
+    else:
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(name)
+        pygame.mixer.music.set_volume(vol)
     for im in range(read,len(anim)*read,read):
         screen.blit(anim[im], (0,0))# affiche l'image nr.im aux coordonnées 0,0
         pygame.display.update()# raffraichis l'écran
+        pygame.mixer.music.set_volume(abs(vol-(vol*im/(len(anim)//2))))
         pygame.time.wait(100)# attendre 100ms
+    pygame.mixer.music.set_volume(vol)
+    if name!=None and vol!=None:pygame.mixer.music.play(loops=-1)
 
+def start():
+        for i in range(16):
+            f=pygame.transform.scale(pygame.image.load(f'start_anim/pixil-frame-{i}.png'),px(1066,1066))
+            screen.blit(f, (0,0))
+            pygame.display.update()# raffraichis l'écran
+            pygame.time.wait(100)
+            size.width, size.height = pygame.display.get_surface().get_size()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:# si le joueur ferme le programme
+                    state.game=False#arrêter le jeu
 
 #charge et adapte la taille des images du boutons retour
 def resize_return_help_buttons():
@@ -284,6 +303,7 @@ def intro():
     pygame.display.update()
     talk([f"Utilise les flèches pour te déplacer et changer ta réponse.",
           "Quand tu penses avoir trouvé la bonne, appuie sur \"OK\".",
+          "",
           "Clique une fois sur l’écran pour continuer. "])
     screen.fill(bg_color)
     screen.blit(resize_help()[0], px(10,-30))
@@ -292,7 +312,9 @@ def intro():
     screen.blit(resize_assets()[3][0],px(700,150))
     pygame.display.update()
     talk(["Alors ? ",
-          "Prêt(e) à envoyer un satellite d’observation dans l’espace ?! C’est parti !!",
+          "Prêt(e) à envoyer un satellite dans l’espace ?! "
+          "Alors c'est parti !!",
+          "",
           "Clique sur l’écran pour continuer. "])
 def resize_assets():
     earth= pygame.transform.scale(pygame.image.load('orbit/earth.png'),(min(px(x=70),px(y=70)),)*2)
@@ -369,7 +391,6 @@ def choose_orbit():
             screen.blit(help_button[1],px(5,-50))
             if pygame.mouse.get_pressed()[0]:
                 pygame.mixer.Sound.play(click)
-                pygame.mixer.music.pause()
                 help(questions['orbite'])
                 earth,up_button,down_button,ok_button=resize_assets()
                 font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
@@ -474,7 +495,6 @@ def custom(part, num):
             if pygame.mouse.get_pressed()[0]:
                 pygame.mixer.Sound.play(click)
                 pygame.time.wait(200)
-                pygame.mixer.music.pause()
                 help(num)
                 help_button=resize_help()
                 choices, annotation = load_images(part)
@@ -552,7 +572,14 @@ def second_space_velocity():
         clock.tick(70)#maintien 70 fps quel que soit la taille de l'écran et donc la vitesse de rafraichissement
         i+=0.3
         if i>= (time*1295)/2000:
-            pygame.mixer.Channel(1).stop()
+            pygame.mixer.Channel(2).stop()
+            screen.fill(bg_color)
+            for slots in range(len(layers)-int((i*((len(clouds)+1)//2))/time)):#diminue le nombre de nuages au fil du temps
+                if layers[slots]==[None, [0,0], 0]:
+                    layers[slots]=[clouds[random.randint(0,len(clouds)-1)], [random.randint(-200,int(size.width)),random.randint(int(px(y=-200)),int(px(y=-110)))], random.randint(int(px(y=1)),int(px(y=5)))+(i%time/(time/200))]
+                else:
+                    screen.blit(layers[slots][0], (layers[slots][1][0], layers[slots][1][1]))
+
             pygame.mixer.Sound.play(explosion_sound)
             for frame in explosion:
                 screen.blit(frame,px(0,0))
@@ -588,20 +615,19 @@ def second_space_velocity():
             screen.blit(help_button[1],px(5,-50))
             if pygame.mouse.get_pressed()[0]:
                 pygame.mixer.Sound.play(click)
-                pygame.mixer.Channel(1).pause()
+                pygame.mixer.Channel(2).pause()
                 help(questions['velocity'])
                 clouds, speedometer, liberation_button, explosion=load_space_velocity_assets()
                 lanceur=load_space_vehicles()[check_missions[mission][questions['velocity']]][0]
                 booster=load_space_vehicles()[check_missions[mission][questions['velocity']]][1]
                 help_button=resize_help()
                 layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
-                pygame.mixer.Channel(1).unpause()
+                pygame.mixer.Channel(2).unpause()
         if pygame.Rect.colliderect(mouse,(pos_button,px(250,250))):
             if i>(time*775)/2000 and i<(time*1295)/2000:
                 screen.blit(liberation_button[(int(i/5)%2)+1], pos_button)
                 if pygame.mouse.get_pressed()[0]:
-                    pygame.mixer.Channel(1).stop()
-                    pygame.mixer.music.stop()
+                    pygame.mixer.Channel(2).stop()
                     pygame.mixer.Sound.play(click)
                     return True
             else:
@@ -628,7 +654,7 @@ def second_space_velocity():
             talk(txt)
             rocket_sound=pygame.mixer.Sound("space velocity/Rocket-SoundBible.com-941967813.mp3")
             rocket_sound.set_volume(0.5)
-            pygame.mixer.Channel(1).play(rocket_sound, loops=0)
+            pygame.mixer.Channel(2).play(rocket_sound, loops=0)
             clouds, speedometer, liberation_button, explosion=load_space_velocity_assets()
             lanceur=load_space_vehicles()[check_missions[mission][questions['velocity']]][0]
             booster=load_space_vehicles()[check_missions[mission][questions['velocity']]][1]
@@ -813,10 +839,11 @@ def credit_assets():
     txt=pygame.transform.scale(pygame.image.load('credits/texte.png'),px(520,125))
     title=pygame.transform.scale(pygame.image.load('menu/title.png'),px(400,400))
     share=[pygame.transform.scale(pygame.image.load('credits/partage0.png'),px(800,800)), pygame.transform.scale(pygame.image.load('credits/partage1.png'),px(800,800))]
-    return replay,quit, sat, logo_ipsa, logo_git,share,txt,title
+    logo_AeroKids=pygame.transform.scale(pygame.image.load('credits/AeroKids.png'),px(400,400))
+    return replay,quit, sat, logo_ipsa, logo_git,share,txt,title, logo_AeroKids
 
 def credits():
-    replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title=credit_assets()
+    replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title,logo_AeroKids=credit_assets()
     txt=[title,
          'FELICITATION',
          'TU AS COMPLETE LA MISSION',
@@ -830,6 +857,7 @@ def credits():
          'Une création IPSA',
          'sous licence blablabla',
          logo_ipsa,
+         logo_AeroKids,
          'PARTICIPANTS :',
          '',
          'Professeur Referent : ',
@@ -920,7 +948,7 @@ def credits():
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 font_size=int(min(px(x=25),px(y=25)))
-                replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title=credit_assets()
+                replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title,logo_AeroKids=credit_assets()
                 font = pygame.font.Font('Grand9K Pixel.ttf', font_size)
                 stars=[]
                 for star in range(100):
@@ -1049,7 +1077,7 @@ def load_and_play(name, volume):
     pygame.mixer.music.stop()
     pygame.mixer.music.load(name)
     pygame.mixer.music.set_volume(volume)
-    pygame.mixer.music.play(-1)
+    pygame.mixer.music.play(loops=-1, fade_ms=500)
 
 pygame.init()
 pygame.mixer.init()
@@ -1059,66 +1087,68 @@ class state:
     game=True
 class size:
     width, height = pygame.display.get_surface().get_size()
+
 pygame.display.set_caption('SATMAN')
 click,transition_sound, typing, explosion_sound=load_sound()
 bg_color=(173, 216, 230)
 txt_color=(0,0,0)
 
-#missions={nom de la mission:           [orbite nécessaire       , [source d'énergie    , senseur        , antenne         ]]
-check_missions={'satellite de communication': ['orbite géostationnaire','space shuttle','Florida', 'panneaux solaires','_empty','grande antenne','None', 'space shuttle'],
-          "satellite d'observation": ['orbite basse','vega','Kourou','générateur nucléaire','senseur optique', 'antenne moyenne','None', 'vega'],
-            "satellite de positionnement":['orbite moyenne','arianeV','Kourou','générateur nucléaire','_empty','petite antenne','None', 'arianeV']}
+#missions={nom de la mission:           [orbite nécessaire,[source d'énergie,senseur,antenne,etc...]]
+check_missions={"satellite de communication": ['orbite géostationnaire','space shuttle','Florida', 'panneaux solaires','_empty','grande antenne','None', 'space shuttle'],
+                "satellite d'observation":    ['orbite basse','vega','Kourou','panneaux solaires','senseur optique', 'antenne moyenne','None', 'vega'],
+                "satellite de positionnement":['orbite moyenne','arianeV','Kourou','panneaux solaires','horloge atomique','petite antenne','None', 'arianeV']}
 
-load_and_play('sound/music/sunnyday (intro).wav',0.2)
+start()
+
+transition(1,'sound/music/sunnyday (intro).wav',0.4)
 menu()
-if state.game:transition(1)
 
+if state.game:transition(1,'sound/music/8bit Bossa (main).mp3',0.4)
 if state.game:intro()
-if state.game:transition(1)
 
 #textes_erreurs={nom de la mission :          [[texte explicatif orbite],[texte explicatif composition satelllite],etc...]
 textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite de communication doit constamment être au dessus du même point", "pour faciliter le calibrage des antennes relais,", "c'est-à-dire a un orbite géostationnaire."],
-                                                  ["Bien joué !","La navette spatiale était parfaite pour emmener une charge utile","en orbite géostationnaire"],
+                                                  ["Bien joué !","La navette spatiale était parfaite pour emmener une charge utile","en orbite géostationnaire."],
                                                   ["Bonne réponse, la NASA envoie notre fusée depuis Cap Canaveral car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
-                                                  ["Bien joué !","En orbite haute une source d'énergie présente en abondance"," est le rayonnement solaire."],
-                                                  ["Bien joué !","Un satellite de communication n'a besoin d'aucun senseur car,","il ne transmet que les informations captés par son antenne"],
-                                                  ["Bien joué !","Un satellite de communication a besoin d'une antenne conséquente", "afin d'augmenter la bande passante."],
+                                                  ["Bonne réponse !", "Un satellite de communication a besoin de panneaux photovoltaïques,", "ils servent à recueillir l’énergie solaire pour la convertir en énergie thermique,","et donc en électricité, ils alimentent ainsi les satellites en électricité."],
+                                                  ["Bonne réponse !","Un satellite de communication n’a besoin d’aucun senseur car","il ne fait que transmettre les signaux reçus."],
+                                                  ["Bien joué !","Une grande antenne est utilisée pour des communications","longue distance à basses fréquences,","nécessitant une grande puissance et des mécanismes de déploiement complexes."],
                                                   ["Très bien alors on peux procéder au décollage !"],
-                                                  ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
+                                                  ["Bien joué !", "La fusée a bien atteint la vitesse nécessaire pour sa mise en orbite !"]],
         "satellite d'observation":[["Bien joué !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
-                                ["Bien joué !","La fusée Vega est parfaite pour emmener une charge utile","en orbite basse"],
+                                ["Bien joué !","La fusée Vega est parfaite pour emmener une charge utile","en orbite basse."],
                                 ["Bonne réponse, l'ESA envoie notre fusée depuis Kourou car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
-                                ["Bien joué !","Un satellite d'observation a besoin d'une source d'énergie constante,","même lorsqu'il se trouve à l'ombre de la Terre."],
-                                ["Bien joué !","Un satellite d'observation nécessite un senseur optique afin de photographier","la Terre"],
-                                ["Bien joué !","Une antenne moyenne permet de transmettre les images en bonne qualité"],
+                                ["Bonne réponse !","Un satellite d'observation a besoin de panneaux photovoltaïques,","ils servent à recueillir l’énergie solaire pour la convertir en énergie thermique," ,"et donc en électricité, ils alimentent ainsi les satellites en électricité."],
+                                ["Bien joué !","Un satellite d’observation a besoin d’un senseur optique.","Il permet de recueillir de l’énergie radiative provenant de la scène visée,","et délivre un signal électrique correspondant."],
+                                ["Bien joué !","Une antenne moyenne offre un compromis entre portée et puissance","pour des communications polyvalentes sur des distances moyennes,","avec des exigences de déploiement modérées."],
                                 ["Très bien alors on peux procéder au décollage !"],
-                                ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide où elle sortirait de l'orbite terrestre."]],
+                                ["Bien joué !", "La fusée a bien atteint la vitesse nécessaire pour sa mise en orbite !"]],
 
-        "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire"],
-                                       ["Bien joué !","La fusée Ariane V est parfaite pour emmener une charge utile","en orbite moyenne"],
-                                        ["Bonne réponse, l'ESA envoie notre fusée depuis Kourou car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
-                                       ["Bien joué !","Un satellite de positionnement nécessite une horloge atomique","afin d'être le plus précis possible pour l'heure d'envoi du signal"],
-                                       ["Bien joué !","Un satellite de positionnement n'a besoin d'aucun capteur car","sa source d'énergie est son capteur"],
-                                       ["Bien joué !","Un satellite de positionnement doit se contenter d'une petite antenne car","les informations doivent-être envoyés rapidement"],
+        "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire."],
+                                       ["Bien joué !","La fusée Ariane V est parfaite pour emmener une charge utile","en orbite moyenne."],
+                                       ["Bonne réponse, l'ESA envoie notre fusée depuis Kourou car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
+                                       ["Bonne réponse !", "Un satellite de positionnement a besoin de panneaux photovoltaïques,","ils servent à recueillir l’énergie solaire pour la convertir en énergie thermique,","et donc en électricité, ils alimentent ainsi les satellites en électricité."],
+                                       ["Bonne réponse !", "Un satellite de positionnement a besoin d’une horloge atomique","afin de connaître l’heure exacte d’envoi du signal."],
+                                       ["Bien joué !","Une petite antenne est adaptée aux transmissions à haute fréquence","sur des distances plus courtes, avec une taille compacte", "et un déploiement plus simple."],
                                        ["Très bien alors on peux procéder au décollage !"],
-                                        ["Bien joué !", "La vitesse de libération est la vitesse à laquelle la fusée est","assez rapide pour ne pas retomber sur Terre, la vitesse minimale est de 7km/s.","Mais la fusée ne doit pas être trop rapide ou elle sortirait de l'orbite terrestre."]]
+                                       ["Bien joué !", "La fusée a bien atteint la vitesse nécessaire pour sa mise en orbite !"]]
         }
 
 
 
 #textes_explicatifs=[[texte explicatif orbite],[texte explicatif customisation satellite],etc...]
 textes_explicatifs=[["Choisis l'orbite du satellite d’observation."," Quelle orbite te paraît adéquate ?","Utilise le bouton \"Aide\" pour en apprendre plus sur les différentes orbites."],
-                    ["Choisis ton lanceur.","Le bouton \"Aide\" contient des informations à propose des différents lanceurs."],
+                    ["Choisis ton lanceur.","Le bouton \"Aide\" contient des informations à propos des différents lanceurs."],
                     ["Choisis le lieu du lancement de ton satellite."," Le bouton  \"Aide\" contient des informations à propos des différents lieux."],
                     ["Construis ton satellite.", "Choisis la source d'énergie adéquate.", "Le bouton \"Aide\" contient la description des pièces des satellites."],
                     ["Construis ton satellite.", "Choisis le senseur adapté.", "Il est possible qu'il n'y ais besoin d'aucun senseur.","Le bouton \"Aide\" contient la description des pièces des satellites."],
                     ["Construis ton satellite.", "Choisis le bon moyen de communication.", "Il est possible qu'il n'y ais besoin d'aucun moyen de communication.","Le bouton \"Aide\" contient la description des pièces des satellites."],
-                    ["Vérifie les paramètres de mission","Appuis sur OK pour lancer le décollage"],
+                    ["Vérifie les paramètres de mission","Appuis sur OK pour lancer le décollage."],
                     ["Choisis quelle doit être la vitesse de libération de ton satellite,"," pour qu’il ne puisse pas retomber sur Terre !","Le bouton \"Aide\" te donnera des précisions sur la vitesse idéale."]]
 
 help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \nLes satellites sont souvent déployés \nen orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \net une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
-           "txt explicatif blablabla",
-           "txt explicatif blablabla",
+           "txt explicatif",
+           "txt explicatif",
            'Tout les satellites ont besoin d\'une source d\'alimentation,\nen orbite basse, les satellites sont parfois à l\'ombre de la Terre, \nils ne peuvent donc être alimenté par des panneaux solaires.\n\nParfois les satellites doivent-être très précis, c\'est pourquoi on utilise alors une horloge atomique,\nle \'capteur\' et la source d\'énergie sont alors les mêmes.',
            'Il est nécessaire d\'avoir des capteurs adaptés à la mission, certains satellites ne nécessitent aucun capteur.',
            "Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \net qu\'ils puisse transmettre une quantité de données suffisante.",
@@ -1132,51 +1162,44 @@ questions={'orbite':0,'rocket':1,'map':2,'custom_middle':3, 'custom_bottom':4, '
 
 
 while state.game:
-    load_and_play('sound/music/8bit Bossa (main).mp3',0.4)
+    if state.game:transition(1,'sound/music/8bit Bossa (main).mp3',0.4)
     mission=mission_chooser()
-    if state.game:transition(1)
-
-    load_and_play('sound/music/tense_drive (takeoff).mp3',0.6)
-    txt=textes_explicatifs[questions['velocity']]
-    while second_space_velocity()!=True and state.game:
-        txt=["Raté, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
-    talk(textes_fin_niveau[mission][questions['velocity']])
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['orbite']]
     while choose_orbit()!=check_missions[mission][questions['orbite']] and state.game:
-        txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les différentes orbites. "]
     talk(textes_fin_niveau[mission][questions['orbite']])
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['rocket']]
     while rocket_choice()!=check_missions[mission][questions['rocket']] and state.game:
-        txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les différents lanceurs."]
     talk(textes_fin_niveau[mission][questions['rocket']])
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['map']]
     while earth_map()!=check_missions[mission][questions['map']] and state.game:
-        txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les différentes lieux de lancements."]
     talk(textes_fin_niveau[mission][questions['map']])
     if state.game:transition(1)
     past_choices=[]
 
     txt=textes_explicatifs[questions['custom_middle']]
     while state.game and custom('middle',questions['custom_middle'])!=check_missions[mission][questions['custom_middle']]:
-        txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_middle']])
     past_choices.append((pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), pygame.image.load('satellite customisation/middle/annotation.png'), (330,210), check_missions[mission][questions['custom_middle']]))
 
     txt=textes_explicatifs[questions['custom_bottom']]
     while state.game and custom('bottom',questions['custom_bottom'])!=check_missions[mission][questions['custom_bottom']]:
-        txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse.", "Il est possible qu'il ne faille rien mettre"]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_bottom']])
     past_choices.append((pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), pygame.image.load('satellite customisation/bottom/annotation.png'), (330,440), check_missions[mission][questions['custom_bottom']]))
 
     txt=textes_explicatifs[questions['custom_top']]
     while state.game and custom('top',questions['custom_top'])!=check_missions[mission][questions['custom_top']]:
-        txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse.", "Il est possible qu'il ne faille rien mettre"]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_top']])
     past_choices.append((pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), pygame.image.load('satellite customisation/top/annotation.png'), (330,60), check_missions[mission][questions['custom_top']]))
     if state.game:transition(1)
@@ -1184,17 +1207,18 @@ while state.game:
     txt=textes_explicatifs[questions['mission_order']]
     if state.game: mission_order()
     talk(textes_fin_niveau[mission][questions['mission_order']])
-    if state.game:transition(1)
 
-    load_and_play('sound/music/tense_drive (takeoff).mp3',0.6)
+
+    if state.game:transition(1,'sound/music/tense_drive (takeoff).mp3',0.6)
     txt=textes_explicatifs[questions['velocity']]
     while second_space_velocity()!=True and state.game:
-        txt=["Raté, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations."]
     talk(textes_fin_niveau[mission][questions['velocity']])
-    if state.game:transition(1)
+    if state.game:transition(1,'sound/music/Super Helmknight OST/01_title_main_final (outro).wav',0.6)
 
     if state.game: credits()
-    if state.game:transition(1)
+
+if state.game:transition(1)
 
 
 pygame.quit()
