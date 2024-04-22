@@ -887,13 +887,16 @@ def credits():
          logo_git,
          'GITHUB',
          '',
-         'Visuels crées sur PIXILART',
+         'Visuels crées sur',
          logo_pix,
+         'PIXILART'
+         '',
          'Bande son :',
-         'OPENGAMEART.com',
          logo_OA,
+         'OPENGAMEART.com',
          'Sunnyday - inconnu',
          '8bit Bossa - Joth',
+         'tense_drive - beardalaxy',
          'Super Helmknight OST - Title (main) - @wyver9'
          ]
     run=True
@@ -991,11 +994,11 @@ def rocket_choice():
     rockets,up_button,down_button,ok_button=load_rockets()
     font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
 
-    stats={'arianeV':{"Nom":"Ariane V","Agence Spatiale":"ESA","Capacité d'emport en LEO (en tonnes)":[10.35,24],"Capacité d'emport en GTO (en tonnes)":[5,5],"Fiabilité (en %)":[95.7,100],"Réutilisable":'non'},
-    'SLS':{"Nom":"Space Launch System (SLS)","Agence Spatiale":"NASA","Capacité d'emport en LEO (en tonnes)":[9,24],"Capacité d'emport en GTO (en tonnes)":[3,5],"Fiabilité (en %)":'inconnu',"Réutilisable":'non'},
-    'vega':{"Nom":"Vega","Agence Spatiale":"ESA","Capacité d'emport en LEO (en tonnes)":[2.3,24],"Capacité d'emport en GTO (en tonnes)":[1.5,5],"Fiabilité (en %)":[98,100],"Réutilisable":'non'},
-    'space shuttle':{"Nom":"Navette Spatiale","Agence Spatiale":"NASA","Capacité d'emport en LEO (en tonnes)":[24,24],"Capacité d'emport en GTO (en tonnes)":[5,5],"Fiabilité (en %)":[75,100],"Réutilisable":'non'},
-    'soyuz':{"Nom":"Soyuz","Agence Spatiale":"ROSCOSMOS","Capacité d'emport en LEO (en tonnes)":[7,24],"Capacité d'emport en GTO (en tonnes)":[2.8,5],"Fiabilité (en %)":[98,100],"Réutilisable":'non'}}
+    stats={'arianeV':{"Nom":"Ariane V","Agence Spatiale":"ESA","Capacité d'emport en LEO (en tonnes)":[10.35,24],"Capacité d'emport en GTO (en tonnes)":[5,5],"Fiabilité (en %)":[95.7,100],"Mission principale":'transport de satellites vers tout les orbites'},
+    'SLS':{"Nom":"Space Launch System (SLS)","Agence Spatiale":"NASA","Capacité d'emport en LEO (en tonnes)":[9,24],"Capacité d'emport en GTO (en tonnes)":[3,5],"Fiabilité (en %)":'inconnu',"Mission principale":'exploration spatiale humaine'},
+    'vega':{"Nom":"Vega","Agence Spatiale":"ESA","Capacité d'emport en LEO (en tonnes)":[2.3,24],"Capacité d'emport en GTO (en tonnes)":[1.5,5],"Fiabilité (en %)":[98,100],"Mission principale":'transport de satellites en orbite basse'},
+    'space shuttle':{"Nom":"Navette Spatiale","Agence Spatiale":"NASA","Capacité d'emport en LEO (en tonnes)":[24,24],"Capacité d'emport en GTO (en tonnes)":[5,5],"Fiabilité (en %)":[75,100],"Mission principale":'transport de satellites lourds vers tout les orbites'},
+    'soyuz':{"Nom":"Soyuz","Agence Spatiale":"ROSCOSMOS","Capacité d'emport en LEO (en tonnes)":[7,24],"Capacité d'emport en GTO (en tonnes)":[2.8,5],"Fiabilité (en %)":[98,100],"Mission principale":'transport d\'astronautes et vivres'}}
     while run and state.game:
         screen.fill(bg_color)
         screen.blit(list(rockets.values())[index],px(400,20))
@@ -1006,23 +1009,23 @@ def rocket_choice():
         screen.blit(ok_button[0], px(900, 370))
 
         x=10
-        y=(size.height//2-(len(stats[list(rockets.keys())[index]])*px(txt_size)*4)//2)+px(20)
+        y=(size.height//2-(len(stats[list(rockets.keys())[index]])*px(y=txt_size)*4)//2)+px(y=20)
         for info in stats[list(rockets.keys())[index]]:
             if type(stats[list(rockets.keys())[index]][info])==type(''):
-                screen.blit(font.render(info+' : ',True,(txt_color)),px(x,y))
-                y+=px(txt_size)
-                screen.blit(font.render(str(stats[list(rockets.keys())[index]][info]),True,(txt_color)),px(x,y))
+                screen.blit(font.render(info+' : ',True,(txt_color)),(px(x),y))
+                y+=px(y=txt_size)
+                screen.blit(font.render(str(stats[list(rockets.keys())[index]][info]),True,(txt_color)),(px(x),y))
             else:
                 max_val=stats[list(rockets.keys())[index]][info][1]
                 val=stats[list(rockets.keys())[index]][info][0]
                 max_length=150
 
-                screen.blit(font.render(info+' : ',True,(txt_color)),px(x,y))
-                y+=px(txt_size)
-                pygame.draw.rect(screen,(txt_color),(px(x,y+txt_size),px(val*max_length/max_val,int(min(px(x=txt_size),px(y=txt_size))))),int(min(px(x=txt_size),px(y=txt_size))))
-                screen.blit(font.render(str(stats[list(rockets.keys())[index]][info][0]),True,(txt_color)),px(20+val*max_length/max_val,y+txt_size-5))
+                screen.blit(font.render(info+' : ',True,(txt_color)),(px(x),y))
+                y+=px(y=txt_size)
+                pygame.draw.rect(screen,(txt_color),((px(x),y+px(txt_size)),px(val*max_length/max_val,int(px(y=txt_size)))))
+                screen.blit(font.render(str(stats[list(rockets.keys())[index]][info][0]),True,(txt_color)),(px(20+val*max_length/max_val),y+px(txt_size-5)))
 
-            y+=px(txt_size)*3
+            y+=px(y=txt_size*3)
 
 
         mouse = pygame.Rect(pygame.mouse.get_pos(), (20, 20))
@@ -1185,19 +1188,19 @@ while state.game:
 
     txt=textes_explicatifs[questions['orbite']]
     while choose_orbit()!=check_missions[mission][questions['orbite']] and state.game:
-        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les différentes orbites. "]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différentes orbites. "]
     talk(textes_fin_niveau[mission][questions['orbite']])
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['rocket']]
     while rocket_choice()!=check_missions[mission][questions['rocket']] and state.game:
-        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les différents lanceurs."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différents lanceurs."]
     talk(textes_fin_niveau[mission][questions['rocket']])
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['map']]
     while earth_map()!=check_missions[mission][questions['map']] and state.game:
-        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les différentes lieux de lancements."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différentes lieux de lancements."]
     talk(textes_fin_niveau[mission][questions['map']])
     if state.game:transition(1)
 
@@ -1205,25 +1208,25 @@ while state.game:
 
     txt=textes_explicatifs[questions['custom_center']]
     while state.game and custom('center',questions['custom_center'])!=check_missions[mission][questions['custom_center']]:
-        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les pièces des satellites."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_center']])
     past_choices.append((pygame.image.load('satellite customisation/center/'+check_missions[mission][questions['custom_center']]+'.png'), pygame.image.load('satellite customisation/annotation vide.png'), (330,210),''))
 
     txt=textes_explicatifs[questions['custom_middle']]
     while state.game and custom('middle',questions['custom_middle'])!=check_missions[mission][questions['custom_middle']]:
-        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les pièces des satellites."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_middle']])
     past_choices.append((pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), pygame.image.load('satellite customisation/middle/annotation.png'), (330,210), check_missions[mission][questions['custom_middle']]))
 
     txt=textes_explicatifs[questions['custom_bottom']]
     while state.game and custom('bottom',questions['custom_bottom'])!=check_missions[mission][questions['custom_bottom']]:
-        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les pièces des satellites."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_bottom']])
     past_choices.append((pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), pygame.image.load('satellite customisation/bottom/annotation.png'), (330,440), check_missions[mission][questions['custom_bottom']]))
 
     txt=textes_explicatifs[questions['custom_top']]
     while state.game and custom('top',questions['custom_top'])!=check_missions[mission][questions['custom_top']]:
-        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les pièces des satellites."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_top']])
     past_choices.append((pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), pygame.image.load('satellite customisation/top/annotation.png'), (330,60), check_missions[mission][questions['custom_top']]))
     if state.game:transition(1)
@@ -1236,7 +1239,7 @@ while state.game:
     if state.game:transition(1,'sound/music/tense_drive (takeoff).mp3',0.6)
     txt=textes_explicatifs[questions['velocity']]
     while second_space_velocity()!=True and state.game:
-        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations."]
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations."]
     talk(textes_fin_niveau[mission][questions['velocity']])
     if state.game:transition(1,'sound/music/Super Helmknight OST/01_title_main_final (outro).wav',0.6)
 
