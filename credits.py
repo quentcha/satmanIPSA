@@ -12,7 +12,7 @@ def credit_assets():
             pygame.transform.scale(pygame.image.load('credits/empty button.png'),px(700,700))]
     quit=[pygame.transform.scale(pygame.image.load('credits/quit.png'),px(700,700)),
             pygame.transform.scale(pygame.image.load('credits/empty button.png'),px(700,700))]
-    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/body.png'), px(700, 700)),
+    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/bin/body.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(700, 700))]

@@ -421,7 +421,7 @@ def choose_orbit():
     return list(orbite.keys())[orbit_choice]
 
 def load_images(part):
-    dir={'bottom':['satellite customisation/bottom', px(330,440)],'middle':['satellite customisation/middle', px(330,210)],'top':['satellite customisation/top', px(330,60)]}[part]
+    dir={'center':['satellite customisation/center', px(400,430)],'bottom':['satellite customisation/bottom', px(330,440)],'middle':['satellite customisation/middle', px(330,210)],'top':['satellite customisation/top', px(330,60)]}[part]
     choices={}
     for f in os.listdir(dir[0]):
         if f!='annotation.png':
@@ -439,15 +439,15 @@ def resize_buttons():
     return buttons, ok
 def resize_past_choices(past_choices_list):
     new_list=[]
-    body=pygame.transform.scale(pygame.image.load('satellite customisation/body.png'), px(1500, 1500))
+    #body=pygame.transform.scale(pygame.image.load('satellite customisation/body.png'), px(1500, 1500))
     for image in range(len(past_choices_list)):
         new_list.append((pygame.transform.scale(past_choices_list[image][0],px(1500,1500)), pygame.transform.scale(past_choices_list[image][1], px(80,80)),px(past_choices_list[image][2][0],past_choices_list[image][2][1]),past_choices_list[image][3]))
-    return new_list, body
+    return new_list#, body
 def custom(part, num):
     run=True
     initialize=True
     choices,annotation = load_images(part)
-    past_choices_list, body=resize_past_choices(past_choices)
+    past_choices_list=resize_past_choices(past_choices)#, body=resize_past_choices(past_choices)
     arrow_buttons, ok_button=resize_buttons()
     font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
     help_button=resize_help()
@@ -456,7 +456,7 @@ def custom(part, num):
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
 
         screen.fill(bg_color)
-        screen.blit(body, px(-185,-200))
+        #screen.blit(body, px(-185,-200))
         for image in past_choices_list:
             if image[3]!='_empty':
                 screen.blit(image[0], px(-185,-200))
@@ -498,7 +498,7 @@ def custom(part, num):
                 help(num)
                 help_button=resize_help()
                 choices, annotation = load_images(part)
-                past_choices_list, body=resize_past_choices(past_choices)
+                past_choices_list=resize_past_choices(past_choices)#, body=resize_past_choices(past_choices)
                 arrow_buttons, ok_button=resize_buttons()
                 font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
                 pygame.mixer.music.unpause()
@@ -512,14 +512,14 @@ def custom(part, num):
                 size.width, size.height = pygame.display.get_surface().get_size()
                 help_button=resize_help()
                 choices, annotation = load_images(part)
-                past_choices_list, body=resize_past_choices(past_choices)
+                past_choices_list=resize_past_choices(past_choices)#, body=resize_past_choices(past_choices)
                 arrow_buttons, ok_button=resize_buttons()
                 font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
         if initialize==True:
             talk(txt)
             help_button=resize_help()
             choices, annotation = load_images(part)
-            past_choices_list, body=resize_past_choices(past_choices)
+            past_choices_list=resize_past_choices(past_choices)#, body=resize_past_choices(past_choices)
             arrow_buttons, ok_button=resize_buttons()
             font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
             initialize=False
@@ -765,13 +765,13 @@ def earth_map():
             return list(locations.keys())[loc]
 def mission_order_assets():
     rocket= [pygame.transform.scale(pygame.image.load('lanceur/'+check_missions[mission][questions['velocity']]+'.png'), px(550, 550))]
-    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/body.png'), px(700, 700)),
+    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/center/'+check_missions[mission][questions['custom_center']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(700, 700))]
     earth=[pygame.transform.scale(pygame.image.load('orbit/earth.png'), px(100, 100))]
     map=[pygame.transform.scale(pygame.image.load('Earth_map/Earth_map.png'), px(300, 300))]
-    ok_button=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(200,200)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button2.png'),px(200,200))]
+    ok_button=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(200,200)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(200,200))]
 
     return rocket, sat, earth, map, ok_button
 def mission_order():
@@ -830,7 +830,7 @@ def credit_assets():
             pygame.transform.scale(pygame.image.load('credits/empty button.png'),px(700,700))]
     quit=[pygame.transform.scale(pygame.image.load('credits/quit.png'),px(700,700)),
             pygame.transform.scale(pygame.image.load('credits/empty button.png'),px(700,700))]
-    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/body.png'), px(700, 700)),
+    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/bin/body.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(700, 700))]
@@ -840,10 +840,12 @@ def credit_assets():
     title=pygame.transform.scale(pygame.image.load('menu/title.png'),px(400,400))
     share=[pygame.transform.scale(pygame.image.load('credits/partage0.png'),px(800,800)), pygame.transform.scale(pygame.image.load('credits/partage1.png'),px(800,800))]
     logo_AeroKids=pygame.transform.scale(pygame.image.load('credits/AeroKids.png'),px(400,400))
-    return replay,quit, sat, logo_ipsa, logo_git,share,txt,title, logo_AeroKids
+    logo_pix=pygame.transform.scale(pygame.image.load('credits/pixilart logo.png'),px(200,200))
+    logo_OA=pygame.transform.scale(pygame.image.load('credits/opengameart logo.png'),px(200,200))
+    return replay,quit, sat, logo_ipsa, logo_git,share,txt,title, logo_AeroKids,logo_pix,logo_OA
 
 def credits():
-    replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title,logo_AeroKids=credit_assets()
+    replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title,logo_AeroKids,logo_pix,logo_OA=credit_assets()
     txt=[title,
          'FELICITATION',
          'TU AS COMPLETE LA MISSION',
@@ -883,7 +885,17 @@ def credits():
          '',
          'RETROUVE LE PROJET EN ENTIER SUR',
          logo_git,
-         'GITHUB']
+         'GITHUB',
+         '',
+         'Visuels crées sur PIXILART',
+         logo_pix,
+         'Bande son :',
+         'OPENGAMEART.com',
+         logo_OA,
+         'Sunnyday - inconnu',
+         '8bit Bossa - Joth',
+         'Super Helmknight OST - Title (main) - @wyver9'
+         ]
     run=True
     font_size=int(min(px(x=25),px(y=25)))
     font = pygame.font.Font('Grand9K Pixel.ttf', font_size)
@@ -948,7 +960,7 @@ def credits():
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 font_size=int(min(px(x=25),px(y=25)))
-                replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title,logo_AeroKids=credit_assets()
+                replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title,logo_AeroKids,logo_pix,logo_OA=credit_assets()
                 font = pygame.font.Font('Grand9K Pixel.ttf', font_size)
                 stars=[]
                 for star in range(100):
@@ -1094,9 +1106,9 @@ bg_color=(173, 216, 230)
 txt_color=(0,0,0)
 
 #missions={nom de la mission:           [orbite nécessaire,[source d'énergie,senseur,antenne,etc...]]
-check_missions={"satellite de communication": ['orbite géostationnaire','space shuttle','Florida', 'panneaux solaires','_empty','grande antenne','None', 'space shuttle'],
-                "satellite d'observation":    ['orbite basse','vega','Kourou','panneaux solaires','senseur optique', 'antenne moyenne','None', 'vega'],
-                "satellite de positionnement":['orbite moyenne','arianeV','Kourou','panneaux solaires','horloge atomique','petite antenne','None', 'arianeV']}
+check_missions={"satellite de communication": ['orbite géostationnaire','space shuttle','Florida','module de propulsion','panneaux solaires','_empty','module de communication','None', 'space shuttle'],
+                "satellite d'observation":    ['orbite basse','vega','Kourou','module de propulsion','panneaux solaires','senseur optique', 'module de communication','None', 'vega'],
+                "satellite de positionnement":['orbite moyenne','arianeV','Kourou','module de propulsion','panneaux solaires','horloge atomique','module de communication','None', 'arianeV']}
 
 start()
 
@@ -1110,26 +1122,29 @@ if state.game:intro()
 textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite de communication doit constamment être au dessus du même point", "pour faciliter le calibrage des antennes relais,", "c'est-à-dire a un orbite géostationnaire."],
                                                   ["Bien joué !","La navette spatiale était parfaite pour emmener une charge utile","en orbite géostationnaire."],
                                                   ["Bonne réponse, la NASA envoie notre fusée depuis Cap Canaveral car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
+                                                  ["Bonne réponse !", "Un satellite de communication a besoin d'un module de propulsion car", "depuis l'orbite géosationnaire il faut","pouvoir l'emmener dans son orbite cimetière."],
                                                   ["Bonne réponse !", "Un satellite de communication a besoin de panneaux photovoltaïques,", "ils servent à recueillir l’énergie solaire pour la convertir en énergie thermique,","et donc en électricité, ils alimentent ainsi les satellites en électricité."],
                                                   ["Bonne réponse !","Un satellite de communication n’a besoin d’aucun senseur car","il ne fait que transmettre les signaux reçus."],
-                                                  ["Bien joué !","Une grande antenne est utilisée pour des communications","longue distance à basses fréquences,","nécessitant une grande puissance et des mécanismes de déploiement complexes."],
+                                                  ["Bien joué !","Un module de communication est utilisée pour des communications","longue distance à basses fréquences,","nécessitant une grande puissance et des mécanismes de déploiement complexes."],
                                                   ["Très bien alors on peux procéder au décollage !"],
                                                   ["Bien joué !", "La fusée a bien atteint la vitesse nécessaire pour sa mise en orbite !"]],
         "satellite d'observation":[["Bien joué !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
                                 ["Bien joué !","La fusée Vega est parfaite pour emmener une charge utile","en orbite basse."],
                                 ["Bonne réponse, l'ESA envoie notre fusée depuis Kourou car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
+                                ["Bonne réponse !", "Un satellite d'observation a besoin d'un module de propulsion car", "depuis l'orbite basse il faut pouvoir l'empêcher", "de retomber sur Terre."],
                                 ["Bonne réponse !","Un satellite d'observation a besoin de panneaux photovoltaïques,","ils servent à recueillir l’énergie solaire pour la convertir en énergie thermique," ,"et donc en électricité, ils alimentent ainsi les satellites en électricité."],
                                 ["Bien joué !","Un satellite d’observation a besoin d’un senseur optique.","Il permet de recueillir de l’énergie radiative provenant de la scène visée,","et délivre un signal électrique correspondant."],
-                                ["Bien joué !","Une antenne moyenne offre un compromis entre portée et puissance","pour des communications polyvalentes sur des distances moyennes,","avec des exigences de déploiement modérées."],
+                                ["Bien joué !","Un module de communication offre un compromis entre portée et puissance","pour des communications polyvalentes sur des distances moyennes,","avec des exigences de déploiement modérées."],
                                 ["Très bien alors on peux procéder au décollage !"],
                                 ["Bien joué !", "La fusée a bien atteint la vitesse nécessaire pour sa mise en orbite !"]],
 
         "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire."],
                                        ["Bien joué !","La fusée Ariane V est parfaite pour emmener une charge utile","en orbite moyenne."],
                                        ["Bonne réponse, l'ESA envoie notre fusée depuis Kourou car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
+                                       ["Bonne réponse !", "Un satellite de positionnement a besoin d'un module de propulsion car", "depuis l'orbite moyenne il faut pouvoir l'emmener", "dans son orbite cimetière."],
                                        ["Bonne réponse !", "Un satellite de positionnement a besoin de panneaux photovoltaïques,","ils servent à recueillir l’énergie solaire pour la convertir en énergie thermique,","et donc en électricité, ils alimentent ainsi les satellites en électricité."],
                                        ["Bonne réponse !", "Un satellite de positionnement a besoin d’une horloge atomique","afin de connaître l’heure exacte d’envoi du signal."],
-                                       ["Bien joué !","Une petite antenne est adaptée aux transmissions à haute fréquence","sur des distances plus courtes, avec une taille compacte", "et un déploiement plus simple."],
+                                       ["Bien joué !","Un module de communication est adaptée aux transmissions à haute fréquence","sur des distances plus courtes, avec une taille compacte", "et un déploiement plus simple."],
                                        ["Très bien alors on peux procéder au décollage !"],
                                        ["Bien joué !", "La fusée a bien atteint la vitesse nécessaire pour sa mise en orbite !"]]
         }
@@ -1140,6 +1155,7 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite
 textes_explicatifs=[["Choisis l'orbite du satellite d’observation."," Quelle orbite te paraît adéquate ?","Utilise le bouton \"Aide\" pour en apprendre plus sur les différentes orbites."],
                     ["Choisis ton lanceur.","Le bouton \"Aide\" contient des informations à propos des différents lanceurs."],
                     ["Choisis le lieu du lancement de ton satellite."," Le bouton  \"Aide\" contient des informations à propos des différents lieux."],
+                    ["Construis ton satellite.", "Choisis le module adéquat", "Le bouton \"Aide\" contient la description des pièces des satellites."],
                     ["Construis ton satellite.", "Choisis la source d'énergie adéquate.", "Le bouton \"Aide\" contient la description des pièces des satellites."],
                     ["Construis ton satellite.", "Choisis le senseur adapté.", "Il est possible qu'il n'y ais besoin d'aucun senseur.","Le bouton \"Aide\" contient la description des pièces des satellites."],
                     ["Construis ton satellite.", "Choisis le bon moyen de communication.", "Il est possible qu'il n'y ais besoin d'aucun moyen de communication.","Le bouton \"Aide\" contient la description des pièces des satellites."],
@@ -1149,13 +1165,14 @@ textes_explicatifs=[["Choisis l'orbite du satellite d’observation."," Quelle o
 help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \nLes satellites sont souvent déployés \nen orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \net une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
            "txt explicatif",
            "txt explicatif",
+           "txt explicatif",
            'Tout les satellites ont besoin d\'une source d\'alimentation,\nen orbite basse, les satellites sont parfois à l\'ombre de la Terre, \nils ne peuvent donc être alimenté par des panneaux solaires.\n\nParfois les satellites doivent-être très précis, c\'est pourquoi on utilise alors une horloge atomique,\nle \'capteur\' et la source d\'énergie sont alors les mêmes.',
            'Il est nécessaire d\'avoir des capteurs adaptés à la mission, certains satellites ne nécessitent aucun capteur.',
            "Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \net qu\'ils puisse transmettre une quantité de données suffisante.",
            "NONE",
            "La vitesse de satellisation est la vitesse que notre satellite doit atteindre \npour se mettre en orbite au tour de la Terre.\nCette vitesse doit être assez élevée pour que notre vaisseau spatial ne retombe pas sur la surface de la Terre,\nelle doit donc être supérieure à 7,8 km/s.\n \nLa vitesse de libération est la vitesse que le satellite a besoin pour échapper à la gravitation de notre planète, \nelle dépend de son volume, pour la Terre, elle est de 11km/s.\n\nA noter que cette vitesse dépend des différentes planètes et de leur volume,  \nau plus elles sont volumineuses au plus la vitesse de libération sera grande." ]
 
-questions={'orbite':0,'rocket':1,'map':2,'custom_middle':3, 'custom_bottom':4, 'custom_top':5,'mission_order':6, 'velocity':7}
+questions={'orbite':0,'rocket':1,'map':2,'custom_center':3,'custom_middle':4, 'custom_bottom':5, 'custom_top':6,'mission_order':7, 'velocity':8}
 
 
 
@@ -1183,7 +1200,14 @@ while state.game:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les différentes lieux de lancements."]
     talk(textes_fin_niveau[mission][questions['map']])
     if state.game:transition(1)
+
     past_choices=[]
+
+    txt=textes_explicatifs[questions['custom_center']]
+    while state.game and custom('center',questions['custom_center'])!=check_missions[mission][questions['custom_center']]:
+        txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton <<Aide>> contient de nombreuses informations","concernant les pièces des satellites."]
+    talk(textes_fin_niveau[mission][questions['custom_center']])
+    past_choices.append((pygame.image.load('satellite customisation/center/'+check_missions[mission][questions['custom_center']]+'.png'), pygame.image.load('satellite customisation/annotation vide.png'), (330,210),''))
 
     txt=textes_explicatifs[questions['custom_middle']]
     while state.game and custom('middle',questions['custom_middle'])!=check_missions[mission][questions['custom_middle']]:

@@ -10,7 +10,7 @@ def news_anchor_assets():
     TV_set = [pygame.transform.scale(pygame.image.load('news_anchor/frame-0.png'), px(1066, 1066)),
                  pygame.transform.scale(pygame.image.load('news_anchor/frame-1.png'), px(1066, 1066))]
     rocket= [pygame.transform.scale(pygame.image.load('lanceur/'+check_missions[mission][questions['velocity']]+'.png'), px(300, 300))]
-    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/body.png'), px(500, 500)),
+    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/bin/body.png'), px(500, 500)),
          pygame.transform.scale(pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(500, 500)),
          pygame.transform.scale(pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(500, 500)),
          pygame.transform.scale(pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(500, 500))]

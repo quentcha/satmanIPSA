@@ -27,7 +27,7 @@ def resize_buttons():
     ok=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(150,150))]
     return buttons, ok
 def resize_past_choices(past_choices_list):
-    body=pygame.transform.scale(pygame.image.load('satellite customisation/body.png'), px(1500, 1500))
+    body=pygame.transform.scale(pygame.image.load('satellite customisation/bin/body.png'), px(1500, 1500))
     for image in range(len(past_choices_list)):
         past_choices_list[image]=(pygame.transform.scale(past_choices_list[image][0],px(1500,1500)), pygame.transform.scale(past_choices_list[image][1], px(80,80)),px(past_choices_list[image][2][0],past_choices_list[image][2][1]),past_choices_list[image][3])
     return past_choices_list, body
