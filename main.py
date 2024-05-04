@@ -550,10 +550,13 @@ def load_space_vehicles():
     booster_arianeV=[pygame.transform.scale(pygame.image.load('lanceur/Feu booster Ariane 1.png'),px(400,400)),
                      pygame.transform.scale(pygame.image.load('lanceur/Feu booster Ariane 2.png'),px(400,400)),
                      366,265]
-    booster_sls=[pygame.transform.scale(pygame.image.load('lanceur/Feu booster SLS 1.png'),px(400,400)),
-                 pygame.transform.scale(pygame.image.load('lanceur/Feu booster SLS 2.png'),px(400,400)),
+    booster_vega=[pygame.transform.scale(pygame.image.load('lanceur/Booster vega.png'),px(400,400)),
+                 pygame.transform.scale(pygame.image.load('lanceur/Booster vega 2.png'),px(400,400)),
                  343,265]
-    return {'arianeV':[arianeV,booster_arianeV],'space shuttle':[space_shuttle, booster_sls], 'vega':[vega, booster_arianeV]}
+    booster_shuttle=[pygame.transform.scale(pygame.image.load('lanceur/Shuttle.png'),px(400,400)),
+                 pygame.transform.scale(pygame.image.load('lanceur/Shuttle 2.png'),px(400,400)),
+                 350,78]
+    return {'arianeV':[arianeV,booster_arianeV],'space shuttle':[space_shuttle, booster_shuttle], 'vega':[vega, booster_vega]}
 def second_space_velocity():
     run=True
     clock=pygame.time.Clock()
@@ -588,10 +591,6 @@ def second_space_velocity():
             run = False
         screen.fill(bg_color)
         for slots in range(len(layers)-int((i*((len(clouds)+1)//2))/time)):#diminue le nombre de nuages au fil du temps
-            if layers[slots]==[None, [0,0], 0]:
-                layers[slots]=[clouds[random.randint(0,len(clouds)-1)], [random.randint(-200,int(size.width)),random.randint(int(px(y=-200)),int(px(y=-110)))], random.randint(int(px(y=1)),int(px(y=5)))+(i%time/(time/200))]
-            else:
-                screen.blit(layers[slots][0], (layers[slots][1][0], layers[slots][1][1]))
                 if layers[slots][1][1]>=size.height+100:
                     layers[slots]=[None, [0,0], 0]
                 if layers[slots][0]!=lanceur:
@@ -599,6 +598,10 @@ def second_space_velocity():
                 else:
                     layers[slots][1][0]=px(x=350+i%3)
                     screen.blit(booster[int(i)%2], px(booster[2]+i%3,booster[3]))
+                if layers[slots]==[None, [0,0], 0]:
+                    layers[slots]=[clouds[random.randint(0,len(clouds)-1)], [random.randint(-200,int(size.width)),random.randint(int(px(y=-200)),int(px(y=-110)))], random.randint(int(px(y=1)),int(px(y=5)))+(i%time/(time/200))]
+                else:
+                    screen.blit(layers[slots][0], (layers[slots][1][0], layers[slots][1][1]))
 
         screen.blit(speedometer, px(-150,100))
         #max 446,min 110
@@ -873,14 +876,16 @@ def credits():
           'Charlotte LEAUTEAUD',
           'Alexandra GENDREL',
           'Sarah WISZNIAK',
+          'Mohamed EL-GHALI',
           '',
           'Pole Programmation : ',
           'Marc STRICKER',
           'Gabriel GOOSENS',
           'Quentin CHAMBON',
+          'Loucas SCHNEIDER-ROSSIGNOL',
+          'Tehen LE TALLEC',
          '',
          '',
-         'ETC...',
          '',
          '',
          'RETROUVE LE PROJET EN ENTIER SUR',
@@ -1022,8 +1027,9 @@ def rocket_choice():
 
                 screen.blit(font.render(info+' : ',True,(txt_color)),(px(x),y))
                 y+=px(y=txt_size)
+                pygame.draw.rect(screen,(txt_color),((px(x),y+px(txt_size)),px(max_length,int(px(y=txt_size)))),int(px(y=5)))
                 pygame.draw.rect(screen,(txt_color),((px(x),y+px(txt_size)),px(val*max_length/max_val,int(px(y=txt_size)))))
-                screen.blit(font.render(str(stats[list(rockets.keys())[index]][info][0]),True,(txt_color)),(px(20+val*max_length/max_val),y+px(txt_size-5)))
+                screen.blit(font.render(str(stats[list(rockets.keys())[index]][info][0]),True,(txt_color)),(px(20+max_length),y+px(txt_size-5)))
 
             y+=px(y=txt_size*3)
 
@@ -1160,17 +1166,17 @@ textes_explicatifs=[["Choisis l'orbite du satellite d’observation."," Quelle o
                     ["Choisis le lieu du lancement de ton satellite."," Le bouton  \"Aide\" contient des informations à propos des différents lieux."],
                     ["Construis ton satellite.", "Choisis le module adéquat", "Le bouton \"Aide\" contient la description des pièces des satellites."],
                     ["Construis ton satellite.", "Choisis la source d'énergie adéquate.", "Le bouton \"Aide\" contient la description des pièces des satellites."],
-                    ["Construis ton satellite.", "Choisis le senseur adapté.", "Il est possible qu'il n'y ais besoin d'aucun senseur.","Le bouton \"Aide\" contient la description des pièces des satellites."],
+                    ["Construis ton satellite.", "Choisis l'instrument adapté.", "Il est possible qu'il n'y ais besoin d'aucun senseur.","Le bouton \"Aide\" contient la description des pièces des satellites."],
                     ["Construis ton satellite.", "Choisis le bon moyen de communication.", "Il est possible qu'il n'y ais besoin d'aucun moyen de communication.","Le bouton \"Aide\" contient la description des pièces des satellites."],
                     ["Vérifie les paramètres de mission","Appuis sur OK pour lancer le décollage."],
                     ["Choisis quelle doit être la vitesse de libération de ton satellite,"," pour qu’il ne puisse pas retomber sur Terre !","Le bouton \"Aide\" te donnera des précisions sur la vitesse idéale."]]
 
 help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \nLes satellites sont souvent déployés \nen orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \net une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
-           "txt explicatif",
-           "txt explicatif",
-           "txt explicatif",
-           'Tout les satellites ont besoin d\'une source d\'alimentation,\nen orbite basse, les satellites sont parfois à l\'ombre de la Terre, \nils ne peuvent donc être alimenté par des panneaux solaires.\n\nParfois les satellites doivent-être très précis, c\'est pourquoi on utilise alors une horloge atomique,\nle \'capteur\' et la source d\'énergie sont alors les mêmes.',
-           'Il est nécessaire d\'avoir des capteurs adaptés à la mission, certains satellites ne nécessitent aucun capteur.',
+           "SOYOUZ: programme russe actif depuis les années 1960 qui envoie généralement des charge en orbite basse.\nChoisir Soyouz est judicieux pour sa fiabilité, sa polyvalence et surtout pour le transport d'astronautes.\n\nARIANE V : elle transporte de lourdes charges utiles et est extrêmement fiable, ce qui donne confiance aux clients !\n De plus, elle peut être adaptée pour tout types de missions, ce qui en fait un bon choix pour des satellites complexes.\n\nVEGA : idéale pour lancer de petits satellites à moindre coût, en offrant une grande flexibilité de lancements.\nSa conception la rend adaptée aux missions spécialisées tout en étant fiable et précise pour le succès des missions.\n\nSLS : utile pour sa capacité à transporter des charges lourdes jusqu'à la Lune et Mars !\n Son développement international permet d'envisager les possibilités les plus folles !\n\nNAVETTE SPATIALE : réutilisable et donc économique, elle transportait des astronautes et des charges utiles.\n La construction de l'ISS n'aurais pas été possible sans sa grande puissance et capacitée d'emport.",
+           "Si la fusée est américaine alors elle va décoller du Cap Canaveral en Floride.\nSi elle est européenne elle décollera de Kourou.\n\nDe plus,\n le lieu de lancement doit être proche de l’équateur car la vitesse de rotation de la Terre est maximale à cet endroit,\nce qui aide à fournir un élan supplémentaire à la fusée lors du lancement,\n économisant ainsi du carburant et rendant le voyage dans l'espace plus efficace. ",
+           "PROPULSEUR : En orbite basse, il permet au satellite de rester sur son orbite car elle est ralentie par les frottements.\nEn orbite moyenne et géostationnaire le propulseur sert à amener la fusée dans son orbite cimetière\nVOILE SOLAIRE : grande surface ultrafine qui utilise les rayonnements solaires pour propulser.\nARRIMAGE : permet de connecter deux objets dans l'espace.\nMODULE DE RAVITAILLEMENT : pour les lanceurs spatiaux, cela permet d'apporter du carburant,\nles liquides de refroidissement ou la nourriture et l'eau, essentiels pour les missions spatiales.",
+           'GENERATEUR NUCLEAIRE :\nproduit de l’électricité à partir de la chaleur.\nIls est là pour alimenter les sondes, pour qu’elles fonctionnent sur plusieurs années sans maintenance.\n\nPANNEAU SOLAIRE :\nDe nombreux satellites en possèdent.\nC’est un élément destiné à recueillir l’énergie du soleil pour la convertir en électricité, \npour alimenter le satellite en électricité.',
+           "HORLOGE ATOMIQUE :\nLes horloges atomiques fournissent une synchronisation précise dans les systèmes de positionnement, comme le GPS.\nElles mesurent le temps avec une grande précision !\n\nSENSEUR OPTIQUE :\npermet de recueillir de l’énergie radiative, et de délivrer un signal électrique.\n\nSENSEUR INFRAROUGE :\n permet de mesurer le rayonnement infrarouge et est très utile pour des relevés météorologique !\n\nTELESCOPE :\n permettent une vue dégagée de l’espace car elles observent des objets sans interférence atmosphérique.",
            "Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \net qu\'ils puisse transmettre une quantité de données suffisante.",
            "NONE",
            "La vitesse de satellisation est la vitesse que notre satellite doit atteindre \npour se mettre en orbite au tour de la Terre.\nCette vitesse doit être assez élevée pour que notre vaisseau spatial ne retombe pas sur la surface de la Terre,\nelle doit donc être supérieure à 7,8 km/s.\n \nLa vitesse de libération est la vitesse que le satellite a besoin pour échapper à la gravitation de notre planète, \nelle dépend de son volume, pour la Terre, elle est de 11km/s.\n\nA noter que cette vitesse dépend des différentes planètes et de leur volume,  \nau plus elles sont volumineuses au plus la vitesse de libération sera grande." ]
@@ -1191,13 +1197,13 @@ while state.game:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différentes orbites. "]
     talk(textes_fin_niveau[mission][questions['orbite']])
     if state.game:transition(1)
-
+    
     txt=textes_explicatifs[questions['rocket']]
     while rocket_choice()!=check_missions[mission][questions['rocket']] and state.game:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différents lanceurs."]
     talk(textes_fin_niveau[mission][questions['rocket']])
     if state.game:transition(1)
-
+    
     txt=textes_explicatifs[questions['map']]
     while earth_map()!=check_missions[mission][questions['map']] and state.game:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différentes lieux de lancements."]
@@ -1211,7 +1217,7 @@ while state.game:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_center']])
     past_choices.append((pygame.image.load('satellite customisation/center/'+check_missions[mission][questions['custom_center']]+'.png'), pygame.image.load('satellite customisation/annotation vide.png'), (330,210),''))
-
+    
     txt=textes_explicatifs[questions['custom_middle']]
     while state.game and custom('middle',questions['custom_middle'])!=check_missions[mission][questions['custom_middle']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
