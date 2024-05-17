@@ -301,7 +301,7 @@ def intro():
     screen.blit(resize_assets()[2][0],px(900,250))
     screen.blit(resize_assets()[3][0],px(700,150))
     pygame.display.update()
-    talk([f"Utilise les flèches pour te déplacer et changer ta réponse.",
+    talk([f"Clique sur les flèches pour te déplacer et changer ta réponse.",
           "Quand tu penses avoir trouvé la bonne, appuie sur \"OK\".",
           "",
           "Clique une fois sur l’écran pour continuer. "])
@@ -1174,7 +1174,7 @@ textes_explicatifs=[["Choisis l'orbite du satellite d’observation."," Quelle o
 help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \nLes satellites sont souvent déployés \nen orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \net une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
            "SOYOUZ: programme russe actif depuis les années 1960 qui envoie généralement des charge en orbite basse.\nChoisir Soyouz est judicieux pour sa fiabilité, sa polyvalence et surtout pour le transport d'astronautes.\n\nARIANE V : elle transporte de lourdes charges utiles et est extrêmement fiable, ce qui donne confiance aux clients !\n De plus, elle peut être adaptée pour tout types de missions, ce qui en fait un bon choix pour des satellites complexes.\n\nVEGA : idéale pour lancer de petits satellites à moindre coût, en offrant une grande flexibilité de lancements.\nSa conception la rend adaptée aux missions spécialisées tout en étant fiable et précise pour le succès des missions.\n\nSLS : utile pour sa capacité à transporter des charges lourdes jusqu'à la Lune et Mars !\n Son développement international permet d'envisager les possibilités les plus folles !\n\nNAVETTE SPATIALE : réutilisable et donc économique, elle transportait des astronautes et des charges utiles.\n La construction de l'ISS n'aurais pas été possible sans sa grande puissance et capacitée d'emport.",
            "Si la fusée est américaine alors elle va décoller du Cap Canaveral en Floride.\nSi elle est européenne elle décollera de Kourou.\n\nDe plus,\n le lieu de lancement doit être proche de l’équateur car la vitesse de rotation de la Terre est maximale à cet endroit,\nce qui aide à fournir un élan supplémentaire à la fusée lors du lancement,\n économisant ainsi du carburant et rendant le voyage dans l'espace plus efficace. ",
-           "PROPULSEUR : En orbite basse, il permet au satellite de rester sur son orbite car elle est ralentie par les frottements.\nEn orbite moyenne et géostationnaire le propulseur sert à amener la fusée dans son orbite cimetière\nVOILE SOLAIRE : grande surface ultrafine qui utilise les rayonnements solaires pour propulser.\nARRIMAGE : permet de connecter deux objets dans l'espace.\nMODULE DE RAVITAILLEMENT : pour les lanceurs spatiaux, cela permet d'apporter du carburant,\nles liquides de refroidissement ou la nourriture et l'eau, essentiels pour les missions spatiales.",
+           "PROPULSEUR : En orbite basse, il permet au satellite de rester sur son orbite car elle est ralentie par les frottements.\nEn orbite moyenne et géostationnaire le propulseur sert à amener la fusée dans son orbite cimetière\n\nVOILE SOLAIRE : grande surface ultrafine qui utilise les rayonnements solaires pour propulser.\n\nARRIMAGE : permet de connecter deux objets dans l'espace.\n\nMODULE DE RAVITAILLEMENT : pour les lanceurs spatiaux, cela permet d'apporter du carburant,\nles liquides de refroidissement ou la nourriture et l'eau, essentiels pour les missions spatiales.",
            'GENERATEUR NUCLEAIRE :\nproduit de l’électricité à partir de la chaleur.\nIls est là pour alimenter les sondes, pour qu’elles fonctionnent sur plusieurs années sans maintenance.\n\nPANNEAU SOLAIRE :\nDe nombreux satellites en possèdent.\nC’est un élément destiné à recueillir l’énergie du soleil pour la convertir en électricité, \npour alimenter le satellite en électricité.',
            "HORLOGE ATOMIQUE :\nLes horloges atomiques fournissent une synchronisation précise dans les systèmes de positionnement, comme le GPS.\nElles mesurent le temps avec une grande précision !\n\nSENSEUR OPTIQUE :\npermet de recueillir de l’énergie radiative, et de délivrer un signal électrique.\n\nSENSEUR INFRAROUGE :\n permet de mesurer le rayonnement infrarouge et est très utile pour des relevés météorologique !\n\nTELESCOPE :\n permettent une vue dégagée de l’espace car elles observent des objets sans interférence atmosphérique.",
            "Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \net qu\'ils puisse transmettre une quantité de données suffisante.",
@@ -1193,19 +1193,19 @@ while state.game:
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['orbite']]
-    while choose_orbit()!=check_missions[mission][questions['orbite']] and state.game:
+    while state.game and choose_orbit()!=check_missions[mission][questions['orbite']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différentes orbites. "]
     talk(textes_fin_niveau[mission][questions['orbite']])
     if state.game:transition(1)
     
     txt=textes_explicatifs[questions['rocket']]
-    while rocket_choice()!=check_missions[mission][questions['rocket']] and state.game:
+    while state.game and rocket_choice()!=check_missions[mission][questions['rocket']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différents lanceurs."]
     talk(textes_fin_niveau[mission][questions['rocket']])
     if state.game:transition(1)
     
     txt=textes_explicatifs[questions['map']]
-    while earth_map()!=check_missions[mission][questions['map']] and state.game:
+    while state.game and earth_map()!=check_missions[mission][questions['map']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différentes lieux de lancements."]
     talk(textes_fin_niveau[mission][questions['map']])
     if state.game:transition(1)
