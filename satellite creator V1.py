@@ -7,8 +7,8 @@ def px(x=None,y=None):
     else:
         return ((x*size.width)/1066,(y*size.height)/600)#sinon renvoyé la nouvelle valeur de x et y
 def resize_help():
-    return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
-            pygame.transform.scale(pygame.image.load('aide/aide-2.png'),px(150,150))]
+    return [pygame.transform.scale(pygame.image.load('_internal/aide/aide-1.png'), px(150, 150)),
+            pygame.transform.scale(pygame.image.load('_internal/aide/aide-2.png'), px(150, 150))]
 def convert_images(parts):
     for category in parts:
         for l in range(len(parts[category])):
@@ -20,17 +20,23 @@ def resize_images(parts):
             parts[category][l]=pygame.transform.scale(parts[category][l],px(1500,1500))
     return parts
 def resize_buttons():
-    left_button=[pygame.transform.scale(pygame.image.load('satellite customisation/left_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/left_button2.png'),px(150,150))]
-    right_button=[pygame.transform.scale(pygame.image.load('satellite customisation/right_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/right_button2.png'),px(150,150))]
+    left_button=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/left_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '_internal/satellite customisation/left_button2.png'), px(150, 150))]
+    right_button=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/right_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '_internal/satellite customisation/right_button2.png'), px(150, 150))]
     buttons = {(px(0,20),px(150,150)):[left_button,['antenna',-1]],(px(0,220),px(150,150)):[left_button,['energy',-1]],(px(0,420),px(150,150)):[left_button,['sensor',-1]],
                (px(750,20),px(150,150)):[right_button,['antenna',1]],(px(750,220),px(150,150)):[right_button,['energy',1]],(px(750,420),px(150,150)):[right_button,['sensor',1]]}
     return buttons
 def resize_ok():
-    return [pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(150,150))]
+    return [pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '_internal/satellite customisation/button2.png'), px(150, 150))]
 def resize_annotation():
-    return {'energy':[px(330,210), pygame.transform.scale(pygame.image.load('satellite customisation/middle/annotation.png'), px(80, 80)), px(11)],
-                'sensor':[px(330,440),pygame.transform.scale(pygame.image.load('satellite customisation/bottom/annotation.png'),px(80,80)),px(10)],
-                'antenna':[px(330,60), pygame.transform.scale(pygame.image.load('satellite customisation/top/annotation.png'), px(80, 80)), px(11)]}
+    return {'energy':[px(330,210), pygame.transform.scale(pygame.image.load(
+        '_internal/satellite customisation/middle/annotation.png'), px(80, 80)), px(11)],
+                'sensor':[px(330,440), pygame.transform.scale(pygame.image.load(
+                    '_internal/satellite customisation/bottom/annotation.png'), px(80, 80)), px(10)],
+                'antenna':[px(330,60), pygame.transform.scale(pygame.image.load(
+                    '_internal/satellite customisation/top/annotation.png'), px(80, 80)), px(11)]}
 
 def satellite_creator():
 
@@ -40,7 +46,7 @@ def satellite_creator():
     buttons=resize_buttons()
     sat={'body':0,'energy':0,'sensor':0,'antenna':0}
     ok_button=resize_ok()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
     annotation=resize_annotation()
     help_button=resize_help()
     initialize=True
@@ -99,7 +105,7 @@ def satellite_creator():
                 ok_button=resize_ok()
                 annotation=resize_annotation()
                 help_button=resize_help()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
         if initialize==True:
             initialize=False
             print('intialized')

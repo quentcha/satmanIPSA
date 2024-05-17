@@ -7,21 +7,21 @@ def px(x=None, y=None):
     else:
         return ((x * size.width) / 1066, (y * size.height) / 600)
 def news_anchor_assets():
-    TV_set = [pygame.transform.scale(pygame.image.load('news_anchor/frame-0.png'), px(1066, 1066)),
-                 pygame.transform.scale(pygame.image.load('news_anchor/frame-1.png'), px(1066, 1066))]
+    TV_set = [pygame.transform.scale(pygame.image.load('_internal/news_anchor/frame-0.png'), px(1066, 1066)),
+              pygame.transform.scale(pygame.image.load('_internal/news_anchor/frame-1.png'), px(1066, 1066))]
     rocket= [pygame.transform.scale(pygame.image.load('lanceur/'+check_missions[mission][questions['velocity']]+'.png'), px(300, 300))]
-    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/bin/body.png'), px(500, 500)),
+    sat=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/bin/body.png'), px(500, 500)),
          pygame.transform.scale(pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(500, 500)),
          pygame.transform.scale(pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(500, 500)),
          pygame.transform.scale(pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(500, 500))]
-    logo=[pygame.transform.scale(pygame.image.load('menu/title.png'), px(300, 300))]
+    logo=[pygame.transform.scale(pygame.image.load('_internal/menu/title.png'), px(300, 300))]
     return TV_set, rocket, sat, logo
 def news_anchor():
     run=True
     i=0
     length=30
     TV_set, rocket, sat, logo=news_anchor_assets()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(60)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(60)))
     news=[[f"Aujourd'hui a lieu le lancement historique d'un {mission} à Kourou à l'aide d'une fusée {check_missions[mission][questions['velocity']]}."+" "*length,rocket,(0,0)] ,
           ["Cette mission est opéré par l'agence spatiale privé SATMAN"+" "*length,logo,(0,0)],
     [f"Le satellite sera envoyé en {check_missions[mission][questions['orbite']]}. Vous pouvez voir à l'écran une image du satellite"+" "*length, sat,(0,0)]]

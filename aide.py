@@ -7,11 +7,11 @@ def px(x=None,y=None):
     else:
         return ((x*size.width)/1066,(y*size.height)/600)
 def resize_help_buttons():
-    return [pygame.transform.scale(pygame.image.load('aide/retour 1.png'),px(300,300)),
-            pygame.transform.scale(pygame.image.load('aide/retour 2.png'),px(300,300))]
+    return [pygame.transform.scale(pygame.image.load('_internal/aide/retour 1.png'), px(300, 300)),
+            pygame.transform.scale(pygame.image.load('_internal/aide/retour 2.png'), px(300, 300))]
 def blit(txt):
-    help_font = pygame.font.Font('Grand9K Pixel.ttf', int(px(15)))
-    Mission_font = pygame.font.Font('Grand9K Pixel.ttf', int(px(30)))
+    help_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(15)))
+    Mission_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(30)))
     pygame.draw.rect(screen, (140, 175, 186), (px(30, 30),px(1006,540)))
     screen.blit(Mission_font.render("Objectif : "+missions, True, (0,0,0)), (px(35,35),(0,0)))
     for phrase in range(len(txt.split("\n"))):

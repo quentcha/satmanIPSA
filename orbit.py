@@ -9,10 +9,13 @@ def px(x=None,y=None):
     else:
         return ((x*size.width)/1066,(y*size.height)/600)
 def resize_assets():
-    earth= pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/earth.png'),(px(70),)*2)
-    up_button=[pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/up_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/up_button2.png'),px(150,150))]
-    down_button=[pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/down_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/down_button2.png'),px(150,150))]
-    ok_button=[pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button2.png'),px(150,150))]
+    earth= pygame.transform.scale(pygame.image.load('/satmanIPSA/_internal/orbit/earth.png'), (px(70),) * 2)
+    up_button=[pygame.transform.scale(pygame.image.load('/satmanIPSA/_internal/orbit/up_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '/satmanIPSA/_internal/orbit/up_button2.png'), px(150, 150))]
+    down_button=[pygame.transform.scale(pygame.image.load('/satmanIPSA/_internal/orbit/down_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '/satmanIPSA/_internal/orbit/down_button2.png'), px(150, 150))]
+    ok_button=[pygame.transform.scale(pygame.image.load('/satmanIPSA/_internal/satellite customisation/button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '/satmanIPSA/_internal/satellite customisation/button2.png'), px(150, 150))]
     return earth,up_button,down_button,ok_button
 def point_circulaire(angle, rayon):
     # Conversion des coordonnées polaires en coordonnées cartésiennes
@@ -26,7 +29,7 @@ def choose_orbit():
     angle=0
     #nom:[altitude en pixel,coef vitesse,sélectionné]
     orbite={'':[0,0,True],'orbite basse':[105.99,4,False],'orbite moyenne':[203.68,2,False],'orbite haute':[296.4,1,False]}
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
     orbit_choice=0
     while run==True:
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
@@ -84,7 +87,7 @@ def choose_orbit():
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 earth,up_button,down_button,ok_button=resize_assets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
 
     return list(orbite.keys())[orbit_choice]
 

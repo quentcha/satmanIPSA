@@ -1,13 +1,16 @@
 import pygame
 from talk import talk
 def resize_help():
-    return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
-            pygame.transform.scale(pygame.image.load('aide/aide-2.png'),px(150,150))]
+    return [pygame.transform.scale(pygame.image.load('_internal/aide/aide-1.png'), px(150, 150)),
+            pygame.transform.scale(pygame.image.load('_internal/aide/aide-2.png'), px(150, 150))]
 def resize_assets():
-    earth= pygame.transform.scale(pygame.image.load('orbit/earth.png'),(px(70),)*2)
-    up_button=[pygame.transform.scale(pygame.image.load('orbit/up_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/up_button2.png'),px(150,150))]
-    down_button=[pygame.transform.scale(pygame.image.load('orbit/down_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/orbit/down_button2.png'),px(150,150))]
-    ok_button=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button2.png'),px(150,150))]
+    earth= pygame.transform.scale(pygame.image.load('_internal/orbit/earth.png'), (px(70),) * 2)
+    up_button=[pygame.transform.scale(pygame.image.load('_internal/orbit/up_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '/satmanIPSA/_internal/orbit/up_button2.png'), px(150, 150))]
+    down_button=[pygame.transform.scale(pygame.image.load('_internal/orbit/down_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '/satmanIPSA/_internal/orbit/down_button2.png'), px(150, 150))]
+    ok_button=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '/satmanIPSA/_internal/satellite customisation/button2.png'), px(150, 150))]
     return earth,up_button,down_button,ok_button
 def px(x=None,y=None):
     if y==None:

@@ -12,27 +12,27 @@ def px(x=None,y=None):
     else:
         return ((x*size.width)/1066,(y*size.height)/600)
 def menu_images():
-    title=pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/menu/title.png'),px(800,800))
+    title=pygame.transform.scale(pygame.image.load('/satmanIPSA/_internal/menu/title.png'), px(800, 800))
     scientifique1=[[],
-    [pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 1.png'),px(280,280)),
-    pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 2.png'),px(280,280)),
-    pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 3.png'),px(280,280))],
-    [pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 1 M.png'),px(280,280)),
-     pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 2 M.png'),px(280,280)),
-    pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 3 M.png'),px(280,280))]
+    [pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 1.png'), px(280, 280)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 2.png'), px(280, 280)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 3.png'), px(280, 280))],
+    [pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 1 M.png'), px(280, 280)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 2 M.png'), px(280, 280)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 3 M.png'), px(280, 280))]
     ]
     scientifique2=[[],
-    [pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 1.png'),px(300,300)),
-    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 2.png'),px(300,300)),
-    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 3.png'),px(300,300))],
-    [pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 1 M.png'),px(300,300)),
-     pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 2 M.png'),px(300,300)),
-    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique 3 M.png'),px(300,300))]
+    [pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique 1.png'), px(300, 300)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique 2.png'), px(300, 300)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique 3.png'), px(300, 300))],
+    [pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique 1 M.png'), px(300, 300)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique 2 M.png'), px(300, 300)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique 3 M.png'), px(300, 300))]
     ]
-    background=[pygame.transform.scale(pygame.image.load('menu/pixil-layer-0.png'),px(1066,600)),
-                pygame.transform.scale(pygame.image.load('menu/pixil-layer-1.png'),px(1066,600)),
-                pygame.transform.scale(pygame.image.load('menu/pixil-layer-2.png'),px(1066,600)),
-                pygame.transform.scale(pygame.image.load('menu/pixil-layer-3.png'),px(1066,600))]
+    background=[pygame.transform.scale(pygame.image.load('_internal/menu/pixil-layer-0.png'), px(1066, 600)),
+                pygame.transform.scale(pygame.image.load('_internal/menu/pixil-layer-1.png'), px(1066, 600)),
+                pygame.transform.scale(pygame.image.load('_internal/menu/pixil-layer-2.png'), px(1066, 600)),
+                pygame.transform.scale(pygame.image.load('_internal/menu/pixil-layer-3.png'), px(1066, 600))]
     return title,scientifique1, scientifique2, background
 def move(x_scientists):
     for i in range(len(x_scientists)):
@@ -43,9 +43,9 @@ def move(x_scientists):
 def menu():
     play_button=(px(x=300),px(y=250),px(x=465),px(y=100))
     run=True
-    title_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(y=70),px(x=70))))
-    credit_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=20),px(y=20))))
-    pygame.mixer.music.load("sound/awesomeness.wav")
+    title_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(y=70), px(x=70))))
+    credit_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(x=20), px(y=20))))
+    pygame.mixer.music.load("_internal/sound/awesomeness.wav")
     pygame.mixer.music.play(-1)
     show_play=False
     title, scientifique0,scientifique1,background=menu_images()
@@ -83,8 +83,8 @@ def menu():
             else: show_play=False
             if event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
-                title_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(y=70),px(x=70))))
-                credit_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=20),px(y=20))))
+                title_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(y=70), px(x=70))))
+                credit_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(x=20), px(y=20))))
                 play_button=(px(x=300),px(y=250),px(x=465),px(y=100))
                 title, scientifique0,scientifique1, background=menu_images()
 

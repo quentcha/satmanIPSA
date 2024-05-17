@@ -1,8 +1,8 @@
 import pygame
 import os
 def resize_help():
-    return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
-            pygame.transform.scale(pygame.image.load('aide/aide-2.png'),px(150,150))]
+    return [pygame.transform.scale(pygame.image.load('_internal/aide/aide-1.png'), px(150, 150)),
+            pygame.transform.scale(pygame.image.load('_internal/aide/aide-2.png'), px(150, 150))]
 def px(x=None,y=None):
     if y==None:#si aucune valeur y n'est donné, calculer seulement x
         return (x*size.width)/1066# produit en croix appelant la class size
@@ -20,14 +20,17 @@ def load_images(part):
 
     return choices, annotation
 def resize_buttons():
-    left_button=[pygame.transform.scale(pygame.image.load('satellite customisation/left_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/left_button2.png'),px(150,150))]
-    right_button=[pygame.transform.scale(pygame.image.load('satellite customisation/right_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/right_button2.png'),px(150,150))]
+    left_button=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/left_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '_internal/satellite customisation/left_button2.png'), px(150, 150))]
+    right_button=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/right_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '_internal/satellite customisation/right_button2.png'), px(150, 150))]
     buttons = {(px(0,220),px(150,150)):[left_button,-1],
                (px(750,220),px(150,150)):[right_button,1]}
-    ok=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(150,150))]
+    ok=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load(
+        '_internal/satellite customisation/button2.png'), px(150, 150))]
     return buttons, ok
 def resize_past_choices(past_choices_list):
-    body=pygame.transform.scale(pygame.image.load('satellite customisation/bin/body.png'), px(1500, 1500))
+    body=pygame.transform.scale(pygame.image.load('_internal/satellite customisation/bin/body.png'), px(1500, 1500))
     for image in range(len(past_choices_list)):
         past_choices_list[image]=(pygame.transform.scale(past_choices_list[image][0],px(1500,1500)), pygame.transform.scale(past_choices_list[image][1], px(80,80)),px(past_choices_list[image][2][0],past_choices_list[image][2][1]),past_choices_list[image][3])
     return past_choices_list, body
@@ -37,7 +40,7 @@ def custom(part):
     choices,annotation = load_images(part)
     past_choices_list, body=resize_past_choices(past_choices)
     arrow_buttons, ok_button=resize_buttons()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
     help_button=resize_help()
     index=len(choices)-1
     while run and state.game:
@@ -94,7 +97,7 @@ def custom(part):
                 choices, annotation = load_images(part)
                 past_choices_list, body=resize_past_choices(past_choices_list)
                 arrow_buttons, ok_button=resize_buttons()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
         if initialize==True:
             print(txt)
             initialize=False
@@ -107,7 +110,7 @@ class size:
     width, height = pygame.display.get_surface().get_size()
 pygame.display.set_caption('SATMAN')
 bg_color=(173, 216, 230)
-click=pygame.mixer.Sound("sound/Menu Selection Click.wav")
+click=pygame.mixer.Sound("_internal/sound/Menu Selection Click.wav")
 mission='satellite de positionnement'
 check_missions={'satellite de communication': ['orbite géostationnaire', 'panneaux solaires','_empty','grande antenne'],
           "satellite d'observation": ['orbite basse','générateur nucléaire','senseur optique', 'antenne moyenne'],
@@ -120,19 +123,22 @@ txt=["Construis ton satellite.", "Le satellite doit pouvoir répondre aux besoin
 while state.game and custom('middle')!=check_missions[mission][1]:
     txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
 print('bien joué')
-past_choices.append((pygame.image.load('satellite customisation/middle/'+check_missions[mission][1]+'.png'), pygame.image.load('satellite customisation/middle/annotation.png'), (330,210), check_missions[mission][1]))
+past_choices.append((pygame.image.load('satellite customisation/middle/'+check_missions[mission][1]+'.png'), pygame.image.load(
+    '_internal/satellite customisation/middle/annotation.png'), (330, 210), check_missions[mission][1]))
 
 txt=["Construis ton satellite.", "Le satellite doit pouvoir répondre aux besoins de sa mission."]
 while state.game and custom('bottom')!=check_missions[mission][2]:
     txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
 print('bien joué')
-past_choices.append((pygame.image.load('satellite customisation/bottom/'+check_missions[mission][2]+'.png'), pygame.image.load('satellite customisation/bottom/annotation.png'), (330,440), check_missions[mission][2]))
+past_choices.append((pygame.image.load('satellite customisation/bottom/'+check_missions[mission][2]+'.png'), pygame.image.load(
+    '_internal/satellite customisation/bottom/annotation.png'), (330, 440), check_missions[mission][2]))
 
 txt=["Construis ton satellite.", "Le satellite doit pouvoir répondre aux besoins de sa mission."]
 while state.game and custom('top')!=check_missions[mission][3]:
     txt=["Mauvaise réponse, réessaye !","Tu peux cliquer sur le bouton aide pour chercher  la bonne réponse."]
 print('bien joué')
-past_choices.append((pygame.image.load('satellite customisation/top/'+check_missions[mission][3]+'.png'), pygame.image.load('satellite customisation/top/annotation.png'), (330,60), check_missions[mission][3]))
+past_choices.append((pygame.image.load('satellite customisation/top/'+check_missions[mission][3]+'.png'), pygame.image.load(
+    '_internal/satellite customisation/top/annotation.png'), (330, 60), check_missions[mission][3]))
 
 
 #print(custom('bottom'))

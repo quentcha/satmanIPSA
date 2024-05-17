@@ -8,17 +8,17 @@ def px(x=None, y=None):
     else:
         return ((x * size.width) / 1066, (y * size.height) / 600)
 def resize_help():
-    return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
-            pygame.transform.scale(pygame.image.load('aide/aide-2.png'),px(150,150))]
+    return [pygame.transform.scale(pygame.image.load('_internal/aide/aide-1.png'), px(150, 150)),
+            pygame.transform.scale(pygame.image.load('_internal/aide/aide-2.png'), px(150, 150))]
 
 def resize_earth_map_assets():
-    earth = pygame.transform.scale(pygame.image.load('Earth_map/Earth_map.png'), px(700, 700))
-    up_button = [pygame.transform.scale(pygame.image.load('orbit/up_button1.png'), px(150, 150)),
-                 pygame.transform.scale(pygame.image.load('orbit/up_button2.png'), px(150, 150))]
-    down_button = [pygame.transform.scale(pygame.image.load('orbit/down_button1.png'), px(150, 150)),
-                   pygame.transform.scale(pygame.image.load('orbit/down_button2.png'), px(150, 150))]
-    ok_button = [pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'), px(150, 150)),
-                 pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'), px(150, 150))]
+    earth = pygame.transform.scale(pygame.image.load('_internal/Earth_map/Earth_map.png'), px(700, 700))
+    up_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/up_button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('_internal/orbit/up_button2.png'), px(150, 150))]
+    down_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/down_button1.png'), px(150, 150)),
+                   pygame.transform.scale(pygame.image.load('_internal/orbit/down_button2.png'), px(150, 150))]
+    ok_button = [pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button2.png'), px(150, 150))]
     return earth, up_button, down_button, ok_button
 
 def earth_map():
@@ -29,7 +29,7 @@ def earth_map():
                  'Toulouse':[(470, 190), False],
                  'Himalaya':[(630, 230), False]}
     earth, up_button, down_button, ok_button = resize_earth_map_assets()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
     map_pos=(120,30)
     initialize=True
     while run and state.game:
@@ -93,10 +93,10 @@ def earth_map():
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 earth, up_button, down_button, ok_button = resize_earth_map_assets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
         if initialize==True:
             earth, up_button, down_button, ok_button = resize_earth_map_assets()
-            font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+            font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
             initialize=False
 
 pygame.init()

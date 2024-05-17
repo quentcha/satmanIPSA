@@ -8,19 +8,20 @@ def px(x=None, y=None):
     else:
         return ((x * size.width) / 1066, (y * size.height) / 600)
 def credit_assets():
-    replay=[pygame.transform.scale(pygame.image.load('credits/replay.png'),px(700,700)),
-            pygame.transform.scale(pygame.image.load('credits/empty button.png'),px(700,700))]
-    quit=[pygame.transform.scale(pygame.image.load('credits/quit.png'),px(700,700)),
-            pygame.transform.scale(pygame.image.load('credits/empty button.png'),px(700,700))]
-    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/bin/body.png'), px(700, 700)),
+    replay=[pygame.transform.scale(pygame.image.load('_internal/credits/replay.png'), px(700, 700)),
+            pygame.transform.scale(pygame.image.load('_internal/credits/empty button.png'), px(700, 700))]
+    quit=[pygame.transform.scale(pygame.image.load('_internal/credits/quit.png'), px(700, 700)),
+          pygame.transform.scale(pygame.image.load('_internal/credits/empty button.png'), px(700, 700))]
+    sat=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/bin/body.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(700, 700))]
-    logo_ipsa=pygame.transform.scale(pygame.image.load('credits/ipsa.png'),px(400,400))
-    logo_git=pygame.transform.scale(pygame.image.load('credits/github.png'),px(150,100))
-    txt=pygame.transform.scale(pygame.image.load('credits/texte.png'),px(520,125))
-    title=pygame.transform.scale(pygame.image.load('menu/title.png'),px(400,400))
-    share=[pygame.transform.scale(pygame.image.load('credits/partage0.png'),px(800,800)), pygame.transform.scale(pygame.image.load('credits/partage1.png'),px(800,800))]
+    logo_ipsa=pygame.transform.scale(pygame.image.load('_internal/credits/ipsa.png'), px(400, 400))
+    logo_git=pygame.transform.scale(pygame.image.load('_internal/credits/github.png'), px(150, 100))
+    txt=pygame.transform.scale(pygame.image.load('_internal/credits/texte.png'), px(520, 125))
+    title=pygame.transform.scale(pygame.image.load('_internal/menu/title.png'), px(400, 400))
+    share=[pygame.transform.scale(pygame.image.load('_internal/credits/partage0.png'), px(800, 800)), pygame.transform.scale(pygame.image.load(
+        '_internal/credits/partage1.png'), px(800, 800))]
     return replay,quit, sat, logo_ipsa, logo_git,share,txt,title
 
 def credits():
@@ -62,7 +63,7 @@ def credits():
          'GITHUB']
     run=True
     font_size=int(min(px(x=25),px(y=25)))
-    font = pygame.font.Font('Grand9K Pixel.ttf', font_size)
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', font_size)
     '''
     sat_pos=(0,0)
     sat_dir=(0,-1)
@@ -177,8 +178,8 @@ def credits():
                 sat_pos=(0,0)
                 sat_dir=(0,-1)
                 replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title=credit_assets()
-                button_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=50),px(y=50))))
-                font = pygame.font.Font('Grand9K Pixel.ttf', font_size)
+                button_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(x=50), px(y=50))))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', font_size)
                 stars=[]
                 for star in range(100):
                     stars.append((random.randint(0,int(size.width)),random.randint(0,int(size.height))))

@@ -8,21 +8,21 @@ def px(x=None, y=None):
     else:
         return ((x * size.width) / 1066, (y * size.height) / 600)
 def resize_help():
-    return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
-            pygame.transform.scale(pygame.image.load('aide/aide-2.png'),px(150,150))]
+    return [pygame.transform.scale(pygame.image.load('_internal/aide/aide-1.png'), px(150, 150)),
+            pygame.transform.scale(pygame.image.load('_internal/aide/aide-2.png'), px(150, 150))]
 def load_rockets():
-    rockets={'arianeV':pygame.transform.scale(pygame.image.load('lanceur/arianeV.png'),px(550,550))
-                ,'SLS':pygame.transform.scale(pygame.image.load('lanceur/SLS.png'),px(550,550))
-                ,'vega':pygame.transform.scale(pygame.image.load('lanceur/vega.png'),px(550,550)),
-             'space shuttle':pygame.transform.scale(pygame.image.load('lanceur/space shuttle.png'), px(550, 550))}
+    rockets={'arianeV':pygame.transform.scale(pygame.image.load('_internal/lanceur/arianeV.png'), px(550, 550))
+                ,'SLS':pygame.transform.scale(pygame.image.load('_internal/lanceur/SLS.png'), px(550, 550))
+                ,'vega':pygame.transform.scale(pygame.image.load('_internal/lanceur/vega.png'), px(550, 550)),
+             'space shuttle':pygame.transform.scale(pygame.image.load('_internal/lanceur/space shuttle.png'), px(550, 550))}
 
 
-    up_button = [pygame.transform.scale(pygame.image.load('orbit/up_button1.png'), px(150, 150)),
-                 pygame.transform.scale(pygame.image.load('orbit/up_button2.png'), px(150, 150))]
-    down_button = [pygame.transform.scale(pygame.image.load('orbit/down_button1.png'), px(150, 150)),
-                   pygame.transform.scale(pygame.image.load('orbit/down_button2.png'), px(150, 150))]
-    ok_button = [pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'), px(150, 150)),
-                 pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'), px(150, 150))]
+    up_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/up_button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('_internal/orbit/up_button2.png'), px(150, 150))]
+    down_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/down_button1.png'), px(150, 150)),
+                   pygame.transform.scale(pygame.image.load('_internal/orbit/down_button2.png'), px(150, 150))]
+    ok_button = [pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button2.png'), px(150, 150))]
     return rockets,up_button,down_button,ok_button
 
 def rocket_choice():
@@ -32,7 +32,7 @@ def rocket_choice():
 
     help_button=resize_help()
     rockets,up_button,down_button,ok_button=load_rockets()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(txt_size)))
 
     stats={'arianeV':{"Nom":"Ariane V","Agence Spatiale":"ESA","Capacité d'emport en LEO (en tonnes)":[10.35,24],"Capacité d'emport en GTO (en tonnes)":[5,5],"Fiabilité (en %)":[95.7,100],"Réutilisable":'non'},
     'SLS':{"Nom":"Space Launch System (SLS)","Agence Spatiale":"NASA","Capacité d'emport en LEO (en tonnes)":[9,24],"Capacité d'emport en GTO (en tonnes)":[3,5],"Fiabilité (en %)":'inconnu',"Réutilisable":'non'},
@@ -97,7 +97,7 @@ def rocket_choice():
                 print('help')
                 help_button=resize_help()
                 rockets,up_button,down_button,ok_button=load_rockets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(txt_size)))
 
         pygame.display.update()
         for event in pygame.event.get():
@@ -108,7 +108,7 @@ def rocket_choice():
                 size.width, size.height = pygame.display.get_surface().get_size()
                 help_button=resize_help()
                 rockets,up_button,down_button,ok_button=load_rockets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(txt_size)))
     return list(rockets.keys())[index]
 
 pygame.init()

@@ -11,7 +11,7 @@ def load_anim():
     length=12
     for i in range(length):
         print(i)
-        anim.append(pygame.transform.scale(pygame.image.load(f'transition/pixil-frame-{i}.png'),px(1066,1066)))
+        anim.append(pygame.transform.scale(pygame.image.load(f'_internal/transition/pixil-frame-{i}.png'), px(1066, 1066)))
     return anim
 def transition(read):
     anim=load_anim()

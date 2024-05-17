@@ -8,19 +8,20 @@ def px(x=None, y=None):
         return ((x * size.width) / 1066, (y * size.height) / 600)
 def mission_order_assets():
     rocket= [pygame.transform.scale(pygame.image.load('lanceur/'+check_missions[mission][questions['velocity']]+'.png'), px(550, 550))]
-    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/bin/body.png'), px(700, 700)),
+    sat=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/bin/body.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(700, 700)),
          pygame.transform.scale(pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(700, 700))]
-    earth=[pygame.transform.scale(pygame.image.load('orbit/earth.png'), px(100, 100))]
-    map=[pygame.transform.scale(pygame.image.load('Earth_map/Earth_map.png'), px(300, 300))]
-    ok_button=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(200,200)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/satellite customisation/button2.png'),px(200,200))]
+    earth=[pygame.transform.scale(pygame.image.load('_internal/orbit/earth.png'), px(100, 100))]
+    map=[pygame.transform.scale(pygame.image.load('_internal/Earth_map/Earth_map.png'), px(300, 300))]
+    ok_button=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(200, 200)), pygame.transform.scale(pygame.image.load(
+        '/satmanIPSA/_internal/satellite customisation/button2.png'), px(200, 200))]
 
     return rocket, sat, earth, map, ok_button
 def mission_order():
     run=True
     rocket, sat,earth, map, ok_button=mission_order_assets()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(25)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(25)))
     while run: #and state.game:
         screen.fill(bg_color)
 

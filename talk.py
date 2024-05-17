@@ -7,12 +7,13 @@ def px(x=None,y=None):
     else:
         return ((x*size.width)/1066,(y*size.height)/600)
 def resize_images():
-    return [pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/talk/talk0.png'),px(1060,1060)),pygame.transform.scale(pygame.image.load('C:/Users/quent/OneDrive/Documents/GitHub/satmanIPSA/talk/talk1.png'),px(1060,1060))]
+    return [pygame.transform.scale(pygame.image.load('/satmanIPSA/_internal/talk/talk0.png'), px(1060, 1060)), pygame.transform.scale(pygame.image.load(
+        '/satmanIPSA/_internal/talk/talk1.png'), px(1060, 1060))]
 
 def talk(txt):
     run=True
     talking_frames=resize_images()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(20)))
     written=[]
     for paragraph in range(len(txt)):
         written.append("")
@@ -32,7 +33,7 @@ def talk(txt):
                 elif event.type == pygame.VIDEORESIZE:
                     size.width, size.height = pygame.display.get_surface().get_size()
                     talking_frames=resize_images()
-                    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))
+                    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(20)))
     while pygame.mouse.get_pressed()[0]!=True:
         screen.blit(talking_frames[1], (px(0,390),(0,0)))
         for line in range(len(written)):

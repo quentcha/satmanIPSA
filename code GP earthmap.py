@@ -9,13 +9,13 @@ def px(x=None, y=None):
         return ((x * size.width) / 1066, (y * size.height) / 600)
 
 def resize_earth_map_assets():
-    earth = pygame.transform.scale(pygame.image.load('Earth_map/Earth_map.png'), px(1066, 1066))
-    up_button = [pygame.transform.scale(pygame.image.load('orbit/up_button1.png'), px(150, 150)),
-                 pygame.transform.scale(pygame.image.load('orbit/up_button2.png'), px(150, 150))]
-    down_button = [pygame.transform.scale(pygame.image.load('orbit/down_button1.png'), px(150, 150)),
-                   pygame.transform.scale(pygame.image.load('orbit/down_button2.png'), px(150, 150))]
-    ok_button = [pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'), px(150, 150)),
-                 pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'), px(150, 150))]
+    earth = pygame.transform.scale(pygame.image.load('_internal/Earth_map/Earth_map.png'), px(1066, 1066))
+    up_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/up_button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('_internal/orbit/up_button2.png'), px(150, 150))]
+    down_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/down_button1.png'), px(150, 150)),
+                   pygame.transform.scale(pygame.image.load('_internal/orbit/down_button2.png'), px(150, 150))]
+    ok_button = [pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button2.png'), px(150, 150))]
     return earth, up_button, down_button, ok_button
 
 def earth_map():

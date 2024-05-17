@@ -8,29 +8,29 @@ def px(x=None,y=None):
     else:
         return ((x*size.width)/1066,(y*size.height)/600)
 def resize_help():
-    return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
-            pygame.transform.scale(pygame.image.load('aide/aide-2.png'),px(150,150))]
+    return [pygame.transform.scale(pygame.image.load('_internal/aide/aide-1.png'), px(150, 150)),
+            pygame.transform.scale(pygame.image.load('_internal/aide/aide-2.png'), px(150, 150))]
 def load_space_velocity_assets():
-    clouds=[pygame.transform.scale(pygame.image.load('space velocity/cloud0.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('space velocity/cloud1.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('space velocity/cloud2.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('space velocity/cloud3.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('space velocity/cloud4.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('space velocity/cloud5.png'),px(200,200))]
-    speedometer=pygame.transform.scale(pygame.image.load('space velocity/speedometer.png'),px(400,400))
-    liberation_button=[pygame.transform.scale(pygame.image.load('space velocity/lancement0.png'),px(250,250)),
-        pygame.transform.scale(pygame.image.load('space velocity/lancement1.png'),px(250,250)),
-        pygame.transform.scale(pygame.image.load('space velocity/lancement2.png'),px(250,250))]
+    clouds=[pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud0.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud1.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud2.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud3.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud4.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud5.png'), px(200, 200))]
+    speedometer=pygame.transform.scale(pygame.image.load('_internal/space velocity/speedometer.png'), px(400, 400))
+    liberation_button=[pygame.transform.scale(pygame.image.load('_internal/space velocity/lancement0.png'), px(250, 250)),
+                       pygame.transform.scale(pygame.image.load('_internal/space velocity/lancement1.png'), px(250, 250)),
+                       pygame.transform.scale(pygame.image.load('_internal/space velocity/lancement2.png'), px(250, 250))]
     return clouds, speedometer, liberation_button
 def load_space_vehicles():
-    arianeV=pygame.transform.scale(pygame.image.load('lanceur/arianeV.png'),px(400,400))
-    sls=pygame.transform.scale(pygame.image.load('lanceur/SLS.png'),px(400,400))
-    vega=pygame.transform.scale(pygame.image.load('lanceur/vega.png'),px(400,400))
-    booster_arianeV=[pygame.transform.scale(pygame.image.load('lanceur/Feu booster Ariane 1.png'),px(400,400)),
-                     pygame.transform.scale(pygame.image.load('lanceur/Feu booster Ariane 2.png'),px(400,400)),
+    arianeV=pygame.transform.scale(pygame.image.load('_internal/lanceur/arianeV.png'), px(400, 400))
+    sls=pygame.transform.scale(pygame.image.load('_internal/lanceur/SLS.png'), px(400, 400))
+    vega=pygame.transform.scale(pygame.image.load('_internal/lanceur/vega.png'), px(400, 400))
+    booster_arianeV=[pygame.transform.scale(pygame.image.load('_internal/lanceur/Feu booster Ariane 1.png'), px(400, 400)),
+                     pygame.transform.scale(pygame.image.load('_internal/lanceur/Feu booster Ariane 2.png'), px(400, 400)),
                      366,265]
-    booster_sls=[pygame.transform.scale(pygame.image.load('lanceur/Feu booster SLS 1.png'),px(400,400)),
-                 pygame.transform.scale(pygame.image.load('lanceur/Feu booster SLS 2.png'),px(400,400)),
+    booster_sls=[pygame.transform.scale(pygame.image.load('_internal/lanceur/Feu booster SLS 1.png'), px(400, 400)),
+                 pygame.transform.scale(pygame.image.load('_internal/lanceur/Feu booster SLS 2.png'), px(400, 400)),
                  343,265]
     return {'arianeV':[arianeV,booster_arianeV],'SLS':[sls, booster_sls], 'vega':[vega, booster_arianeV]}
 def second_space_velocity():

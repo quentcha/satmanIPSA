@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-
+'''
+Sat'man (https://github.com/quentcha/satmanIPSA) © 2024 by AEROKIDS IPSA Toulouse is licensed under CC BY-NC 4.0.
+To view a copy of this license, visit https://creativecommons.org/licenses/by-nc/4.0/deed.en
+'''
 #ajouter tick vert pour satellite creator et une aide qui explique les différents choix et la mission
 import pygame
 import math
@@ -16,8 +19,8 @@ def px(x=None,y=None):
     else:
         return ((x*size.width)/1066,(y*size.height)/600)#sinon renvoyé la nouvelle valeur de x et y
 def resize_help():
-    return [pygame.transform.scale(pygame.image.load('aide/aide-1.png'),px(150,150)),
-            pygame.transform.scale(pygame.image.load('aide/aide-2.png'),px(150,150))]
+    return [pygame.transform.scale(pygame.image.load('_internal/aide/aide-1.png'), px(150, 150)),
+            pygame.transform.scale(pygame.image.load('_internal/aide/aide-2.png'), px(150, 150))]
 
 
 # charge et adapte la taille des images pour l'animation
@@ -25,7 +28,7 @@ def load_anim():
     anim=[]
     length=12 #nombre d'images dans l'animation
     for i in range(length):
-        anim.append(pygame.transform.scale(pygame.image.load(f'transition/pixil-frame-{i}.png'),px(1066,1066)))
+        anim.append(pygame.transform.scale(pygame.image.load(f'_internal/transition/pixil-frame-{i}.png'), px(1066, 1066)))
     return anim
 #fonction jouant l'animation (prend en argument la direction de lecture -1 ou 1)
 def transition(read,name=None,vol=None):
@@ -47,7 +50,7 @@ def transition(read,name=None,vol=None):
 
 def start():
         for i in range(16):
-            f=pygame.transform.scale(pygame.image.load(f'start_anim/pixil-frame-{i}.png'),px(1066,1066))
+            f=pygame.transform.scale(pygame.image.load(f'_internal/start_anim/pixil-frame-{i}.png'),px(1066,1066))
             screen.blit(f, (0,0))
             pygame.display.update()# raffraichis l'écran
             pygame.time.wait(100)
@@ -58,12 +61,12 @@ def start():
 
 #charge et adapte la taille des images du boutons retour
 def resize_return_help_buttons():
-    return [pygame.transform.scale(pygame.image.load('aide/retour 1.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('aide/retour 2.png'),px(200,200))]
+    return [pygame.transform.scale(pygame.image.load('_internal/aide/retour 1.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/aide/retour 2.png'), px(200, 200))]
 #affiche le texte de la fenêtre aide (le met en forme)
 def blit(txt):
-    help_font = pygame.font.Font('Grand9K Pixel.ttf', int(px(15)))
-    Mission_font = pygame.font.Font('Grand9K Pixel.ttf', int(px(30)))
+    help_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(15)))
+    Mission_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(30)))
     pygame.draw.rect(screen, (140, 175, 186), (px(30, 30),px(1006,540)))
     screen.blit(Mission_font.render("Objectif : "+mission, True, txt_color), (px(35,35),(0,0)))
     for phrase in range(len(txt.split("\n"))):
@@ -95,13 +98,13 @@ def help(num):
 
 #charge et adapte la taille des images du dialogue
 def resize_talking_frames():
-    return [pygame.transform.scale(pygame.image.load('talk/talk0.png'),px(1060,1060)),pygame.transform.scale(pygame.image.load('talk/talk1.png'),px(1060,1060))]
+    return [pygame.transform.scale(pygame.image.load('_internal/talk/talk0.png'), px(1060, 1060)), pygame.transform.scale(pygame.image.load('_internal/talk/talk1.png'), px(1060, 1060))]
 # fonction affichant et gérant les dialogues
 def talk(txt):
     if state.game:#si le jeu n'a pas été arrêté
         speed=30#vitesse d'affichage des lettres
         talking_frames=resize_talking_frames()#charger images
-        font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))#police d'écriture
+        font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(20)))#police d'écriture
         written=[]#texte déjà écrit (sera afficher directement)
         for paragraph in range(len(txt)):
             written.append("")
@@ -124,7 +127,7 @@ def talk(txt):
                     elif event.type == pygame.VIDEORESIZE:# si le joueur change la taille de la fenêtre
                         size.width, size.height = pygame.display.get_surface().get_size()# mettre à jour la class size avec la nouvelle taille de l'écran
                         talking_frames=resize_talking_frames()# charger les images avec les nouvelles tailles
-                        font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))# charger la police d'écriture avec une nouvelle taille
+                        font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(20)))# charger la police d'écriture avec une nouvelle taille
                 if s==a:
                     pygame.mixer.Sound.play(typing)
                     s=0
@@ -140,37 +143,37 @@ def talk(txt):
                     elif event.type == pygame.VIDEORESIZE:# si le joueur change la taille de la fenêtre
                         size.width, size.height = pygame.display.get_surface().get_size()# mettre à jour la class size avec la nouvelle taille de l'écran
                         talking_frames=resize_talking_frames()# charger les images avec les nouvelles tailles
-                        font = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))# charger la police d'écriture avec une nouvelle taille
+                        font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(20)))# charger la police d'écriture avec une nouvelle taille
         #le joueur a cliquer donc quitter le dialogue
         return
 
 
 #charge les images du menu (sous forme de liste pour certains à cause des animations)
 def menu_images():
-    title=pygame.transform.scale(pygame.image.load('menu/title.png'),px(800,800))
+    title=pygame.transform.scale(pygame.image.load('_internal/menu/title.png'), px(800, 800))
     scientifique1=[[],
-    [pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 1.png'),px(280,280)),
-    pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 2.png'),px(280,280)),
-    pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 3.png'),px(280,280))],
-    [pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 1 M.png'),px(280,280)),
-     pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 2 M.png'),px(280,280)),
-    pygame.transform.scale(pygame.image.load('menu/scientist/ssiantifique 3 M.png'),px(280,280))]
+    [pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 1.png'), px(280, 280)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 2.png'), px(280, 280)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 3.png'), px(280, 280))],
+    [pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 1 M.png'), px(280, 280)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 2 M.png'), px(280, 280)),
+     pygame.transform.scale(pygame.image.load('_internal/menu/scientist/ssiantifique 3 M.png'), px(280, 280))]
     ]
     scientifique2=[[],
-    [pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 1 M.png'),px(300,300)),
-     pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 2 M.png'),px(300,300)),
-    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 3 M.png'),px(300,300))],
-    [pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 1.png'),px(300,300)),
-    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 2.png'),px(300,300)),
-    pygame.transform.scale(pygame.image.load('menu/scientist2/ssiantifique fou 3.png'),px(300,300))]]
-    background=[pygame.transform.scale(pygame.image.load('menu/pixil-layer-0.png'),px(1066,600)),
-                pygame.transform.scale(pygame.image.load('menu/pixil-layer-1.png'),px(1066,600)),
-                pygame.transform.scale(pygame.image.load('menu/pixil-layer-2.png'),px(1066,600)),
-                pygame.transform.scale(pygame.image.load('menu/pixil-layer-3.png'),px(1066,600))]
-    scientifique3=[pygame.transform.scale(pygame.image.load('menu/scientist3/scientifique femme 1.png'),px(300,300)),
-                pygame.transform.scale(pygame.image.load('menu/scientist3/scientifique femme 2.png'),px(300,300))]
-    play=[pygame.transform.scale(pygame.image.load('menu/play.png'),px(500,500)),
-          pygame.transform.scale(pygame.image.load('menu/empty button.png'),px(500,500))]
+                   [pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique fou 1 M.png'), px(300, 300)),
+                    pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique fou 2 M.png'), px(300, 300)),
+                    pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique fou 3 M.png'), px(300, 300))],
+                   [pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique fou 1.png'), px(300, 300)),
+                    pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique fou 2.png'), px(300, 300)),
+                    pygame.transform.scale(pygame.image.load('_internal/menu/scientist2/ssiantifique fou 3.png'), px(300, 300))]]
+    background=[pygame.transform.scale(pygame.image.load('_internal/menu/pixil-layer-0.png'), px(1066, 600)),
+                pygame.transform.scale(pygame.image.load('_internal/menu/pixil-layer-1.png'), px(1066, 600)),
+                pygame.transform.scale(pygame.image.load('_internal/menu/pixil-layer-2.png'), px(1066, 600)),
+                pygame.transform.scale(pygame.image.load('_internal/menu/pixil-layer-3.png'), px(1066, 600))]
+    scientifique3=[pygame.transform.scale(pygame.image.load('_internal/menu/scientist3/scientifique femme 1.png'), px(300, 300)),
+                   pygame.transform.scale(pygame.image.load('_internal/menu/scientist3/scientifique femme 2.png'), px(300, 300))]
+    play=[pygame.transform.scale(pygame.image.load('_internal/menu/play.png'), px(500, 500)),
+          pygame.transform.scale(pygame.image.load('_internal/menu/empty button.png'), px(500, 500))]
     return title,scientifique1, scientifique2, background, scientifique3, play
 #changer la position horizontale des scientifiques
 def move(x_scientists):
@@ -183,7 +186,7 @@ def move(x_scientists):
         x_scientists[i][0]+=(x_scientists[i][1]-x_scientists[i][0])*x_scientists[i][3]/abs(x_scientists[i][1]-x_scientists[i][0])
         x_scientists[i][2]=int((x_scientists[i][1]-x_scientists[i][0])/abs(x_scientists[i][1]-x_scientists[i][0]))
 def menu():
-    credit_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=20),px(y=20))))#police des credits
+    credit_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(x=20), px(y=20))))#police des credits
     show_play=False
     title, scientifique0,scientifique1,background, scientifique3, play=menu_images()#charger les images
     #x_scientists=[[0,random.randint(0,int(px(x=700))),1,3],[900,random.randint(0,int(px(x=900))),1,5]]
@@ -231,15 +234,15 @@ def menu():
             else: show_play=False
             if event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
-                credit_font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=20),px(y=20))))
+                credit_font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(x=20), px(y=20))))
                 title, scientifique0,scientifique1, background, scientifique3, play=menu_images()
 def mission_logos():
-    comm=[pygame.transform.scale(pygame.image.load('mission chooser/satellite de communication.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('mission chooser/satellite de communication.png'),px(300,300))]
-    pos=[pygame.transform.scale(pygame.image.load('mission chooser/satellite de positionnement.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('mission chooser/satellite de positionnement.png'),px(300,300))]
-    obs=[pygame.transform.scale(pygame.image.load('mission chooser/satellite d\'observation.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('mission chooser/satellite d\'observation.png'),px(300,300))]
+    comm=[pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite de communication.png'), px(200, 200)),
+          pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite de communication.png'), px(300, 300))]
+    pos=[pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite de positionnement.png'), px(200, 200)),
+         pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite de positionnement.png'), px(300, 300))]
+    obs=[pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite d\'observation.png'), px(200, 200)),
+         pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite d\'observation.png'), px(300, 300))]
     return [comm,pos, obs]
 def mission_chooser():
     logos =mission_logos()
@@ -247,8 +250,8 @@ def mission_chooser():
     rect={(px(55,200),px(200,200)): 'satellite de communication',
           (px(435,200),px(200,200)):'satellite de positionnement',
           (px(805,200),px(200,200)):"satellite d'observation"}
-    Mission_name = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))
-    title=pygame.font.Font('Grand9K Pixel.ttf', int(px(60)))
+    Mission_name = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(20)))
+    title=pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(60)))
     run=True
     init=True
     while run and state.game:
@@ -275,9 +278,9 @@ def mission_chooser():
                 run=False
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
-                title=pygame.font.Font('Grand9K Pixel.ttf', int(px(60)))
+                title=pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(60)))
                 logos =mission_logos()
-                Mission_name = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))
+                Mission_name = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(20)))
                 rect={(px(55,200),px(200,200)): 'satellite de communication',
                 (px(435,200),px(200,200)):'satellite de positionnement',
                 (px(805,200),px(200,200)):"satellite d'observation"}
@@ -317,10 +320,10 @@ def intro():
           "",
           "Clique sur l’écran pour continuer. "])
 def resize_assets():
-    earth= pygame.transform.scale(pygame.image.load('orbit/earth.png'),(min(px(x=70),px(y=70)),)*2)
-    up_button=[pygame.transform.scale(pygame.image.load('orbit/up_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('orbit/up_button2.png'),px(150,150))]
-    down_button=[pygame.transform.scale(pygame.image.load('orbit/down_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('orbit/down_button2.png'),px(150,150))]
-    ok_button=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(150,150))]
+    earth= pygame.transform.scale(pygame.image.load('_internal/orbit/earth.png'), (min(px(x=70), px(y=70)),) * 2)
+    up_button=[pygame.transform.scale(pygame.image.load('_internal/orbit/up_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load('_internal/orbit/up_button2.png'), px(150, 150))]
+    down_button=[pygame.transform.scale(pygame.image.load('_internal/orbit/down_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load('_internal/orbit/down_button2.png'), px(150, 150))]
+    ok_button=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button2.png'), px(150, 150))]
     return earth,up_button,down_button,ok_button
 def point_circulaire(angle, rayon):
     # Conversion des coordonnées polaires en coordonnées cartésiennes
@@ -334,7 +337,7 @@ def choose_orbit():
     angle=0
     #nom:[altitude en pixel,coef vitesse,sélectionné]
     orbite={'':[0,0,True],'orbite basse':[105.99,4,False],'orbite moyenne':[203.68,2,False],'orbite géostationnaire':[296.4,1,False]}
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
     orbit_choice=0
     initialize=True
     run=True
@@ -393,7 +396,7 @@ def choose_orbit():
                 pygame.mixer.Sound.play(click)
                 help(questions['orbite'])
                 earth,up_button,down_button,ok_button=resize_assets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
                 help_button=resize_help()
                 pygame.mixer.music.unpause()
         for key in orbite:
@@ -410,18 +413,18 @@ def choose_orbit():
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 earth,up_button,down_button,ok_button=resize_assets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
                 help_button=resize_help()
         if initialize==True:
             talk(txt)
             earth,up_button,down_button,ok_button=resize_assets()
-            font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+            font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
             help_button=resize_help()
             initialize=False
     return list(orbite.keys())[orbit_choice]
 
 def load_images(part):
-    dir={'center':['satellite customisation/center', px(400,430)],'bottom':['satellite customisation/bottom', px(330,440)],'middle':['satellite customisation/middle', px(330,210)],'top':['satellite customisation/top', px(330,60)]}[part]
+    dir={'center':['_internal/satellite customisation/center', px(400,430)],'bottom':['_internal/satellite customisation/bottom', px(330,440)],'middle':['_internal/satellite customisation/middle', px(330,210)],'top':['_internal/satellite customisation/top', px(330,60)]}[part]
     choices={}
     for f in os.listdir(dir[0]):
         if f!='annotation.png':
@@ -431,11 +434,10 @@ def load_images(part):
     return choices, annotation
 
 def resize_buttons():
-    left_button=[pygame.transform.scale(pygame.image.load('satellite customisation/left_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/left_button2.png'),px(150,150))]
-    right_button=[pygame.transform.scale(pygame.image.load('satellite customisation/right_button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/right_button2.png'),px(150,150))]
-    buttons = {(px(0,220),px(150,150)):[left_button,-1],
-               (px(750,220),px(150,150)):[right_button,1]}
-    ok=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(150,150)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(150,150))]
+    left_button=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/left_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load('_internal/satellite customisation/left_button2.png'), px(150, 150))]
+    right_button=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/right_button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load('_internal/satellite customisation/right_button2.png'), px(150, 150))]
+    buttons = {(px(0,220),px(150,150)):[left_button,-1],(px(750,220),px(150,150)):[right_button,1]}
+    ok=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(150, 150)), pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button2.png'), px(150, 150))]
     return buttons, ok
 def resize_past_choices(past_choices_list):
     new_list=[]
@@ -449,7 +451,7 @@ def custom(part, num):
     choices,annotation = load_images(part)
     past_choices_list=resize_past_choices(past_choices)#, body=resize_past_choices(past_choices)
     arrow_buttons, ok_button=resize_buttons()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
     help_button=resize_help()
     index=len(choices)-1
     while run and state.game:
@@ -500,7 +502,7 @@ def custom(part, num):
                 choices, annotation = load_images(part)
                 past_choices_list=resize_past_choices(past_choices)#, body=resize_past_choices(past_choices)
                 arrow_buttons, ok_button=resize_buttons()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
                 pygame.mixer.music.unpause()
 
         pygame.display.update()
@@ -514,47 +516,47 @@ def custom(part, num):
                 choices, annotation = load_images(part)
                 past_choices_list=resize_past_choices(past_choices)#, body=resize_past_choices(past_choices)
                 arrow_buttons, ok_button=resize_buttons()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
         if initialize==True:
             talk(txt)
             help_button=resize_help()
             choices, annotation = load_images(part)
             past_choices_list=resize_past_choices(past_choices)#, body=resize_past_choices(past_choices)
             arrow_buttons, ok_button=resize_buttons()
-            font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+            font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
             initialize=False
     return list(choices.keys())[index]
 def load_space_velocity_assets():
-    clouds=[pygame.transform.scale(pygame.image.load('space velocity/cloud0.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('space velocity/cloud1.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('space velocity/cloud2.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('space velocity/cloud3.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('space velocity/cloud4.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('space velocity/cloud5.png'),px(200,200))]
-    speedometer=pygame.transform.scale(pygame.image.load('space velocity/speedometer.png'),px(400,400))
-    liberation_button=[pygame.transform.scale(pygame.image.load('space velocity/lancement0.png'),px(250,250)),
-        pygame.transform.scale(pygame.image.load('space velocity/lancement1.png'),px(250,250)),
-        pygame.transform.scale(pygame.image.load('space velocity/lancement2.png'),px(250,250))]
-    explosion=[pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-0.png'),px(1066,1066)),
-               pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-1.png'),px(1066,1066)),
-            pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-2.png'),px(1066,1066)),
-            pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-3.png'),px(1066,1066)),
-               pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-4.png'),px(1066,1066)),
-               pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-5.png'),px(1066,1066)),
-               pygame.transform.scale(pygame.image.load('space velocity/explosion/pixil-frame-6.png'),px(1066,1066))]
+    clouds=[pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud0.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud1.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud2.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud3.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud4.png'), px(200, 200)),
+            pygame.transform.scale(pygame.image.load('_internal/space velocity/cloud5.png'), px(200, 200))]
+    speedometer=pygame.transform.scale(pygame.image.load('_internal/space velocity/speedometer.png'), px(400, 400))
+    liberation_button=[pygame.transform.scale(pygame.image.load('_internal/space velocity/lancement0.png'), px(250, 250)),
+                       pygame.transform.scale(pygame.image.load('_internal/space velocity/lancement1.png'), px(250, 250)),
+                       pygame.transform.scale(pygame.image.load('_internal/space velocity/lancement2.png'), px(250, 250))]
+    explosion=[pygame.transform.scale(pygame.image.load('_internal/space velocity/explosion/pixil-frame-0.png'), px(1066, 1066)),
+               pygame.transform.scale(pygame.image.load('_internal/space velocity/explosion/pixil-frame-1.png'), px(1066, 1066)),
+               pygame.transform.scale(pygame.image.load('_internal/space velocity/explosion/pixil-frame-2.png'), px(1066, 1066)),
+               pygame.transform.scale(pygame.image.load('_internal/space velocity/explosion/pixil-frame-3.png'), px(1066, 1066)),
+               pygame.transform.scale(pygame.image.load('_internal/space velocity/explosion/pixil-frame-4.png'), px(1066, 1066)),
+               pygame.transform.scale(pygame.image.load('_internal/space velocity/explosion/pixil-frame-5.png'), px(1066, 1066)),
+               pygame.transform.scale(pygame.image.load('_internal/space velocity/explosion/pixil-frame-6.png'), px(1066, 1066))]
     return clouds, speedometer, liberation_button, explosion
 def load_space_vehicles():
-    arianeV=pygame.transform.scale(pygame.image.load('lanceur/arianeV.png'),px(400,400))
-    space_shuttle=pygame.transform.scale(pygame.image.load('lanceur/space shuttle.png'),px(400,400))
-    vega=pygame.transform.scale(pygame.image.load('lanceur/vega.png'),px(400,400))
-    booster_arianeV=[pygame.transform.scale(pygame.image.load('lanceur/Feu booster Ariane 1.png'),px(400,400)),
-                     pygame.transform.scale(pygame.image.load('lanceur/Feu booster Ariane 2.png'),px(400,400)),
+    arianeV=pygame.transform.scale(pygame.image.load('_internal/lanceur/arianeV.png'), px(400, 400))
+    space_shuttle=pygame.transform.scale(pygame.image.load('_internal/lanceur/space shuttle.png'), px(400, 400))
+    vega=pygame.transform.scale(pygame.image.load('_internal/lanceur/vega.png'), px(400, 400))
+    booster_arianeV=[pygame.transform.scale(pygame.image.load('_internal/lanceur/Feu booster Ariane 1.png'), px(400, 400)),
+                     pygame.transform.scale(pygame.image.load('_internal/lanceur/Feu booster Ariane 2.png'), px(400, 400)),
                      366,265]
-    booster_vega=[pygame.transform.scale(pygame.image.load('lanceur/Booster vega.png'),px(400,400)),
-                 pygame.transform.scale(pygame.image.load('lanceur/Booster vega 2.png'),px(400,400)),
+    booster_vega=[pygame.transform.scale(pygame.image.load('_internal/lanceur/Booster vega.png'), px(400, 400)),
+                 pygame.transform.scale(pygame.image.load('_internal/lanceur/Booster vega 2.png'), px(400, 400)),
                  343,265]
-    booster_shuttle=[pygame.transform.scale(pygame.image.load('lanceur/Shuttle.png'),px(400,400)),
-                 pygame.transform.scale(pygame.image.load('lanceur/Shuttle 2.png'),px(400,400)),
+    booster_shuttle=[pygame.transform.scale(pygame.image.load('_internal/lanceur/Shuttle.png'), px(400, 400)),
+                 pygame.transform.scale(pygame.image.load('_internal/lanceur/Shuttle 2.png'), px(400, 400)),
                  350,78]
     return {'arianeV':[arianeV,booster_arianeV],'space shuttle':[space_shuttle, booster_shuttle], 'vega':[vega, booster_vega]}
 def second_space_velocity():
@@ -655,7 +657,7 @@ def second_space_velocity():
                 layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
         if initialize==True:
             talk(txt)
-            rocket_sound=pygame.mixer.Sound("space velocity/Rocket-SoundBible.com-941967813.mp3")
+            rocket_sound=pygame.mixer.Sound("_internal/space velocity/Rocket-SoundBible.com-941967813.mp3")
             rocket_sound.set_volume(0.5)
             pygame.mixer.Channel(2).play(rocket_sound, loops=0)
             clouds, speedometer, liberation_button, explosion=load_space_velocity_assets()
@@ -665,13 +667,13 @@ def second_space_velocity():
             layers[(len(clouds)+1)//2]=[lanceur, [px(x=350),px(y=50)]]
             initialize=False
 def resize_earth_map_assets():
-    earth = pygame.transform.scale(pygame.image.load('Earth_map/Earth_map.png'), px(700, 700))
-    up_button = [pygame.transform.scale(pygame.image.load('orbit/up_button1.png'), px(150, 150)),
-                 pygame.transform.scale(pygame.image.load('orbit/up_button2.png'), px(150, 150))]
-    down_button = [pygame.transform.scale(pygame.image.load('orbit/down_button1.png'), px(150, 150)),
-                   pygame.transform.scale(pygame.image.load('orbit/down_button2.png'), px(150, 150))]
-    ok_button = [pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'), px(150, 150)),
-                 pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'), px(150, 150))]
+    earth = pygame.transform.scale(pygame.image.load('_internal/Earth_map/Earth_map.png'), px(700, 700))
+    up_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/up_button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('_internal/orbit/up_button2.png'), px(150, 150))]
+    down_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/down_button1.png'), px(150, 150)),
+                   pygame.transform.scale(pygame.image.load('_internal/orbit/down_button2.png'), px(150, 150))]
+    ok_button = [pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button2.png'), px(150, 150))]
     return earth, up_button, down_button, ok_button
 
 def earth_map():
@@ -683,7 +685,7 @@ def earth_map():
                  'Toulouse':[(470, 190), True],
                  'Himalaya':[(630, 230), False]}
     earth, up_button, down_button, ok_button = resize_earth_map_assets()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
     initialize=True
     map_pos=(120,30)
     while run and state.game:
@@ -745,7 +747,7 @@ def earth_map():
                 pygame.mixer.Sound.play(click)
                 help(questions['map'])
                 earth, up_button, down_button, ok_button = resize_earth_map_assets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
                 help_button=resize_help()
         pygame.display.update()
         for event in pygame.event.get():
@@ -755,11 +757,11 @@ def earth_map():
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 earth, up_button, down_button, ok_button = resize_earth_map_assets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
                 help_button=resize_help()
         if initialize==True:
             earth, up_button, down_button, ok_button = resize_earth_map_assets()
-            font = pygame.font.Font('Grand9K Pixel.ttf', int(px(18)))
+            font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(18)))
             help_button=resize_help()
             talk(txt)
             initialize=False
@@ -767,20 +769,20 @@ def earth_map():
         if list(locations.values())[loc][1]==True:
             return list(locations.keys())[loc]
 def mission_order_assets():
-    rocket= [pygame.transform.scale(pygame.image.load('lanceur/'+check_missions[mission][questions['velocity']]+'.png'), px(550, 550))]
-    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/center/'+check_missions[mission][questions['custom_center']]+'.png'), px(700, 700)),
-         pygame.transform.scale(pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(700, 700)),
-         pygame.transform.scale(pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(700, 700)),
-         pygame.transform.scale(pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(700, 700))]
-    earth=[pygame.transform.scale(pygame.image.load('orbit/earth.png'), px(100, 100))]
-    map=[pygame.transform.scale(pygame.image.load('Earth_map/Earth_map.png'), px(300, 300))]
-    ok_button=[pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'),px(200,200)),pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'),px(200,200))]
+    rocket= [pygame.transform.scale(pygame.image.load('_internal/lanceur/'+check_missions[mission][questions['velocity']]+'.png'), px(550, 550))]
+    sat=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/center/'+check_missions[mission][questions['custom_center']]+'.png'), px(700, 700)),
+         pygame.transform.scale(pygame.image.load('_internal/satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(700, 700)),
+         pygame.transform.scale(pygame.image.load('_internal/satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(700, 700)),
+         pygame.transform.scale(pygame.image.load('_internal/satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(700, 700))]
+    earth=[pygame.transform.scale(pygame.image.load('_internal/orbit/earth.png'), px(100, 100))]
+    map=[pygame.transform.scale(pygame.image.load('_internal/Earth_map/Earth_map.png'), px(300, 300))]
+    ok_button=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(200, 200)), pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button2.png'), px(200, 200))]
 
     return rocket, sat, earth, map, ok_button
 def mission_order():
     run=True
     rocket, sat,earth, map, ok_button=mission_order_assets()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=25),px(y=25))))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(x=25), px(y=25))))
     initialize=True
     map_pos={'Kourou':(600,420), 'Florida':(565,390)}
     while run and state.game:
@@ -822,29 +824,29 @@ def mission_order():
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
                 rocket, sat,earth, map, ok_button=mission_order_assets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=25),px(y=25))))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(x=25), px(y=25))))
         if initialize==True:
             talk(txt)
             rocket, sat,earth, map, ok_button=mission_order_assets()
-            font = pygame.font.Font('Grand9K Pixel.ttf', int(min(px(x=25),px(y=25))))
+            font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(x=25), px(y=25))))
             initialize=False
 def credit_assets():
-    replay=[pygame.transform.scale(pygame.image.load('credits/replay.png'),px(700,700)),
-            pygame.transform.scale(pygame.image.load('credits/empty button.png'),px(700,700))]
-    quit=[pygame.transform.scale(pygame.image.load('credits/quit.png'),px(700,700)),
-            pygame.transform.scale(pygame.image.load('credits/empty button.png'),px(700,700))]
-    sat=[pygame.transform.scale(pygame.image.load('satellite customisation/bin/body.png'), px(700, 700)),
-         pygame.transform.scale(pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(700, 700)),
-         pygame.transform.scale(pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(700, 700)),
-         pygame.transform.scale(pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(700, 700))]
-    logo_ipsa=pygame.transform.scale(pygame.image.load('credits/ipsa.png'),px(400,400))
-    logo_git=pygame.transform.scale(pygame.image.load('credits/github.png'),px(150,100))
-    txt=pygame.transform.scale(pygame.image.load('credits/texte.png'),px(520,125))
-    title=pygame.transform.scale(pygame.image.load('menu/title.png'),px(400,400))
-    share=[pygame.transform.scale(pygame.image.load('credits/partage0.png'),px(800,800)), pygame.transform.scale(pygame.image.load('credits/partage1.png'),px(800,800))]
-    logo_AeroKids=pygame.transform.scale(pygame.image.load('credits/AeroKids.png'),px(400,400))
-    logo_pix=pygame.transform.scale(pygame.image.load('credits/pixilart logo.png'),px(200,200))
-    logo_OA=pygame.transform.scale(pygame.image.load('credits/opengameart logo.png'),px(200,200))
+    replay=[pygame.transform.scale(pygame.image.load('_internal/credits/replay.png'), px(700, 700)),
+            pygame.transform.scale(pygame.image.load('_internal/credits/empty button.png'), px(700, 700))]
+    quit=[pygame.transform.scale(pygame.image.load('_internal/credits/quit.png'), px(700, 700)),
+          pygame.transform.scale(pygame.image.load('_internal/credits/empty button.png'), px(700, 700))]
+    sat=[pygame.transform.scale(pygame.image.load('_internal/satellite customisation/bin/body.png'), px(700, 700)),
+         pygame.transform.scale(pygame.image.load('_internal/satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), px(700, 700)),
+         pygame.transform.scale(pygame.image.load('_internal/satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), px(700, 700)),
+         pygame.transform.scale(pygame.image.load('_internal/satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), px(700, 700))]
+    logo_ipsa=pygame.transform.scale(pygame.image.load('_internal/credits/ipsa.png'), px(400, 400))
+    logo_git=pygame.transform.scale(pygame.image.load('_internal/credits/github.png'), px(150, 100))
+    txt=pygame.transform.scale(pygame.image.load('_internal/credits/texte.png'), px(520, 125))
+    title=pygame.transform.scale(pygame.image.load('_internal/menu/title.png'), px(400, 400))
+    share=[pygame.transform.scale(pygame.image.load('_internal/credits/partage0.png'), px(800, 800)), pygame.transform.scale(pygame.image.load('_internal/credits/partage1.png'), px(800, 800))]
+    logo_AeroKids=pygame.transform.scale(pygame.image.load('_internal/credits/AeroKids.png'), px(400, 400))
+    logo_pix=pygame.transform.scale(pygame.image.load('_internal/credits/pixilart logo.png'), px(200, 200))
+    logo_OA=pygame.transform.scale(pygame.image.load('_internal/credits/opengameart logo.png'), px(200, 200))
     return replay,quit, sat, logo_ipsa, logo_git,share,txt,title, logo_AeroKids,logo_pix,logo_OA
 
 def credits():
@@ -860,7 +862,7 @@ def credits():
          '',
          'SATMAN',
          'Une création IPSA',
-         'sous licence blablabla',
+         'sous licence CC BY-NC 4.0',
          logo_ipsa,
          logo_AeroKids,
          'PARTICIPANTS :',
@@ -906,7 +908,7 @@ def credits():
          ]
     run=True
     font_size=int(min(px(x=25),px(y=25)))
-    font = pygame.font.Font('Grand9K Pixel.ttf', font_size)
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', font_size)
     i=0
     stars=[]
     for star in range(100):
@@ -969,24 +971,24 @@ def credits():
                 size.width, size.height = pygame.display.get_surface().get_size()
                 font_size=int(min(px(x=25),px(y=25)))
                 replay,quit,sat, logo_ipsa, logo_git,share,texte_missions,title,logo_AeroKids,logo_pix,logo_OA=credit_assets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', font_size)
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', font_size)
                 stars=[]
                 for star in range(100):
                     stars.append((random.randint(0,int(size.width)),random.randint(0,int(size.height))))
 def load_rockets():
-    rockets={'arianeV':pygame.transform.scale(pygame.image.load('lanceur/arianeV.png'),px(550,550))
-                ,'SLS':pygame.transform.scale(pygame.image.load('lanceur/SLS.png'),px(550,550))
-                ,'vega':pygame.transform.scale(pygame.image.load('lanceur/vega.png'),px(550,550)),
-             'space shuttle':pygame.transform.scale(pygame.image.load('lanceur/space shuttle.png'), px(550, 550)),
-             'soyuz':pygame.transform.scale(pygame.image.load('lanceur/soyuz.png'), px(550, 550))}
+    rockets={'arianeV':pygame.transform.scale(pygame.image.load('_internal/lanceur/arianeV.png'), px(550, 550))
+                ,'SLS':pygame.transform.scale(pygame.image.load('_internal/lanceur/SLS.png'), px(550, 550))
+                ,'vega':pygame.transform.scale(pygame.image.load('_internal/lanceur/vega.png'), px(550, 550)),
+             'space shuttle':pygame.transform.scale(pygame.image.load('_internal/lanceur/space shuttle.png'), px(550, 550)),
+             'soyuz':pygame.transform.scale(pygame.image.load('_internal/lanceur/soyuz.png'), px(550, 550))}
 
 
-    up_button = [pygame.transform.scale(pygame.image.load('orbit/up_button1.png'), px(150, 150)),
-                 pygame.transform.scale(pygame.image.load('orbit/up_button2.png'), px(150, 150))]
-    down_button = [pygame.transform.scale(pygame.image.load('orbit/down_button1.png'), px(150, 150)),
-                   pygame.transform.scale(pygame.image.load('orbit/down_button2.png'), px(150, 150))]
-    ok_button = [pygame.transform.scale(pygame.image.load('satellite customisation/button1.png'), px(150, 150)),
-                 pygame.transform.scale(pygame.image.load('satellite customisation/button2.png'), px(150, 150))]
+    up_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/up_button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('_internal/orbit/up_button2.png'), px(150, 150))]
+    down_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/down_button1.png'), px(150, 150)),
+                   pygame.transform.scale(pygame.image.load('_internal/orbit/down_button2.png'), px(150, 150))]
+    ok_button = [pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button1.png'), px(150, 150)),
+                 pygame.transform.scale(pygame.image.load('_internal/satellite customisation/button2.png'), px(150, 150))]
     return rockets,up_button,down_button,ok_button
 
 def rocket_choice():
@@ -997,7 +999,7 @@ def rocket_choice():
 
     help_button=resize_help()
     rockets,up_button,down_button,ok_button=load_rockets()
-    font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+    font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(txt_size)))
 
     stats={'arianeV':{"Nom":"Ariane V","Agence Spatiale":"ESA","Capacité d'emport en LEO (en tonnes)":[10.35,24],"Capacité d'emport en GTO (en tonnes)":[5,5],"Fiabilité (en %)":[95.7,100],"Mission principale":'transport de satellites vers tout les orbites'},
     'SLS':{"Nom":"Space Launch System (SLS)","Agence Spatiale":"NASA","Capacité d'emport en LEO (en tonnes)":[9,24],"Capacité d'emport en GTO (en tonnes)":[3,5],"Fiabilité (en %)":'inconnu',"Mission principale":'exploration spatiale humaine'},
@@ -1068,7 +1070,7 @@ def rocket_choice():
                 help(questions['rocket'])
                 help_button=resize_help()
                 rockets,up_button,down_button,ok_button=load_rockets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(txt_size)))
 
         pygame.display.update()
         for event in pygame.event.get():
@@ -1079,20 +1081,20 @@ def rocket_choice():
                 size.width, size.height = pygame.display.get_surface().get_size()
                 help_button=resize_help()
                 rockets,up_button,down_button,ok_button=load_rockets()
-                font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+                font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(txt_size)))
         if initialize==True:
             talk(txt)
             help_button=resize_help()
             rockets,up_button,down_button,ok_button=load_rockets()
-            font = pygame.font.Font('Grand9K Pixel.ttf', int(px(txt_size)))
+            font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(txt_size)))
             initialize=False
     return list(rockets.keys())[index]
 #fonction pour chargé les sons dans le programme (appelé une seule fois)
 def load_sound():
-    cl=pygame.mixer.Sound("sound/Menu Selection Click.wav")
-    tr=pygame.mixer.Sound("sound/transition.wav")
-    ty=pygame.mixer.Sound("sound/media-10405313.mp3")
-    ex=pygame.mixer.Sound("sound/explosion.wav")
+    cl=pygame.mixer.Sound("_internal/sound/Menu Selection Click.wav")
+    tr=pygame.mixer.Sound("_internal/sound/transition.wav")
+    ty=pygame.mixer.Sound("_internal/sound/media-10405313.mp3")
+    ex=pygame.mixer.Sound("_internal/sound/explosion.wav")
     return cl, tr, ty,ex
 def load_and_play(name, volume):
     pygame.mixer.music.stop()
@@ -1103,7 +1105,7 @@ def load_and_play(name, volume):
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((1066,600), pygame.RESIZABLE) #16:9 ratio
-pygame.display.set_icon(pygame.image.load('SATMAN logo.ico'))
+pygame.display.set_icon(pygame.image.load('_internal/SATMAN logo.ico'))
 class state:
     game=True
 class size:
@@ -1121,10 +1123,10 @@ check_missions={"satellite de communication": ['orbite géostationnaire','space 
 
 start()
 
-transition(1,'sound/music/sunnyday (intro).wav',0.4)
+transition(1,'_internal/sound/music/sunnyday (intro).wav',0.4)
 menu()
 
-if state.game:transition(1,'sound/music/8bit Bossa (main).mp3',0.4)
+if state.game:transition(1,'_internal/sound/music/8bit Bossa (main).mp3',0.4)
 if state.game:intro()
 
 #textes_erreurs={nom de la mission :          [[texte explicatif orbite],[texte explicatif composition satelllite],etc...]
@@ -1188,7 +1190,7 @@ questions={'orbite':0,'rocket':1,'map':2,'custom_center':3,'custom_middle':4, 'c
 
 
 while state.game:
-    if state.game:transition(1,'sound/music/8bit Bossa (main).mp3',0.4)
+    if state.game:transition(1,'_internal/sound/music/8bit Bossa (main).mp3',0.4)
     mission=mission_chooser()
     if state.game:transition(1)
 
@@ -1216,25 +1218,26 @@ while state.game:
     while state.game and custom('center',questions['custom_center'])!=check_missions[mission][questions['custom_center']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_center']])
-    past_choices.append((pygame.image.load('satellite customisation/center/'+check_missions[mission][questions['custom_center']]+'.png'), pygame.image.load('satellite customisation/annotation vide.png'), (330,210),''))
+    past_choices.append((pygame.image.load('_internal/satellite customisation/center/'+check_missions[mission][questions['custom_center']]+'.png'), pygame.image.load(
+        '_internal/satellite customisation/annotation vide.png'), (330, 210), ''))
     
     txt=textes_explicatifs[questions['custom_middle']]
     while state.game and custom('middle',questions['custom_middle'])!=check_missions[mission][questions['custom_middle']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_middle']])
-    past_choices.append((pygame.image.load('satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), pygame.image.load('satellite customisation/middle/annotation.png'), (330,210), check_missions[mission][questions['custom_middle']]))
+    past_choices.append((pygame.image.load('_internal/satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), pygame.image.load('_internal/satellite customisation/middle/annotation.png'), (330, 210), check_missions[mission][questions['custom_middle']]))
 
     txt=textes_explicatifs[questions['custom_bottom']]
     while state.game and custom('bottom',questions['custom_bottom'])!=check_missions[mission][questions['custom_bottom']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_bottom']])
-    past_choices.append((pygame.image.load('satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), pygame.image.load('satellite customisation/bottom/annotation.png'), (330,440), check_missions[mission][questions['custom_bottom']]))
+    past_choices.append((pygame.image.load('_internal/satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), pygame.image.load('_internal/satellite customisation/bottom/annotation.png'), (330, 440), check_missions[mission][questions['custom_bottom']]))
 
     txt=textes_explicatifs[questions['custom_top']]
     while state.game and custom('top',questions['custom_top'])!=check_missions[mission][questions['custom_top']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
     talk(textes_fin_niveau[mission][questions['custom_top']])
-    past_choices.append((pygame.image.load('satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), pygame.image.load('satellite customisation/top/annotation.png'), (330,60), check_missions[mission][questions['custom_top']]))
+    past_choices.append((pygame.image.load('_internal/satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), pygame.image.load('_internal/satellite customisation/top/annotation.png'), (330, 60), check_missions[mission][questions['custom_top']]))
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['mission_order']]
@@ -1242,12 +1245,12 @@ while state.game:
     talk(textes_fin_niveau[mission][questions['mission_order']])
 
 
-    if state.game:transition(1,'sound/music/tense_drive (takeoff).mp3',0.6)
+    if state.game:transition(1,'_internal/sound/music/tense_drive (takeoff).mp3',0.6)
     txt=textes_explicatifs[questions['velocity']]
     while second_space_velocity()!=True and state.game:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations."]
     talk(textes_fin_niveau[mission][questions['velocity']])
-    if state.game:transition(1,'sound/music/Super Helmknight OST/01_title_main_final (outro).wav',0.6)
+    if state.game:transition(1,'_internal/sound/music/Super Helmknight OST/01_title_main_final (outro).wav',0.6)
 
     if state.game: credits()
 

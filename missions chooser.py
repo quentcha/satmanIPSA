@@ -7,12 +7,12 @@ def px(x=None,y=None):
     else:
         return ((x*size.width)/1066,(y*size.height)/600)
 def mission_logos():
-    comm=[pygame.transform.scale(pygame.image.load('mission chooser/satellite de communication.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('mission chooser/satellite de communication.png'),px(300,300))]
-    pos=[pygame.transform.scale(pygame.image.load('mission chooser/satellite de positionnement.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('mission chooser/satellite de positionnement.png'),px(300,300))]
-    obs=[pygame.transform.scale(pygame.image.load('mission chooser/satellite d\'observation.png'),px(200,200)),
-            pygame.transform.scale(pygame.image.load('mission chooser/satellite d\'observation.png'),px(300,300))]
+    comm=[pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite de communication.png'), px(200, 200)),
+          pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite de communication.png'), px(300, 300))]
+    pos=[pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite de positionnement.png'), px(200, 200)),
+         pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite de positionnement.png'), px(300, 300))]
+    obs=[pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite d\'observation.png'), px(200, 200)),
+         pygame.transform.scale(pygame.image.load('_internal/mission chooser/satellite d\'observation.png'), px(300, 300))]
     return [comm,pos, obs]
 def mission_chooser():
     logos =mission_logos()
@@ -20,8 +20,8 @@ def mission_chooser():
     rect={(px(55,200),px(200,200)): 'satellite de communication',
           (px(435,200),px(200,200)):'satellite de positionnement',
           (px(805,200),px(200,200)):"satellite d'observation"}
-    Mission_name = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))
-    title=pygame.font.Font('Grand9K Pixel.ttf', int(px(60)))
+    Mission_name = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(20)))
+    title=pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(60)))
     run=True
     while run:# and state.game
         mouse=pygame.Rect(pygame.mouse.get_pos(),(20,20))
@@ -44,9 +44,9 @@ def mission_chooser():
                 run=False
             elif event.type == pygame.VIDEORESIZE:
                 size.width, size.height = pygame.display.get_surface().get_size()
-                title=pygame.font.Font('Grand9K Pixel.ttf', int(px(60)))
+                title=pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(60)))
                 logos =mission_logos()
-                Mission_name = pygame.font.Font('Grand9K Pixel.ttf', int(px(20)))
+                Mission_name = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(20)))
                 rect={(px(55,200),px(200,200)): 'satellite de communication',
                 (px(435,200),px(200,200)):'satellite de positionnement',
                 (px(805,200),px(200,200)):"satellite d'observation"}
