@@ -204,9 +204,9 @@ def menu():
 
         if int(i%20):
             screen.blit(credit_font.render('.'*int(i%15)+'|'*int(i%2), True, (100,100,100)), px(220,490+(mouse[1]/100*(3))))
-            screen.blit(credit_font.render('ALERTE'*int(i%2), True, (100,100,100)), px(900,45+(mouse[1]/100*(3))))
-            screen.blit(credit_font.render('SCIENTIFIQUE FOU'*int(i%2), True, (100,100,100)), px(847,75+(mouse[1]/100*(3))))
-            screen.blit(credit_font.render('/!\\'*int(i%2), True, (100,100,100)), px(930,105+(mouse[1]/100*(3))))
+            screen.blit(credit_font.render('ALERTE'*int(i%2), True, (100,100,100)), (px(x=945)-(credit_font.size('ALERTE')[0]//2),px(y=45+(mouse[1]/100*(3)))))
+            screen.blit(credit_font.render('SCIENTIFIQUE FOU'*int(i%2), True, (100,100,100)), (px(x=945)-(credit_font.size('SCIENTIFIQUE FOU')[0]//2),px(y=75+(mouse[1]/100*(3)))))
+            screen.blit(credit_font.render('/!\\'*int(i%2), True, (100,100,100)),(px(x=945)-(credit_font.size('/!\\')[0]//2),px(y=105+(mouse[1]/100*(3)))))
 
         screen.blit(title,px(130,50))
         if int(i)%4 and show_play: screen.blit(play[1],px(300,250))
@@ -289,7 +289,7 @@ def intro():
     pygame.display.update()
     talk([f"Bonjour ! Je suis l’ingénieur en chef de l'équipe qui travaille sur le jeu SATMAN.",
           "Je vais t'aider tout au long de cette mission !",
-          "Si tu souhaites que je parle plus vite, clique en maintenant.",
+          "Si tu souhaites que je parle plus vite, clique et maintient.",
           "Clique une fois sur l’écran pour continuer."])
     screen.fill(bg_color)
     screen.blit(resize_help()[0], px(10,-30))
@@ -893,6 +893,7 @@ def credits():
          'RETROUVE LE PROJET EN ENTIER SUR',
          logo_git,
          'GITHUB',
+         '/satmanIPSA',
          '',
          'Visuels crées sur',
          logo_pix,
@@ -1175,7 +1176,7 @@ textes_explicatifs=[["Choisis l'orbite du satellite d’observation."," Quelle o
 
 help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \nLes satellites sont souvent déployés \nen orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \net une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
            "SOYOUZ: programme russe actif depuis les années 1960 qui envoie généralement des charge en orbite basse.\nChoisir Soyouz est judicieux pour sa fiabilité, sa polyvalence et surtout pour le transport d'astronautes.\n\nARIANE V : elle transporte de lourdes charges utiles et est extrêmement fiable, ce qui donne confiance aux clients !\n De plus, elle peut être adaptée pour tout types de missions, ce qui en fait un bon choix pour des satellites complexes.\n\nVEGA : idéale pour lancer de petits satellites à moindre coût, en offrant une grande flexibilité de lancements.\nSa conception la rend adaptée aux missions spécialisées tout en étant fiable et précise pour le succès des missions.\n\nSLS : utile pour sa capacité à transporter des charges lourdes jusqu'à la Lune et Mars !\n Son développement international permet d'envisager les possibilités les plus folles !\n\nNAVETTE SPATIALE : réutilisable et donc économique, elle transportait des astronautes et des charges utiles.\n La construction de l'ISS n'aurais pas été possible sans sa grande puissance et capacitée d'emport.",
-           "Si la fusée est américaine alors elle va décoller du Cap Canaveral en Floride.\nSi elle est européenne elle décollera de Kourou.\n\nDe plus,\n le lieu de lancement doit être proche de l’équateur car la vitesse de rotation de la Terre est maximale à cet endroit,\nce qui aide à fournir un élan supplémentaire à la fusée lors du lancement,\n économisant ainsi du carburant et rendant le voyage dans l'espace plus efficace. ",
+           "Si la fusée est américaine alors elle va décoller du Cap Canaveral en Floride.\nSi elle est européenne elle décollera de Kourou.\n\nDe plus,\nle lieu de lancement doit être proche de l’équateur car la vitesse de rotation de la Terre est maximale à cet endroit,\nce qui aide à fournir un élan supplémentaire à la fusée lors du lancement,\néconomisant ainsi du carburant et rendant le voyage dans l'espace plus efficace. ",
            "PROPULSEUR : En orbite basse, il permet au satellite de rester sur son orbite car elle est ralentie par les frottements.\nEn orbite moyenne et géostationnaire le propulseur sert à amener la fusée dans son orbite cimetière\n\nVOILE SOLAIRE : grande surface ultrafine qui utilise les rayonnements solaires pour propulser.\n\nARRIMAGE : permet de connecter deux objets dans l'espace.\n\nMODULE DE RAVITAILLEMENT : pour les lanceurs spatiaux, cela permet d'apporter du carburant,\nles liquides de refroidissement ou la nourriture et l'eau, essentiels pour les missions spatiales.",
            'GENERATEUR NUCLEAIRE :\nproduit de l’électricité à partir de la chaleur.\nIls est là pour alimenter les sondes, pour qu’elles fonctionnent sur plusieurs années sans maintenance.\n\nPANNEAU SOLAIRE :\nDe nombreux satellites en possèdent.\nC’est un élément destiné à recueillir l’énergie du soleil pour la convertir en électricité, \npour alimenter le satellite en électricité.',
            "HORLOGE ATOMIQUE :\nLes horloges atomiques fournissent une synchronisation précise dans les systèmes de positionnement, comme le GPS.\nElles mesurent le temps avec une grande précision !\n\nSENSEUR OPTIQUE :\npermet de recueillir de l’énergie radiative, et de délivrer un signal électrique.\n\nSENSEUR INFRAROUGE :\n permet de mesurer le rayonnement infrarouge et est très utile pour des relevés météorologique !\n\nTELESCOPE :\n permettent une vue dégagée de l’espace car elles observent des objets sans interférence atmosphérique.",
@@ -1191,25 +1192,25 @@ questions={'orbite':0,'rocket':1,'map':2,'custom_center':3,'custom_middle':4, 'c
 
 while state.game:
     if state.game:transition(1,'_internal/sound/music/8bit Bossa (main).mp3',0.4)
-    mission=mission_chooser()
+    if state.game:mission=mission_chooser()
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['orbite']]
     while state.game and choose_orbit()!=check_missions[mission][questions['orbite']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différentes orbites. "]
-    talk(textes_fin_niveau[mission][questions['orbite']])
+    if state.game:talk(textes_fin_niveau[mission][questions['orbite']])
     if state.game:transition(1)
     
     txt=textes_explicatifs[questions['rocket']]
     while state.game and rocket_choice()!=check_missions[mission][questions['rocket']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différents lanceurs."]
-    talk(textes_fin_niveau[mission][questions['rocket']])
+    if state.game:talk(textes_fin_niveau[mission][questions['rocket']])
     if state.game:transition(1)
     
     txt=textes_explicatifs[questions['map']]
     while state.game and earth_map()!=check_missions[mission][questions['map']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différentes lieux de lancements."]
-    talk(textes_fin_niveau[mission][questions['map']])
+    if state.game:talk(textes_fin_niveau[mission][questions['map']])
     if state.game:transition(1)
 
     past_choices=[]
@@ -1217,39 +1218,39 @@ while state.game:
     txt=textes_explicatifs[questions['custom_center']]
     while state.game and custom('center',questions['custom_center'])!=check_missions[mission][questions['custom_center']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
-    talk(textes_fin_niveau[mission][questions['custom_center']])
-    past_choices.append((pygame.image.load('_internal/satellite customisation/center/'+check_missions[mission][questions['custom_center']]+'.png'), pygame.image.load(
+    if state.game:talk(textes_fin_niveau[mission][questions['custom_center']])
+    if state.game:past_choices.append((pygame.image.load('_internal/satellite customisation/center/'+check_missions[mission][questions['custom_center']]+'.png'), pygame.image.load(
         '_internal/satellite customisation/annotation vide.png'), (330, 210), ''))
     
     txt=textes_explicatifs[questions['custom_middle']]
     while state.game and custom('middle',questions['custom_middle'])!=check_missions[mission][questions['custom_middle']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
-    talk(textes_fin_niveau[mission][questions['custom_middle']])
-    past_choices.append((pygame.image.load('_internal/satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), pygame.image.load('_internal/satellite customisation/middle/annotation.png'), (330, 210), check_missions[mission][questions['custom_middle']]))
+    if state.game:talk(textes_fin_niveau[mission][questions['custom_middle']])
+    if state.game:past_choices.append((pygame.image.load('_internal/satellite customisation/middle/'+check_missions[mission][questions['custom_middle']]+'.png'), pygame.image.load('_internal/satellite customisation/middle/annotation.png'), (330, 210), check_missions[mission][questions['custom_middle']]))
 
     txt=textes_explicatifs[questions['custom_bottom']]
     while state.game and custom('bottom',questions['custom_bottom'])!=check_missions[mission][questions['custom_bottom']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
-    talk(textes_fin_niveau[mission][questions['custom_bottom']])
-    past_choices.append((pygame.image.load('_internal/satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), pygame.image.load('_internal/satellite customisation/bottom/annotation.png'), (330, 440), check_missions[mission][questions['custom_bottom']]))
+    if state.game:talk(textes_fin_niveau[mission][questions['custom_bottom']])
+    if state.game:past_choices.append((pygame.image.load('_internal/satellite customisation/bottom/'+check_missions[mission][questions['custom_bottom']]+'.png'), pygame.image.load('_internal/satellite customisation/bottom/annotation.png'), (330, 440), check_missions[mission][questions['custom_bottom']]))
 
     txt=textes_explicatifs[questions['custom_top']]
     while state.game and custom('top',questions['custom_top'])!=check_missions[mission][questions['custom_top']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les pièces des satellites."]
-    talk(textes_fin_niveau[mission][questions['custom_top']])
-    past_choices.append((pygame.image.load('_internal/satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), pygame.image.load('_internal/satellite customisation/top/annotation.png'), (330, 60), check_missions[mission][questions['custom_top']]))
+    if state.game:talk(textes_fin_niveau[mission][questions['custom_top']])
+    if state.game:past_choices.append((pygame.image.load('_internal/satellite customisation/top/'+check_missions[mission][questions['custom_top']]+'.png'), pygame.image.load('_internal/satellite customisation/top/annotation.png'), (330, 60), check_missions[mission][questions['custom_top']]))
     if state.game:transition(1)
 
     txt=textes_explicatifs[questions['mission_order']]
     if state.game: mission_order()
-    talk(textes_fin_niveau[mission][questions['mission_order']])
+    if state.game:talk(textes_fin_niveau[mission][questions['mission_order']])
 
 
     if state.game:transition(1,'_internal/sound/music/tense_drive (takeoff).mp3',0.6)
     txt=textes_explicatifs[questions['velocity']]
     while second_space_velocity()!=True and state.game:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations."]
-    talk(textes_fin_niveau[mission][questions['velocity']])
+    if state.game:talk(textes_fin_niveau[mission][questions['velocity']])
     if state.game:transition(1,'_internal/sound/music/Super Helmknight OST/01_title_main_final (outro).wav',0.6)
 
     if state.game: credits()
