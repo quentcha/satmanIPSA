@@ -315,8 +315,8 @@ def intro():
     screen.blit(resize_assets()[3][0],px(700,150))
     pygame.display.update()
     talk(["Alors ? ",
-          "Prêt(e) à envoyer un satellite dans l’espace ?! "
-          "Alors c'est parti !!",
+          "Prêt(e) à envoyer un satellite dans l’espace ?"
+          "Alors c'est parti !",
           "",
           "Clique sur l’écran pour continuer. "])
 def resize_assets():
@@ -547,7 +547,7 @@ def load_space_velocity_assets():
     return clouds, speedometer, liberation_button, explosion
 def load_space_vehicles():
     arianeV=pygame.transform.scale(pygame.image.load('_internal/lanceur/arianeV.png'), px(400, 400))
-    space_shuttle=pygame.transform.scale(pygame.image.load('_internal/lanceur/space shuttle.png'), px(400, 400))
+    falcon_h=pygame.transform.scale(pygame.image.load('_internal/lanceur/falcon heavy.png'), px(400, 400))
     vega=pygame.transform.scale(pygame.image.load('_internal/lanceur/vega.png'), px(400, 400))
     booster_arianeV=[pygame.transform.scale(pygame.image.load('_internal/lanceur/Feu booster Ariane 1.png'), px(400, 400)),
                      pygame.transform.scale(pygame.image.load('_internal/lanceur/Feu booster Ariane 2.png'), px(400, 400)),
@@ -555,10 +555,10 @@ def load_space_vehicles():
     booster_vega=[pygame.transform.scale(pygame.image.load('_internal/lanceur/Booster vega.png'), px(400, 400)),
                  pygame.transform.scale(pygame.image.load('_internal/lanceur/Booster vega 2.png'), px(400, 400)),
                  343,265]
-    booster_shuttle=[pygame.transform.scale(pygame.image.load('_internal/lanceur/Shuttle.png'), px(400, 400)),
-                 pygame.transform.scale(pygame.image.load('_internal/lanceur/Shuttle 2.png'), px(400, 400)),
-                 350,78]
-    return {'arianeV':[arianeV,booster_arianeV],'space shuttle':[space_shuttle, booster_shuttle], 'vega':[vega, booster_vega]}
+    booster_falcon=[pygame.transform.scale(pygame.image.load('_internal/lanceur/Feu booster SLS 1.png'), px(400, 400)),
+                 pygame.transform.scale(pygame.image.load('_internal/lanceur/Feu booster SLS 2.png'), px(400, 400)),
+                 333,258]
+    return {'arianeV':[arianeV,booster_arianeV],'falcon heavy':[falcon_h, booster_falcon], 'vega':[vega, booster_vega]}
 def second_space_velocity():
     run=True
     clock=pygame.time.Clock()
@@ -680,7 +680,7 @@ def earth_map():
     run = True
     help_button=resize_help()
     locations = {'Kourou':[(335, 305), False],
-                 'Florida':[(280, 240), False],
+                 'Floride':[(280, 240), False],
                  'Pôle Nord':[(400,100), False],
                  'Toulouse':[(470, 190), True],
                  'Himalaya':[(630, 230), False]}
@@ -728,8 +728,9 @@ def earth_map():
 
         for circles in locations:
             if locations[circles][1]==True:
-                screen.blit(font.render(circles,True,(255,0,0)),px(locations[circles][0][0]+10,locations[circles][0][1]+10))
-                pygame.draw.circle(screen, (255, 0, 0), px(locations[circles][0][0],locations[circles][0][1]), int(min(px(x=10), px(y=10))))
+                pygame.draw.rect(screen,(139,0,0),(px(locations[circles][0][0]+10,locations[circles][0][1]+15),font.size(circles)))
+                screen.blit(font.render(circles,True,(255, 255, 255)),px(locations[circles][0][0]+10,locations[circles][0][1]+10))
+                pygame.draw.circle(screen, (139, 0, 0), px(locations[circles][0][0],locations[circles][0][1]), int(min(px(x=10), px(y=10))))
             else:
                 pygame.draw.circle(screen, (0, 0, 0),px(locations[circles][0][0],locations[circles][0][1]), int(min(px(x=10), px(y=10))))
 
@@ -784,7 +785,7 @@ def mission_order():
     rocket, sat,earth, map, ok_button=mission_order_assets()
     font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(min(px(x=25), px(y=25))))
     initialize=True
-    map_pos={'Kourou':(600,420), 'Florida':(565,390)}
+    map_pos={'Kourou':(600,420), 'Floride':(565,390)}
     while run and state.game:
         screen.fill(bg_color)
 
@@ -981,7 +982,8 @@ def load_rockets():
                 ,'SLS':pygame.transform.scale(pygame.image.load('_internal/lanceur/SLS.png'), px(550, 550))
                 ,'vega':pygame.transform.scale(pygame.image.load('_internal/lanceur/vega.png'), px(550, 550)),
              'space shuttle':pygame.transform.scale(pygame.image.load('_internal/lanceur/space shuttle.png'), px(550, 550)),
-             'soyuz':pygame.transform.scale(pygame.image.load('_internal/lanceur/soyuz.png'), px(550, 550))}
+             'soyuz':pygame.transform.scale(pygame.image.load('_internal/lanceur/soyuz.png'), px(550, 550)),
+             'falcon heavy':pygame.transform.scale(pygame.image.load('_internal/lanceur/falcon heavy.png'), px(550, 550))}
 
 
     up_button = [pygame.transform.scale(pygame.image.load('_internal/orbit/up_button1.png'), px(150, 150)),
@@ -1002,11 +1004,12 @@ def rocket_choice():
     rockets,up_button,down_button,ok_button=load_rockets()
     font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(txt_size)))
 
-    stats={'arianeV':{"Nom":"Ariane V","Agence Spatiale":"ESA","Capacité d'emport en LEO (en tonnes)":[10.35,24],"Capacité d'emport en GTO (en tonnes)":[5,5],"Fiabilité (en %)":[95.7,100],"Mission principale":'transport de satellites vers tout les orbites'},
-    'SLS':{"Nom":"Space Launch System (SLS)","Agence Spatiale":"NASA","Capacité d'emport en LEO (en tonnes)":[9,24],"Capacité d'emport en GTO (en tonnes)":[3,5],"Fiabilité (en %)":'inconnu',"Mission principale":'exploration spatiale humaine'},
-    'vega':{"Nom":"Vega","Agence Spatiale":"ESA","Capacité d'emport en LEO (en tonnes)":[2.3,24],"Capacité d'emport en GTO (en tonnes)":[1.5,5],"Fiabilité (en %)":[98,100],"Mission principale":'transport de satellites en orbite basse'},
-    'space shuttle':{"Nom":"Navette Spatiale","Agence Spatiale":"NASA","Capacité d'emport en LEO (en tonnes)":[24,24],"Capacité d'emport en GTO (en tonnes)":[5,5],"Fiabilité (en %)":[75,100],"Mission principale":'transport de satellites lourds vers tout les orbites'},
-    'soyuz':{"Nom":"Soyuz","Agence Spatiale":"ROSCOSMOS","Capacité d'emport en LEO (en tonnes)":[7,24],"Capacité d'emport en GTO (en tonnes)":[2.8,5],"Fiabilité (en %)":[98,100],"Mission principale":'transport d\'astronautes et vivres'}}
+    stats={'arianeV':{"Nom":"Ariane V","Opérateur":"ESA","Capacité d'emport en LEO (en tonnes)":[21,64],"Capacité d'emport en GTO (en tonnes)":[10,27],"Fiabilité (en %)":[95.7,100],"Mission principale":'transport de satellites vers tout les orbites'},
+    'SLS':{"Nom":"Space Launch System (SLS)","Opérateur":"NASA","Capacité d'emport en LEO (en tonnes)":[9,64],"Capacité d'emport en GTO (en tonnes)":[3,27],"Fiabilité (en %)":'inconnu',"Mission principale":'exploration spatiale humaine'},
+    'vega':{"Nom":"Vega","Opérateur":"ESA","Capacité d'emport en LEO (en tonnes)":[2.3,64],"Capacité d'emport en GTO (en tonnes)":[1.5,27],"Fiabilité (en %)":[98,100],"Mission principale":'transport de satellites en orbite basse'},
+    'space shuttle':{"Nom":"Navette Spatiale","Opérateur":"NASA","Capacité d'emport en LEO (en tonnes)":[24,64],"Capacité d'emport en GTO (en tonnes)":[5,27],"Fiabilité (en %)":[75,100],"Mission principale":'transport de satellites lourds vers tout les orbites'},
+    'soyuz':{"Nom":"Soyuz","Opérateur":"ROSCOSMOS","Capacité d'emport en LEO (en tonnes)":[7,64],"Capacité d'emport en GTO (en tonnes)":[2.8,27],"Fiabilité (en %)":[98,100],"Mission principale":'transport d\'astronautes et vivres'},
+    'falcon heavy':{"Nom":"Falcon Heavy","Opérateur":"NASA","Capacité d'emport en LEO (en tonnes)":[64,64],"Capacité d'emport en GTO (en tonnes)":[27,27],"Fiabilité (en %)":[99,100],"Mission principale":'lancement longue distance'}}
     while run and state.game:
         screen.fill(bg_color)
         screen.blit(list(rockets.values())[index],px(400,20))
@@ -1118,7 +1121,7 @@ bg_color=(173, 216, 230)
 txt_color=(0,0,0)
 
 #missions={nom de la mission:           [orbite nécessaire,[source d'énergie,senseur,antenne,etc...]]
-check_missions={"satellite de communication": ['orbite géostationnaire','space shuttle','Florida','module de propulsion','panneaux solaires','_empty','module de communication','None', 'space shuttle'],
+check_missions={"satellite de communication": ['orbite géostationnaire','falcon heavy','Floride','module de propulsion','panneaux solaires','_empty','module de communication','None', 'falcon heavy'],
                 "satellite d'observation":    ['orbite basse','vega','Kourou','module de propulsion','panneaux solaires','senseur optique', 'module de communication','None', 'vega'],
                 "satellite de positionnement":['orbite moyenne','arianeV','Kourou','module de propulsion','panneaux solaires','horloge atomique','module de communication','None', 'arianeV']}
 
@@ -1131,32 +1134,32 @@ if state.game:transition(1,'_internal/sound/music/8bit Bossa (main).mp3',0.4)
 if state.game:intro()
 
 #textes_erreurs={nom de la mission :          [[texte explicatif orbite],[texte explicatif composition satelllite],etc...]
-textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite de communication doit constamment être au dessus du même point", "pour faciliter le calibrage des antennes relais,", "c'est-à-dire a un orbite géostationnaire."],
-                                                  ["Bien joué !","La navette spatiale était parfaite pour emmener une charge utile","en orbite géostationnaire."],
-                                                  ["Bonne réponse, la NASA envoie notre fusée depuis Cap Canaveral car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
-                                                  ["Bonne réponse !", "Un satellite de communication a besoin d'un module de propulsion car", "depuis l'orbite géosationnaire il faut","pouvoir l'emmener dans son orbite cimetière."],
-                                                  ["Bonne réponse !", "Un satellite de communication a besoin de panneaux photovoltaïques,", "ils servent à recueillir l’énergie solaire pour la convertir en énergie thermique,","et donc en électricité, ils alimentent ainsi les satellites en électricité."],
+textes_fin_niveau={'satellite de communication': [["Bien joué !", "En orbite géostationnaire, le satellite parait immobile dans le ciel.","Il fonctionne comme une grande antenne relais haute de 36000km."],
+                                                  ["Bien joué !","La Falcon Heavy de SpaceX est parfaite pour", "emmener une charge utile en orbite géostationnaire."],
+                                                  ["C’est à l’équateur que la vitesse de rotation de la Terre est maximale.","Sur le territoire américain, Cap Canaveral est l’endroit le plus proche de l’équateur.","Cela permet de tirer profit de l’effet de fronde offert par la rotation de la Terre."],
+                                                  ["Bonne réponse !", "Le saviez-vous ? En fin de vie,  les satellites en orbite géostationnaire rejoignent","une orbite cimetière situé 230km plus haut, grâce aux propulseurs."],
+                                                  ["Bonne réponse !", "Un satellite de communication a besoin de panneaux photovoltaïques,","ils convertissent l’énergie solaire en électricité pour l’alimentation","de l’ensemble du satellite."],
                                                   ["Bonne réponse !","Un satellite de communication n’a besoin d’aucun senseur car","il ne fait que transmettre les signaux reçus."],
-                                                  ["Bien joué !","Un module de communication est utilisée pour des communications","longue distance à basses fréquences,","nécessitant une grande puissance et des mécanismes de déploiement complexes."],
+                                                  ["Bien joué !","Un satellite a besoin de communiquer avec les ingénieurs sur Terre,","il est donc toujours muni d’une antenne."],
                                                   ["Très bien alors on peux procéder au décollage !"],
                                                   ["Bien joué !", "La fusée a bien atteint la vitesse nécessaire pour sa mise en orbite !"]],
-        "satellite d'observation":[["Bien joué !","Un satellite d'observation doit avoir des images clairs","et pour cela il doit se trouver au plus proche de la Terre."],
+        "satellite d'observation":[["Bien joué !","Un satellite d’observation a besoin d’être proche de la Terre","pour capturer des images détaillées."],
                                 ["Bien joué !","La fusée Vega est parfaite pour emmener une charge utile","en orbite basse."],
-                                ["Bonne réponse, l'ESA envoie notre fusée depuis Kourou car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
-                                ["Bonne réponse !", "Un satellite d'observation a besoin d'un module de propulsion car", "depuis l'orbite basse il faut pouvoir l'empêcher", "de retomber sur Terre."],
-                                ["Bonne réponse !","Un satellite d'observation a besoin de panneaux photovoltaïques,","ils servent à recueillir l’énergie solaire pour la convertir en énergie thermique," ,"et donc en électricité, ils alimentent ainsi les satellites en électricité."],
-                                ["Bien joué !","Un satellite d’observation a besoin d’un senseur optique.","Il permet de recueillir de l’énergie radiative provenant de la scène visée,","et délivre un signal électrique correspondant."],
-                                ["Bien joué !","Un module de communication offre un compromis entre portée et puissance","pour des communications polyvalentes sur des distances moyennes,","avec des exigences de déploiement modérées."],
+                                ["C’est à l’équateur que la vitesse de rotation de la Terre est maximale.","Kourou étant près de l’équateur, cela permet de tirer profit de l’effet de fronde","offert par la rotation de la Terre."],
+                                ["Bonne réponse !", "Les satellites en orbite basse ont besoin des propulseurs","pour maintenir une orbite stable.","C’est ce qu’on appelle le maintien à poste."],
+                                ["Bonne réponse !", "Un satellite de communication a besoin de panneaux photovoltaïques,","ils convertissent l’énergie solaire en électricité pour l’alimentation","de l’ensemble du satellite."],
+                                ["Bien joué !","Un satellite d’observation a besoin d’un senseur optique.","Ce terme désigne une sorte de caméra captant la lumière solaire","réfléchi par la Terre."],
+                                ["Bien joué !","Un satellite a besoin de communiquer avec les ingénieurs sur Terre,","il est donc toujours muni d’une antenne."],
                                 ["Très bien alors on peux procéder au décollage !"],
                                 ["Bien joué !", "La fusée a bien atteint la vitesse nécessaire pour sa mise en orbite !"]],
 
-        "satellite de positionnement":[["Bien joué !","Un satellite de positionnement doit couvrir un large espace","pour cela une altitude idéale et une période orbitale moyenne est nécessaire."],
-                                       ["Bien joué !","La fusée Ariane V est parfaite pour emmener une charge utile","en orbite moyenne."],
-                                       ["Bonne réponse, l'ESA envoie notre fusée depuis Kourou car","elle sera positionnée près de l'équateur, où la vitesse de rotation est maximale,","ce qui nous permettra de tirer parti de cette propulsion supplémentaire. "],
-                                       ["Bonne réponse !", "Un satellite de positionnement a besoin d'un module de propulsion car", "depuis l'orbite moyenne il faut pouvoir l'emmener", "dans son orbite cimetière."],
-                                       ["Bonne réponse !", "Un satellite de positionnement a besoin de panneaux photovoltaïques,","ils servent à recueillir l’énergie solaire pour la convertir en énergie thermique,","et donc en électricité, ils alimentent ainsi les satellites en électricité."],
+        "satellite de positionnement":[["Bien joué !","L’orbite moyenne offre un bon compris entre une couverture plutôt grande","et un temps de latence faible."],
+                                       ["Bien joué !","Ariane V a remplis sa dernière mission le 5 juillet 2023,","avant fin 2024, c'est Ariane VI qui prendra sa suite."],
+                                       ["C’est à l’équateur que la vitesse de rotation de la Terre est maximale.","Kourou étant près de l’équateur, cela permet de tirer profit de l’effet de fronde","offert par la rotation de la Terre."],
+                                       ["Bien joué !","Les satellites en orbite moyenne ont besoin des propulseurs","pour maintenir une orbite stable.","C’est ce qu’on appelle le maintien à poste."],
+                                       ["Bonne réponse !", "Un satellite de communication a besoin de panneaux photovoltaïques,","ils convertissent l’énergie solaire en électricité pour l’alimentation","de l’ensemble du satellite."],
                                        ["Bonne réponse !", "Un satellite de positionnement a besoin d’une horloge atomique","afin de connaître l’heure exacte d’envoi du signal."],
-                                       ["Bien joué !","Un module de communication est adaptée aux transmissions à haute fréquence","sur des distances plus courtes, avec une taille compacte", "et un déploiement plus simple."],
+                                       ["Bien joué !","Un satellite a besoin de communiquer avec les ingénieurs sur Terre,","il est donc toujours muni d’une antenne."],
                                        ["Très bien alors on peux procéder au décollage !"],
                                        ["Bien joué !", "La fusée a bien atteint la vitesse nécessaire pour sa mise en orbite !"]]
         }
@@ -1164,26 +1167,25 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "Un satellite
 
 
 #textes_explicatifs=[[texte explicatif orbite],[texte explicatif customisation satellite],etc...]
-textes_explicatifs=[["Choisis l'orbite du satellite d’observation."," Quelle orbite te paraît adéquate ?","Utilise le bouton \"Aide\" pour en apprendre plus sur les différentes orbites."],
+textes_explicatifs=[["Choisis l'orbite de ton satellite."," Quelle orbite te paraît adéquate ?","Utilise le bouton \"Aide\" pour en apprendre plus sur les différentes orbites."],
                     ["Choisis ton lanceur.","Le bouton \"Aide\" contient des informations à propos des différents lanceurs."],
                     ["Choisis le lieu du lancement de ton satellite."," Le bouton  \"Aide\" contient des informations à propos des différents lieux."],
                     ["Construis ton satellite.", "Choisis le module adéquat", "Le bouton \"Aide\" contient la description des pièces des satellites."],
                     ["Construis ton satellite.", "Choisis la source d'énergie adéquate.", "Le bouton \"Aide\" contient la description des pièces des satellites."],
-                    ["Construis ton satellite.", "Choisis l'instrument adapté.", "Il est possible qu'il n'y ais besoin d'aucun senseur.","Le bouton \"Aide\" contient la description des pièces des satellites."],
-                    ["Construis ton satellite.", "Choisis le bon moyen de communication.", "Il est possible qu'il n'y ais besoin d'aucun moyen de communication.","Le bouton \"Aide\" contient la description des pièces des satellites."],
-                    ["Vérifie les paramètres de mission","Appuis sur OK pour lancer le décollage."],
-                    ["Choisis quelle doit être la vitesse de libération de ton satellite,"," pour qu’il ne puisse pas retomber sur Terre !","Le bouton \"Aide\" te donnera des précisions sur la vitesse idéale."]]
+                    ["Construis ton satellite.", "Choisis l'instrument adapté.", "Il est possible qu'il n'y ait besoin d'aucun senseur.","Le bouton \"Aide\" contient la description des pièces des satellites."],
+                    ["Construis ton satellite.", "Choisis le bon moyen de communication.", "Il est possible qu'il n'y ait besoin d'aucun moyen de communication.","Le bouton \"Aide\" contient la description des pièces des satellites."],
+                    ["Voici les paramètres que tu as choisis.","Appuis sur OK pour décoller."],
+                    ["Choisis quelle doit être la vitesse de satellisation","pour que le satellite ne puisse pas retomber sur Terre !","Le bouton \"Aide\" te donnera des précisions sur la vitesse idéale."]]
 
-help_text=["Les satellites sont généralement placés en orbite géostationnaire pour assurer \nune couverture constante d'une région spécifique de la Terre.\n \nLes satellites sont souvent déployés \nen orbite basse ou moyenne terrestre pour une résolution spatiale plus élevée \net une revisite plus fréquente des zones d'intérêt.\n \nEnfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation GPS, \nsont souvent placés en orbite moyenne terrestre pour une couverture globale.",
-           "SOYOUZ: programme russe actif depuis les années 1960 qui envoie généralement des charge en orbite basse.\nChoisir Soyouz est judicieux pour sa fiabilité, sa polyvalence et surtout pour le transport d'astronautes.\n\nARIANE V : elle transporte de lourdes charges utiles et est extrêmement fiable, ce qui donne confiance aux clients !\n De plus, elle peut être adaptée pour tout types de missions, ce qui en fait un bon choix pour des satellites complexes.\n\nVEGA : idéale pour lancer de petits satellites à moindre coût, en offrant une grande flexibilité de lancements.\nSa conception la rend adaptée aux missions spécialisées tout en étant fiable et précise pour le succès des missions.\n\nSLS : utile pour sa capacité à transporter des charges lourdes jusqu'à la Lune et Mars !\n Son développement international permet d'envisager les possibilités les plus folles !\n\nNAVETTE SPATIALE : réutilisable et donc économique, elle transportait des astronautes et des charges utiles.\n La construction de l'ISS n'aurais pas été possible sans sa grande puissance et capacitée d'emport.",
+help_text=["Géostationnaire (GEO) : En orbite géostationnaire (35 768km d’altitude),\nle satellite se situe toujours au-dessus de la même zone, effectuant sa révolution en 24h.\nDepuis la Terre, il apparait comme un point fixe facilitant l’échange de données entre 2 points éloignés du globe.\n\nOrbite basse (LEO) : L’orbite basse est privilégiée lorsque que l’on veut observer la Terre.\nElle offre une résolution spatiale (détails dans les images)\nplus élevée et une revisite plus fréquente des zones d'intérêt.\n\nOrbite moyenne (MEO) : Enfin, les satellites,\ncomme ceux utilisés dans les systèmes de navigation (GPS, Galileo, Glonass et Compass),\nsont souvent placés en orbite moyenne pour une couverture globale.",
+           "SOYOUZ: programme russe actif depuis les années 1960 qui envoie généralement des charge en orbite basse.\nChoisir Soyouz est judicieux pour sa fiabilité, sa polyvalence et surtout pour le transport d'astronautes.\nARIANE V : Pouvant transporter de lourdes charges utiles (5 tonnes), elle peut être adaptée pour\nune grande variété de missions. Enfin, elle est extrêmement fiable, ce qui donne confiance aux clients !\nVEGA : La fusée Vega est idéale pour lancer efficacement et à moindres coût des satellites légers (moins de 3 tonnes).\nSa conception la rend adaptée aux missions en orbite basse.\nSLS : utile pour sa capacité à transporter des charges lourdes jusqu'à la Lune et Mars !\n Son développement international permet d'envisager les possibilités les plus folles !\nNAVETTE SPATIALE : réutilisable et donc économique, elle transportait des astronautes et des charges utiles.\nLa construction de l'ISS n'aurais pas été possible sans sa grande puissance et capacitée d'emport.\nFALCON HEAVY : lanceur spatial \"super lourd\" développé par la société SpaceX,\nil fait partie des plus grands et plus lourd lanceurs existant.\nIl a une capacité d'emport largement supérieur aux autres lanceurs spatiaux.",
            "Si la fusée est américaine alors elle va décoller du Cap Canaveral en Floride.\nSi elle est européenne elle décollera de Kourou.\n\nDe plus,\nle lieu de lancement doit être proche de l’équateur car la vitesse de rotation de la Terre est maximale à cet endroit,\nce qui aide à fournir un élan supplémentaire à la fusée lors du lancement,\néconomisant ainsi du carburant et rendant le voyage dans l'espace plus efficace. ",
-           "PROPULSEUR : En orbite basse, il permet au satellite de rester sur son orbite car elle est ralentie par les frottements.\nEn orbite moyenne et géostationnaire le propulseur sert à amener la fusée dans son orbite cimetière\n\nVOILE SOLAIRE : grande surface ultrafine qui utilise les rayonnements solaires pour propulser.\n\nARRIMAGE : permet de connecter deux objets dans l'espace.\n\nMODULE DE RAVITAILLEMENT : pour les lanceurs spatiaux, cela permet d'apporter du carburant,\nles liquides de refroidissement ou la nourriture et l'eau, essentiels pour les missions spatiales.",
-           'GENERATEUR NUCLEAIRE :\nproduit de l’électricité à partir de la chaleur.\nIls est là pour alimenter les sondes, pour qu’elles fonctionnent sur plusieurs années sans maintenance.\n\nPANNEAU SOLAIRE :\nDe nombreux satellites en possèdent.\nC’est un élément destiné à recueillir l’énergie du soleil pour la convertir en électricité, \npour alimenter le satellite en électricité.',
-           "HORLOGE ATOMIQUE :\nLes horloges atomiques fournissent une synchronisation précise dans les systèmes de positionnement, comme le GPS.\nElles mesurent le temps avec une grande précision !\n\nSENSEUR OPTIQUE :\npermet de recueillir de l’énergie radiative, et de délivrer un signal électrique.\n\nSENSEUR INFRAROUGE :\n permet de mesurer le rayonnement infrarouge et est très utile pour des relevés météorologique !\n\nTELESCOPE :\n permettent une vue dégagée de l’espace car elles observent des objets sans interférence atmosphérique.",
+           "PROPULSEUR : Le propulseur permet de rejoindre l'orbite finale (mise à poste)\nainsi que de s'y maintenir (maintient à poste).\nPour des satellites en orbite géostationnaires, il permet aussi de rejoindre l’orbite cimetière situé 230 km plus haut.\n\nVOILE SOLAIRE : La voile solaire est une immense surface ultrafine qui utilise la lumière du Soleil\ncomme moyen de propulsion.\n\nMODULE D'ARRIMAGE : permet de connecter deux objets dans l'espace.\n\nMODULE DE RAVITAILLEMENT : C’est le nom donné aux modules rejoignant la station spatiale\nafin de fournir aux astronautes les matériels et vivres nécessaires à leur séjour.",
+           "PANNEAU SOLAIRE : Ils permettent de convertir l’énergie solaire en électricité\n pour alimeter les instruments mais aussi l’ensemble du satellite.\n\nGENERATEUR NUCLEAIRE : Lorsque l’éclairement n’est pas assuré sur l’entièreté de la mission,\nle générateur nucléaire est préféré.\nDes robots martiens comme Perseverance utilise cet source d’énergie.",
+           "HORLOGE ATOMIQUE :\nLes horloges atomiques fournissent une synchronisation précise dans les systèmes de positionnement, comme le GPS.\nElles mesurent le temps avec une grande précision !\n\nSENSEUR OPTIQUE :\npermet de recueillir de l’énergie radiative, et de délivrer un signal électrique.\n\nSENSEUR INFRAROUGE :\nLes senseurs infrarouges permettent par exemple aux satellites météo de mesurer la température des nuages\nmais équipent aussi les sondes spatiales, récoltant ainsi des données\nsur la température des autre planètes du système solaire.\n\nTELESCOPE :\n permettent une vue dégagée de l’espace car elles observent des objets sans interférence atmosphérique.",
            "Afin de communiquer, il est nécessaire d\'avoir \nune antenne parabolique pour la transmission et la réception des signaux \nde taille nécessaire pour qu’ils effectuent une grande distance, \net qu\'ils puisse transmettre une quantité de données suffisante.",
            "NONE",
-           "La vitesse de satellisation est la vitesse que notre satellite doit atteindre \npour se mettre en orbite au tour de la Terre.\nCette vitesse doit être assez élevée pour que notre vaisseau spatial ne retombe pas sur la surface de la Terre,\nelle doit donc être supérieure à 7,8 km/s.\n \nLa vitesse de libération est la vitesse que le satellite a besoin pour échapper à la gravitation de notre planète, \nelle dépend de son volume, pour la Terre, elle est de 11km/s.\n\nA noter que cette vitesse dépend des différentes planètes et de leur volume,  \nau plus elles sont volumineuses au plus la vitesse de libération sera grande." ]
-
+           "La vitesse de satellisation est la vitesse que notre satellite doit atteindre pour se mettre en orbite terrestre.\nCette vitesse doit être assez élevée pour que notre vaisseau spatial ne retombe pas sur la surface de la Terre,\nelle doit donc être supérieure à 7 km/s.\nLa vitesse de libération est la vitesse dont le satellite a besoin\npour sortir du voisinage de la Terre, elle est de 11km/s."]
 questions={'orbite':0,'rocket':1,'map':2,'custom_center':3,'custom_middle':4, 'custom_bottom':5, 'custom_top':6,'mission_order':7, 'velocity':8}
 
 
@@ -1206,7 +1208,7 @@ while state.game:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différents lanceurs."]
     if state.game:talk(textes_fin_niveau[mission][questions['rocket']])
     if state.game:transition(1)
-    
+
     txt=textes_explicatifs[questions['map']]
     while state.game and earth_map()!=check_missions[mission][questions['map']]:
         txt=["Oops ! Ce n'est pas la bonne réponse. Essaye encore !","N’oublie pas que le bouton \"Aide\" contient de nombreuses informations","concernant les différentes lieux de lancements."]
@@ -1245,7 +1247,7 @@ while state.game:
     if state.game: mission_order()
     if state.game:talk(textes_fin_niveau[mission][questions['mission_order']])
 
-
+    mission="satellite de communication"
     if state.game:transition(1,'_internal/sound/music/tense_drive (takeoff).mp3',0.6)
     txt=textes_explicatifs[questions['velocity']]
     while second_space_velocity()!=True and state.game:
