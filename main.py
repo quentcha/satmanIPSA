@@ -1004,10 +1004,10 @@ def rocket_choice():
     rockets,up_button,down_button,ok_button=load_rockets()
     font = pygame.font.Font('_internal/Grand9K Pixel.ttf', int(px(txt_size)))
 
-    stats={'arianeV':{"Nom":"Ariane V","Opérateur":"ESA","Capacité d'emport en LEO (en tonnes)":[21,64],"Capacité d'emport en GTO (en tonnes)":[10,27],"Fiabilité (en %)":[95.7,100],"Mission principale":'transport de satellites vers tout les orbites'},
+    stats={'arianeV':{"Nom":"Ariane V","Opérateur":"ESA","Capacité d'emport en LEO (en tonnes)":[21,64],"Capacité d'emport en GTO (en tonnes)":[10,27],"Fiabilité (en %)":[95.7,100],"Mission principale":'transport de satellites vers toutes les orbites'},
     'SLS':{"Nom":"Space Launch System (SLS)","Opérateur":"NASA","Capacité d'emport en LEO (en tonnes)":[9,64],"Capacité d'emport en GTO (en tonnes)":[3,27],"Fiabilité (en %)":'inconnu',"Mission principale":'exploration spatiale humaine'},
     'vega':{"Nom":"Vega","Opérateur":"ESA","Capacité d'emport en LEO (en tonnes)":[2.3,64],"Capacité d'emport en GTO (en tonnes)":[1.5,27],"Fiabilité (en %)":[98,100],"Mission principale":'transport de satellites en orbite basse'},
-    'space shuttle':{"Nom":"Navette Spatiale","Opérateur":"NASA","Capacité d'emport en LEO (en tonnes)":[24,64],"Capacité d'emport en GTO (en tonnes)":[5,27],"Fiabilité (en %)":[75,100],"Mission principale":'transport de satellites lourds vers tout les orbites'},
+    'space shuttle':{"Nom":"Navette Spatiale","Opérateur":"NASA","Capacité d'emport en LEO (en tonnes)":[24,64],"Capacité d'emport en GTO (en tonnes)":[5,27],"Fiabilité (en %)":[75,100],"Mission principale":'transport de satellites lourds vers toutes les orbites'},
     'soyuz':{"Nom":"Soyuz","Opérateur":"ROSCOSMOS","Capacité d'emport en LEO (en tonnes)":[7,64],"Capacité d'emport en GTO (en tonnes)":[2.8,27],"Fiabilité (en %)":[98,100],"Mission principale":'transport d\'astronautes et vivres'},
     'falcon heavy':{"Nom":"Falcon Heavy","Opérateur":"NASA","Capacité d'emport en LEO (en tonnes)":[64,64],"Capacité d'emport en GTO (en tonnes)":[27,27],"Fiabilité (en %)":[99,100],"Mission principale":'lancement longue distance'}}
     while run and state.game:
@@ -1154,7 +1154,7 @@ textes_fin_niveau={'satellite de communication': [["Bien joué !", "En orbite g�
                                 ["Bien joué !", "La fusée a bien atteint la vitesse nécessaire pour sa mise en orbite !"]],
 
         "satellite de positionnement":[["Bien joué !","L’orbite moyenne offre un bon compris entre une couverture plutôt grande","et un temps de latence faible."],
-                                       ["Bien joué !","Ariane V a remplis sa dernière mission le 5 juillet 2023,","avant fin 2024, c'est Ariane VI qui prendra sa suite."],
+                                       ["Bien joué !","Ariane V a rempli sa dernière mission le 5 juillet 2023,","avant fin 2024, c'est Ariane VI qui prendra sa suite."],
                                        ["C’est à l’équateur que la vitesse de rotation de la Terre est maximale.","Kourou étant près de l’équateur, cela permet de tirer profit de l’effet de fronde","offert par la rotation de la Terre."],
                                        ["Bien joué !","Les satellites en orbite moyenne ont besoin des propulseurs","pour maintenir une orbite stable.","C’est ce qu’on appelle le maintien à poste."],
                                        ["Bonne réponse !", "Un satellite de communication a besoin de panneaux photovoltaïques,","ils convertissent l’énergie solaire en électricité pour l’alimentation","de l’ensemble du satellite."],
